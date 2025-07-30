@@ -1,6 +1,6 @@
 package com.vnua.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "CongTrinh")
@@ -51,4 +51,5 @@ public class CongTrinh {
     public void setNamXuatBan(Integer namXuatBan) {
         this.namXuatBan = namXuatBan;
     }
+
 }

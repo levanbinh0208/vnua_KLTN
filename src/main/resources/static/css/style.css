@@ -5,7 +5,10 @@
 }
 
 body {
-    background: #f6f5f7;
+    background-image: url('/images/background.jsp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,7 +45,11 @@ a {
     text-decoration: none;
     margin: 15px 0;
 }
-
+.form-container input {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    padding: 10px;
+}
 button {
     border-radius: 20px;
     border: 1px solid #FF4B2B;

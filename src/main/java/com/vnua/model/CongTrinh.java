@@ -51,5 +51,4 @@ public class CongTrinh {
     public void setNamXuatBan(Integer namXuatBan) {
         this.namXuatBan = namXuatBan;
     }
-
 }

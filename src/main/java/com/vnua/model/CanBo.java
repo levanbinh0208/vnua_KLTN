@@ -3,6 +3,7 @@ package com.vnua.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Entity
 @Table(name = "CanBo")
 public class CanBo {
     @Id
@@ -12,13 +13,13 @@ public class CanBo {
     @Column(name = "hoTen", nullable = false)
     private String hoTen;
 
-    @Column(name = "ngaySinh")
+    @Column(name = "ngay_Sinh")
     private LocalDate ngaySinh;
 
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "donVi")
+    @Column(name = "don_Vi")
     private String donVi;
 
     // Getters and Setters

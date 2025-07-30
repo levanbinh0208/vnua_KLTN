@@ -2,7 +2,7 @@ package com.vnua.model;
 
 import jakarta.persistence.*;
 
-
+@Entity
 @Table(name = "LyLichKhoaHoc")
 public class LyLichKhoaHoc {
     @Id

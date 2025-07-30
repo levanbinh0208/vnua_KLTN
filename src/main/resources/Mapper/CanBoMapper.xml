@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.CanBoMapper">
+
+    <select id="getAllCanBo" resultType="com.vnua.model.CanBo">
+        SELECT
+            id,
+            ho_ten AS hoTen,
+            email,
+            don_vi AS donVi,
+            ngay_sinh AS ngaySinh
+        FROM CanBo
+    </select>
+
+
+    <select id="getCanBoById" resultType="com.vnua.model.CanBo" parameterType="long">
+        SELECT id, ho_ten, email, don_vi, ngay_sinh
+        FROM CanBo
+        WHERE id = #{id}
+    </select>
+
+</mapper>

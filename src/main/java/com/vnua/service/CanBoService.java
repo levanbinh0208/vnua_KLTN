@@ -1,30 +1,24 @@
 package com.vnua.service;
 
 import com.vnua.model.CanBo;
-import com.vnua.repository.CanBoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.vnua.mapper.CanBoMapper;
 import java.util.List;
 
 @Service
 public class CanBoService {
+
     @Autowired
-    private CanBoRepository canBoRepository;
+    private CanBoMapper canBoMapper;
 
-    public CanBo save(CanBo canBo) {
-        return canBoRepository.save(canBo);
+    public List<CanBo> getAllCanBo() {
+        return canBoMapper.getAllCanBo();
     }
 
-    public List<CanBo> findAll() {
-        return canBoRepository.findAll();
+    public CanBo getById(Long id) {
+        return canBoMapper.getCanBoById(id);
     }
 
-    public CanBo findById(Long id) {
-        return canBoRepository.findById(id).orElse(null);
-    }
-
-    public void deleteById(Long id) {
-        canBoRepository.deleteById(id);
-    }
+    // Nếu dùng MyBatis thì có thể viết thêm hàm insert/delete/update tại XML
 }

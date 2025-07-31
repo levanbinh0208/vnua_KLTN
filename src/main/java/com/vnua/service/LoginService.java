@@ -7,10 +7,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
+
     @Autowired
     private LoginMapper loginMapper;
 
-    public SysUser login(String email, String password) {
-        return loginMapper.login(email, password);
+    public SysUser findByUsernameAndPassword(String loginname, String password) {
+        return loginMapper.findByUsernameAndPassword(loginname, password);
     }
+    public SysUser logFullName(String loginname) {
+        return loginMapper.logFullName(loginname);
+    }
+
+    public SysUser updateLoginDate(String loginname) {
+        return loginMapper.logFullName(loginname);
+    }
+
 }

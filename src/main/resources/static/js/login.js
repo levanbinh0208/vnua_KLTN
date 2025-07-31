@@ -10,4 +10,10 @@
     signInButton.addEventListener('click', () => {
     container.classList.remove('right-panel-active')
 });
+setTimeout(function () {
+        var errorDiv = document.getElementById('error-message');
+        if (errorDiv) {
+        errorDiv.style.display = 'none';
+    }
+    }, 1000);
 </script>

@@ -2,9 +2,9 @@ package com.vnua.model;
 
 public class SysUser {
     private Long id;
-    private String username;
+    private String loginname;
     private String password;
-    private String fullname;
+    private String username;
     // Getters & Setters
     public Long getId() {
         return id;
@@ -14,12 +14,12 @@ public class SysUser {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLoginname() {
+        return loginname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLoginname(String loginname) {
+        this.loginname = loginname;
     }
 
     public String getPassword() {
@@ -30,11 +30,11 @@ public class SysUser {
         this.password = password;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setUsername(String fullname) {
+        this.username = fullname;
     }
 }

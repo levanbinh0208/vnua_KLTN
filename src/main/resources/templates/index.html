@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ - Cán bộ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Titillium Web', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-panel {
+            flex: 1;
+            padding-right: 30px;
+        }
+
+        .right-panel {
+            flex: 1;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            padding: 10px 25px;
+            background-color: #ff4b2b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            background-color: #e8431e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="left-panel">
+        <p>Xin chào, <b th:text="${username}">Tên người dùng</b>!</p>
+        <ul>
+            <li>✔️ Quản lý lý lịch giảng viên</li>
+            <li>✔️ Duyệt và cập nhật thông tin</li>
+            <li>✔️ Xem báo cáo thống kê</li>
+            <li>✔️ Quản lý phòng ban</li>
+        </ul>
+        <form action="/logout" method="post">
+            <button class="logout-btn">Đăng xuất</button>
+        </form>
+    </div>
+    <div class="right-panel">
+        <h1>HỌC VIỆN<br>NÔNG NGHIỆP VIỆT NAM</h1>
+        <p>Chào mừng bạn đến với hệ thống quản lý lý lịch khoa học cho cán bộ VNUA </p>
+        <img src="/images/logo.png" alt="logo" style="width: 120px; margin-top: 20px;">
+    </div>
+</div>
+
+</body>
+</html>

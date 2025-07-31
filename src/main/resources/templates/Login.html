@@ -12,40 +12,40 @@
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
-<link rel="stylesheet" th:href="@{/css/login.css}" />
-<script th:src="@{/js/login.js}"></script>
 
-<div class="container" id="container">
-    <div class="form-container sign-up-container">
-        <form action="#">
-            <h1>Tạo tài khoản</h1>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
-            <button>ĐĂNG KÝ</button>
-        </form>
-    </div>
-    <div class="form-container sign-in-container">
-        <form action="#">
-            <h1>Đăng nhập</h1>
-            <input type="text" placeholder="Tên đăng nhập" />
-            <input type="password" placeholder="Mật khẩu" />
-            <a href="#">Quên mật khẩu ?</a>
-            <button>Đăng nhập</button>
-        </form>
-    </div>
-    <div class="overlay-container">
-        <div class="overlay">
-            <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button class="ghost" id="signIn">Sign In</button>
-            </div>
-            <div class="overlay-panel overlay-right">
-                <h1>CHÀO MỪNG</h1>
-                <p>Học Viện Nông Nghiệp Việt Nam</p>
-                <button class="ghost" id="signUp">Đăng ký</button>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="#">
+                <h1>Tạo tài khoản</h1>
+                <input type="text" placeholder="Name" />
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="Password" />
+                <button>ĐĂNG KÝ</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="/doLogin" method="post">
+                <h1>Đăng nhập</h1>
+                <input type="text" name="loginname" placeholder="Tên đăng nhập" />
+                <input type="password" name="password" placeholder="Mật khẩu" />
+                <div id="error-message" th:if="${error}" style="color:red;">
+                    <p th:text="${error}"></p>
+                </div>
+                <a href="/forgotPassword">Quên mật khẩu ?</a>
+                <button type="submit">Đăng nhập</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-right">
+                    <h1>CHÀO MỪNG</h1>
+                    <p>Học Viện Nông Nghiệp Việt Nam</p>
+                    <button class="ghost" id="signUp">Đăng ký</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <script th:src="@{/js/login.js}"></script>
+</body>

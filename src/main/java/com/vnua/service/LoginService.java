@@ -5,6 +5,8 @@ import com.vnua.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LoginService {
 
@@ -21,5 +23,9 @@ public class LoginService {
     public SysUser updateLoginDate(String loginname) {
         return loginMapper.logFullName(loginname);
     }
+    public List<SysUser> showProfile(String name, String dept, String role) {
+        return loginMapper.showProfile(name, dept, role);
+    }
+
 
 }

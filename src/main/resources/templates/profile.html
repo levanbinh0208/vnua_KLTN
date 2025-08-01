@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="login_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="user-container">
+        <form action="/index/profile" method="GET" class="search-container">
+            <input type="text" name="name" th:value="${param.name}" placeholder="👤 Tìm theo họ tên">
+            <input type="text" name="dept" th:value="${param.dept}" placeholder="🏢 Tìm theo bộ phận">
+            <input type="text" name="role" th:value="${param.role}" placeholder="🎓 Tìm theo chức vụ">
+            <button type="submit">🔍 Tìm kiếm</button>
+        </form>
+        <div class="user-card" th:each="user : ${users}">
+            <img class="avatar" src="/images/avatar.png" alt="avatar">
+            <div class="info">
+                <p><strong>👤 Họ tên:</strong> <span th:text="${user.username}">Tên</span></p>
+                <p><strong>🎓 Chức vụ:</strong> <span th:text="${user.remark}">Chức vụ</span></p>
+                <p><strong>🏢 Bộ phận:</strong> <span th:text="${user.email}">Email</span></p>
+            </div>
+            <div class="actions">
+                <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
+                <a th:href="@{'/index/profile/edit' + ${user.username}}" class="btn btn-edit">Sửa</a>
+                <a th:href="@{'/index/profile/delete' + ${user.username}}" class="btn btn-delete">Xóa</a>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" th:href="@{/css/profile.css}" />
+    <link rel="stylesheet" th:href="@{/css/background.css}" />
+    <script th:src="@{/js/profile.js}"></script>
+</body>
+</html>

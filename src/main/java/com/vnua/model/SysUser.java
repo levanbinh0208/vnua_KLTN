@@ -5,9 +5,27 @@ public class SysUser {
     private String loginname;
     private String password;
     private String username;
+    private String remark;
+    private  String email;
     // Getters & Setters
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     public void setId(Long id) {
@@ -34,7 +52,8 @@ public class SysUser {
         return username;
     }
 
-    public void setUsername(String fullname) {
-        this.username = fullname;
+    public void setUsername(String username) {
+        this.username = username;
     }
+
 }

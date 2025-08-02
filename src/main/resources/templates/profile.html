@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" >
+<html lang="vi" >
 <head>
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,17 +20,29 @@
             <input type="text" name="role" th:value="${param.role}" placeholder="🎓 Tìm theo chức vụ">
             <button type="submit">🔍 Tìm kiếm</button>
         </form>
-        <div class="user-card" th:each="user : ${users}">
-            <img class="avatar" src="/images/avatar.png" alt="avatar">
-            <div class="info">
-                <p><strong>👤 Họ tên:</strong> <span th:text="${user.username}">Tên</span></p>
-                <p><strong>🎓 Chức vụ:</strong> <span th:text="${user.remark}">Chức vụ</span></p>
-                <p><strong>🏢 Bộ phận:</strong> <span th:text="${user.email}">Email</span></p>
-            </div>
-            <div class="actions">
-                <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
-                <a th:href="@{'/index/profile/edit' + ${user.username}}" class="btn btn-edit">Sửa</a>
-                <a th:href="@{'/index/profile/delete' + ${user.username}}" class="btn btn-delete">Xóa</a>
+        <div class="user-list">
+            <div class="user-card" th:each="user : ${users}">
+                <img class="avatar" src="/images/avatar.png" alt="avatar">
+                <div class="info">
+                    <p><strong>👤 Họ tên:</strong> <span th:text="${user.username}">Tên</span></p>
+                    <p><strong>🎓 Chức vụ:</strong> <span th:text="${user.remark}">Chức vụ</span></p>
+                    <p><strong>🏢 Bộ phận:</strong> <span th:text="${user.email}">Email</span></p>
+                </div>
+                <!-- Form sửa (ẩn ban đầu) -->
+                <form th:action="@{/index/profile/update}" method="post" th:id="'form-' " style="display: none;">
+                    <input type="hidden" name="username" th:value="${user.username}" />
+                    <p><strong>👤 Họ tên:</strong> <input type="text" name="fullname" th:value="${user.fullname}"  /></p>
+                    <p><strong>🎓 Chức vụ:</strong> <input type="text" name="position" th:value="${user.remark}" /></p>
+                    <p><strong>🏢 Bộ phận:</strong> <input type="text" name="department" th:value="${user.email}" /></p>
+                    <p><strong>📝 Ghi chú:</strong> <input type="text" name="remark" th:value="${user.remark}" /></p>
+                    <button type="submit" class="btn btn-save">💾 Lưu</button>
+                    <button type="button" class="btn btn-cancel" onclick="cancelEdit(this)">❌ Hủy</button>
+                </form>
+                <div class="actions">
+                    <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
+                    <a th:href="@{'/index/profile/edit' + ${user.username}}" class="btn btn-edit">Sửa</a>
+                    <a th:href="@{'/index/profile/delete' + ${user.username}}" class="btn btn-delete">Xóa</a>
+                </div>
             </div>
         </div>
     </div>

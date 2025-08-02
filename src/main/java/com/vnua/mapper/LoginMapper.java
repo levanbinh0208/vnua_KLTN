@@ -11,9 +11,20 @@ public interface LoginMapper {
     SysUser findByUsernameAndPassword(@Param("loginname") String loginname,
                                       @Param("password") String password);
     SysUser logFullName(@Param("loginname") String loginname);
-    int updateLoginDate(@Param("loginname") String loginname);
+    int updateLoginDate(@Param("loginname") int id);
     List<SysUser> showProfile(@Param("name") String name,
                               @Param("dept") String dept,
                               @Param("role") String role);
+    SysUser editProfile(@Param("id") String id);
+    int updateProfile(@Param("id") String id,
+                      @Param("name") String name,
+                      @Param("dept") String dept,
+                      @Param("role") String role);
+    int deleteProfile(@Param("id") String id);
+    int addProfile(@Param("name") String name,
+                   @Param("dept") String dept,
+                   @Param("role") String role);
+    int updatePassword(@Param("id") String id,
+                       @Param("password") String password);
 
 }

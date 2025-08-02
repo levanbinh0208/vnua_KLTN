@@ -15,9 +15,9 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private LoginMapper loginMapper;
-    @Autowired
     private LoginService loginService;
+    @Autowired
+    private LoginMapper loginMapper;
 
     @GetMapping("/login")
     public String showLoginPage() {
@@ -27,10 +27,13 @@ public class LoginController {
     @PostMapping("/doLogin")
     public String processLogin(@RequestParam String loginname,
                                @RequestParam String password,
+                               @RequestParam int id,
                                Model model ,HttpSession session) {
         SysUser user = loginMapper.findByUsernameAndPassword(loginname, password);
         if (user != null) {
-            int i = loginMapper.updateLoginDate(loginname);
+            int i = loginMapper.updateLoginDate(Integer.parseInt(session.getId()));
+            model.addAttribute("username", loginname);
+            model.addAttribute("id", id);
             session.setAttribute("loggedInUser", user);
             return "redirect:/index";
         } else {
@@ -45,7 +48,7 @@ public class LoginController {
 
         if (user != null) {
             model.addAttribute("username", user.getLoginname());
-            user = loginMapper.logFullName(user.getLoginname());
+            user = loginService.logFullName(user.getLoginname());
         } else {
             return "redirect:/login";
         }
@@ -66,6 +69,34 @@ public class LoginController {
             return "redirect:/login";
         }
         return "profile";
+    }
+//    @GetMapping("index/profile/edit")
+//    public String showEditProfile(@RequestParam String loginname, Model model,HttpSession session) {
+//        SysUser user = (SysUser) session.getAttribute("loggedInUser");
+//        if (user != null) {
+//            SysUser user1 = loginService.findUserByLoginname(loginname);
+//            model.addAttribute("user", user1);
+//        } else {
+//            return "redirect:/login";
+//        }
+//        return "editProfile";
+//    }
+//
+//    @PostMapping("index/profile/edit")
+//    public String updateProfile(@ModelAttribute SysUser user, Model model,HttpSession session) {
+//        SysUser user1 = (SysUser) session.getAttribute("loggedInUser");
+//        if (user1 != null) {
+//            loginService.updateProfile(user);
+//        } else {
+//            return "redirect:/login";
+//        }
+//        return "redirect:/index/profile";
+//    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
 }

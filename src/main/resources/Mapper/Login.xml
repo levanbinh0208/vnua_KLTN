@@ -14,7 +14,7 @@
     </select>
     <update id="updateLoginDate">
         UPDATE sys_user SET login_date = getdate()
-        where login_name = #{loginname}
+        where id = #{id}
     </update>
     <select id="logFullName" resultType="com.vnua.model.SysUser">
         SELECT user_name AS fullname

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.DepartmentMapper">
+
+    <resultMap id="DepartmentResultMap" type="com.vnua.model.Department">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="DepartmentResultMap">
+        SELECT * FROM department
+    </select>
+
+    <select id="findById" resultMap="DepartmentResultMap">
+        SELECT * FROM department WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.vnua.model.Department">
+        INSERT INTO department (name, code, remark)
+        VALUES (#{name}, #{code}, #{remark})
+    </insert>
+
+    <update id="update" parameterType="com.vnua.model.Department">
+        UPDATE department
+        SET name = #{name}, code = #{code}, remark = #{remark}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM department WHERE id = #{id}
+    </delete>
+
+</mapper>

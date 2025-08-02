@@ -20,12 +20,15 @@ public class LoginService {
         return loginMapper.logFullName(loginname);
     }
 
-    public SysUser updateLoginDate(String loginname) {
-        return loginMapper.logFullName(loginname);
+    public int updateLoginDate(int id) {
+        return loginMapper.updateLoginDate(id);
     }
     public List<SysUser> showProfile(String name, String dept, String role) {
         return loginMapper.showProfile(name, dept, role);
     }
+//    public SysUser editProfile(String name, String dept, String role) {
+//        return loginMapper.editProfile(name, dept, role);
+//    }
 
 
 }

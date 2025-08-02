@@ -1,14 +1,14 @@
 package com.vnua.model;
 
 public class SysUser {
-    private Long id;
+    private int id;
     private String loginname;
     private String password;
     private String username;
     private String remark;
     private  String email;
     // Getters & Setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -28,7 +28,7 @@ public class SysUser {
         return remark;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

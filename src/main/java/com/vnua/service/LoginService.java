@@ -20,14 +20,20 @@ public class LoginService {
         return loginMapper.logFullName(loginname);
     }
 
-    public int updateLoginDate(int id) {
-        return loginMapper.updateLoginDate(id);
+    public void updateLoginDate(int user_id) {
+         loginMapper.updateLoginDate(user_id);
     }
+
     public List<SysUser> showProfile(String name, String dept, String role) {
         return loginMapper.showProfile(name, dept, role);
     }
-//    public SysUser editProfile(String name, String dept, String role) {
-//        return loginMapper.editProfile(name, dept, role);
+
+    public int del(int user_id){
+        return loginMapper.del(user_id);
+    }
+
+//    public SysUser updateProfile(String name, String dept, String role) {
+//        return loginMapper.updateProfile(name, dept, role);
 //    }
 
 

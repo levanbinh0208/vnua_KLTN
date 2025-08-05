@@ -1,15 +1,15 @@
 package com.vnua.model;
 
 public class SysUser {
-    private int id;
+    private int user_id;
     private String loginname;
     private String password;
     private String username;
     private String remark;
     private  String email;
     // Getters & Setters
-    public int getId() {
-        return id;
+    public int getUser_id() {
+        return user_id;
     }
 
     public String getEmail() {
@@ -28,8 +28,8 @@ public class SysUser {
         return remark;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_id(int id) {
+        this.user_id = id;
     }
 
     public String getLoginname() {

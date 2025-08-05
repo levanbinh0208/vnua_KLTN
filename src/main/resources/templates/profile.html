@@ -4,12 +4,6 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="login_style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
 
 <body>
@@ -28,26 +22,41 @@
                     <p><strong>🎓 Chức vụ:</strong> <span th:text="${user.remark}">Chức vụ</span></p>
                     <p><strong>🏢 Bộ phận:</strong> <span th:text="${user.email}">Email</span></p>
                 </div>
-                <!-- Form sửa (ẩn ban đầu) -->
-                <form th:action="@{/index/profile/update}" method="post" th:id="'form-' " style="display: none;">
+                <div class="actions">
+                    <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
+                    <a href="javascript:void(0);" class="btn btn-edit" onclick="showEditForm(this)">Sửa</a>
+                    <a href="javascript:void(0);" class="btn btn-delete" th:attr="data-id=${user.user_id}" onclick="showDeleteConfirm(this)">Xóa</a>
+                </div>
+                <form th:action="@{/index/profile/update}" method="post" th:id="'form-' + ${user.username}" style="display: none;">
                     <input type="hidden" name="username" th:value="${user.username}" />
-                    <p><strong>👤 Họ tên:</strong> <input type="text" name="fullname" th:value="${user.fullname}"  /></p>
+                    <p><strong>👤 Họ tên:</strong> <input type="text" name="fullname" th:value="${user.username}" /></p>
                     <p><strong>🎓 Chức vụ:</strong> <input type="text" name="position" th:value="${user.remark}" /></p>
-                    <p><strong>🏢 Bộ phận:</strong> <input type="text" name="department" th:value="${user.email}" /></p>
+                    <p><strong>🏢 Bộ phận:</strong> <input type="text" name="department" th:value="${user.remark}" /></p>
                     <p><strong>📝 Ghi chú:</strong> <input type="text" name="remark" th:value="${user.remark}" /></p>
                     <button type="submit" class="btn btn-save">💾 Lưu</button>
                     <button type="button" class="btn btn-cancel" onclick="cancelEdit(this)">❌ Hủy</button>
                 </form>
-                <div class="actions">
-                    <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
-                    <a th:href="@{'/index/profile/edit' + ${user.username}}" class="btn btn-edit">Sửa</a>
-                    <a th:href="@{'/index/profile/delete' + ${user.username}}" class="btn btn-delete">Xóa</a>
-                </div>
             </div>
         </div>
     </div>
+    <div id="deleteConfirmBox" class="confirm-box" style="display: none;">
+        <div class="confirm-content">
+            <p>❗ Bạn có chắc chắn muốn xóa người dùng này?</p>
+            <button onclick="confirmDeleteYes()">✅ Có</button>
+            <button onclick="confirmDeleteNo()">❌ Không</button>
+        </div>
+    </div>
+    <div class="message-box">
+        <p th:if="${success}" th:text="${success}" class="alert alert-success"></p>
+        <p th:if="${error}" th:text="${error}" class="alert alert-error"></p>
+        <p th:if="${messages}" th:text="${messages}" class="alert alert-messages"></p>
+    </div>
     <link rel="stylesheet" th:href="@{/css/profile.css}" />
     <link rel="stylesheet" th:href="@{/css/background.css}" />
+    <link rel="stylesheet" th:href="@{/css/edit.css}" />
+    <link rel="stylesheet" th:href="@{/css/delete.css}" />
     <script th:src="@{/js/profile.js}"></script>
+    <script th:src="@{/js/edit.js}"></script>
+    <script th:src="@{/js/delete.js}"></script>
 </body>
 </html>

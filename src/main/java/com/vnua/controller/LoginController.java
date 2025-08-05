@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -24,22 +25,21 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/doLogin")
-    public String processLogin(@RequestParam String loginname,
-                               @RequestParam String password,
-                               @RequestParam int id,
+    @PostMapping("/login")
+    public String processLogin(SysUser user,
                                Model model ,HttpSession session) {
-        SysUser user = loginMapper.findByUsernameAndPassword(loginname, password);
+        String loginname = user.getLoginname();
+        String password = user.getPassword();
+        user = loginMapper.findByUsernameAndPassword(loginname, password);
         if (user != null) {
-            int i = loginMapper.updateLoginDate(Integer.parseInt(session.getId()));
+            loginMapper.updateLoginDate(user.getUser_id());
             model.addAttribute("username", loginname);
-            model.addAttribute("id", id);
             session.setAttribute("loggedInUser", user);
-            return "redirect:/index";
         } else {
             model.addAttribute("error", "Sai tài khoản hoặc mật khẩu");
             return "login";
         }
+        return "redirect:/index";
     }
 
     @GetMapping("/index")
@@ -70,6 +70,28 @@ public class LoginController {
         }
         return "profile";
     }
+
+    @GetMapping("/index/profile/del/{user_id}")
+    public String del(@PathVariable("user_id") int user_id,
+                      RedirectAttributes redirectAttributes,
+                      HttpSession session) {
+        SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
+        System.out.println(user_id+"aaaaaaaaa");
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        int result = loginService.del(user_id);
+        if (result == 0) {
+            redirectAttributes.addFlashAttribute("message", "❌ Xóa người dùng thất bại!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "✅ Xóa người dùng thành công!");
+        }
+
+        return "redirect:/index/profile";
+    }
+
+
 //    @GetMapping("index/profile/edit")
 //    public String showEditProfile(@RequestParam String loginname, Model model,HttpSession session) {
 //        SysUser user = (SysUser) session.getAttribute("loggedInUser");

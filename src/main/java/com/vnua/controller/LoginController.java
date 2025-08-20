@@ -31,15 +31,15 @@ public class LoginController {
         String loginname = user.getLoginname();
         String password = user.getPassword();
         user = loginMapper.findByUsernameAndPassword(loginname, password);
-        if (user != null) {
-            loginMapper.updateLoginDate(user.getUser_id());
-            model.addAttribute("username", loginname);
-            session.setAttribute("loggedInUser", user);
-        } else {
+        if (user == null) {
             redirectAttributes.addFlashAttribute("error", "Sai tài khoản hoặc mật khẩu");
             return "redirect:/login";
         }
-        return "redirect:/index";
+        session.setAttribute("loggedInUser", user);
+        loginMapper.updateLoginDate(user.getUser_id());
+        if(user.getUserType() == 99)
+            return "redirect:index";
+        return "indexUser";
     }
 
     @GetMapping("/index")
@@ -47,8 +47,8 @@ public class LoginController {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
 
         if (user != null) {
-            model.addAttribute("username", user.getLoginname());
-            user = loginService.logFullName(user.getLoginname());
+            loginMapper.logFullName(user.getLoginname());
+            model.addAttribute("fullname", user.getUsername());
         } else {
             return "redirect:/login";
         }

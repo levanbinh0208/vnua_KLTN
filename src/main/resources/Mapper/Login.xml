@@ -9,8 +9,8 @@
         SELECT user_id,
                login_name AS loginname,
                password,
-               user_name AS fullname,
-               del_flag
+               user_name AS username,
+               del_flag,user_type as userType
         FROM sys_user
         WHERE login_name = #{loginname}
           AND password = #{password};
@@ -20,7 +20,7 @@
         where user_id = #{id}
     </update>
     <select id="logFullName" resultType="com.vnua.model.SysUser">
-        SELECT user_name AS fullname
+        SELECT user_name AS username
         FROM sys_user
         WHERE login_name = #{loginname}
     </select>

@@ -7,6 +7,15 @@ public class SysUser {
     private String username;
     private String remark;
     private  String email;
+    private int userType;
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
     // Getters & Setters
     public int getUser_id() {
         return user_id;

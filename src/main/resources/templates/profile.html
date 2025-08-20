@@ -4,6 +4,11 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/profile.css}" />
+    <link rel="stylesheet" th:href="@{/css/background.css}" />
+    <link rel="stylesheet" th:href="@{/css/edit.css}" />
+    <link rel="stylesheet" th:href="@{/css/delete.css}" />
+    <link rel="stylesheet" th:href="@{/css/message.css}" />
 </head>
 
 <body>
@@ -47,16 +52,13 @@
         </div>
     </div>
     <div class="message-box">
-        <p th:if="${success}" th:text="${success}" class="alert alert-success"></p>
-        <p th:if="${error}" th:text="${error}" class="alert alert-error"></p>
-        <p th:if="${messages}" th:text="${messages}" class="alert alert-messages"></p>
+        <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
+        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
     </div>
-    <link rel="stylesheet" th:href="@{/css/profile.css}" />
-    <link rel="stylesheet" th:href="@{/css/background.css}" />
-    <link rel="stylesheet" th:href="@{/css/edit.css}" />
-    <link rel="stylesheet" th:href="@{/css/delete.css}" />
+
     <script th:src="@{/js/profile.js}"></script>
     <script th:src="@{/js/edit.js}"></script>
     <script th:src="@{/js/delete.js}"></script>
+    <script th:src="@{/js/message.js}"></script>
 </body>
 </html>

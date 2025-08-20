@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(SysUser user,
+    public String processLogin(SysUser user, RedirectAttributes redirectAttributes,
                                Model model ,HttpSession session) {
         String loginname = user.getLoginname();
         String password = user.getPassword();
@@ -36,8 +36,8 @@ public class LoginController {
             model.addAttribute("username", loginname);
             session.setAttribute("loggedInUser", user);
         } else {
-            model.addAttribute("error", "Sai tài khoản hoặc mật khẩu");
-            return "login";
+            redirectAttributes.addFlashAttribute("error", "Sai tài khoản hoặc mật khẩu");
+            return "redirect:/login";
         }
         return "redirect:/index";
     }
@@ -76,16 +76,15 @@ public class LoginController {
                       RedirectAttributes redirectAttributes,
                       HttpSession session) {
         SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
-        System.out.println(user_id+"aaaaaaaaa");
         if (currentUser == null) {
             return "redirect:/login";
         }
 
         int result = loginService.del(user_id);
         if (result == 0) {
-            redirectAttributes.addFlashAttribute("message", "❌ Xóa người dùng thất bại!");
+            redirectAttributes.addFlashAttribute("error", "❌ Xóa người dùng thất bại!");
         } else {
-            redirectAttributes.addFlashAttribute("message", "✅ Xóa người dùng thành công!");
+            redirectAttributes.addFlashAttribute("success", "✅ Xóa người dùng thành công!");
         }
 
         return "redirect:/index/profile";

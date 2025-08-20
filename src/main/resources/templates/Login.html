@@ -5,6 +5,9 @@
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/background.css}" />
+    <link rel="stylesheet" th:href="@{/css/message.css}" />
 </head>
 
 <body>
@@ -24,7 +27,6 @@
                 <input type="text" name="loginname" placeholder="Tên đăng nhập" />
                 <input type="password" name="password" placeholder="Mật khẩu" />
                 <div id="error-message" th:if="${error}" style="color:red;">
-                    <p th:text="${error}"></p>
                 </div>
                 <a href="/forgotPassword">Quên mật khẩu ?</a>
                 <button type="submit">Đăng nhập</button>
@@ -40,9 +42,11 @@
             </div>
         </div>
     </div>
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
-    <link rel="stylesheet" th:href="@{/css/background.css}" />
+    <div class="message-box">
+        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+    </div>
     <script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/js/message.js}"></script>
 </body>
 </html>
 </html>

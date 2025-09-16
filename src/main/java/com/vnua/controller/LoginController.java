@@ -39,7 +39,8 @@ public class LoginController {
         loginMapper.updateLoginDate(user.getUser_id());
         if(user.getUserType() == 99)
             return "redirect:index";
-        return "indexUser";
+        else
+            return "redirect:indexUser";
     }
 
     @GetMapping("/index")
@@ -54,6 +55,20 @@ public class LoginController {
         }
 
         return "index";
+    }
+
+    @GetMapping("/indexUser")
+    public String showIndexUser(HttpSession session, Model model) {
+        SysUser user = (SysUser) session.getAttribute("loggedInUser");
+
+        if (user != null) {
+            loginMapper.logFullName(user.getLoginname());
+            model.addAttribute("fullname", user.getUsername());
+        } else {
+            return "redirect:/login";
+        }
+
+        return "indexUser";
     }
 
     @GetMapping("index/profile")

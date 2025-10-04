@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.PublicationMapper">
+    <resultMap id="PublicationResultMap" type="com.vnua.model.Publication">
+        <id property="pubId" column="pub_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="authors" column="authors"/>
+        <result property="journal" column="journal"/>
+        <result property="year" column="year"/>
+        <result property="abstractText" column="abstract"/>
+        <result property="url" column="url"/>
+        <result property="filePdf" column="file_pdf"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+    <select id="getAllPublications" resultMap="PublicationResultMap">
+        SELECT * FROM publication
+    </select>
+
+    <insert id="insertPublication" parameterType="com.vnua.model.Publication">
+        INSERT INTO publication (pub_id, user_id, title, authors, journal, year, abstract, url, file_pdf, created_at)
+        VALUES (#{pubId}, #{userId}, #{title}, #{authors}, #{journal}, #{year}, #{abstract}, #{url}, #{filePdf}, #{createdAt})
+    </insert>
+
+    <update id="updatePublication" parameterType="com.vnua.model.Publication">
+        UPDATE publication
+        SET user_id=#{userId}, title=#{title}, authors=#{authors}, journal=#{journal}, year=#{year},
+            abstract=#{abstract}, url=#{url}, file_pdf=#{filePdf}, created_at=#{createdAt}
+        WHERE pub_id=#{pubId}
+    </update>
+
+    <delete id="deletePublication" parameterType="int">
+        DELETE FROM publication WHERE pub_id=#{pubId}
+    </delete>
+</mapper>

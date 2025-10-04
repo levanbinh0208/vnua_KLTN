@@ -20,7 +20,7 @@ qsa('.tab-btn').forEach(btn => {
     });
 });
 
-// --- Search filter (chỉ publications demo) ---
+
 qs('#search')?.addEventListener('input', e => {
     const kw = e.target.value.toLowerCase().trim();
     qsa('#tbody-publication tr').forEach(tr => {

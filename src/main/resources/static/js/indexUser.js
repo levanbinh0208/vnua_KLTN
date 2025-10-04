@@ -1,205 +1,154 @@
+// --- Helpers ---
 const qs  = (s, el=document) => el.querySelector(s);
-const qsa = (s, el=document) => Array.from(el.querySelectorAll(s));
+const qsa = (s, el=document) => [...el.querySelectorAll(s)];
+
+// --- Tabs ---
 qsa('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        qsa('.tab-btn').forEach(b => b.classList.remove('active','bg-slate-900','text-white'));
-        btn.classList.add('active','bg-slate-900','text-white');
+        // Active button
+        qsa('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
         const tab = btn.dataset.tab;
+
+        // Hide panels
         qsa('.tab-panel').forEach(p => p.classList.add('hidden'));
         qs('#tab-' + tab).classList.remove('hidden');
+
+        // Load API cho tab
+        loadData(tab);
     });
 });
 
-    const search = qs('#search');
-    search?.addEventListener('input', () => {
-    const kw = search.value.toLowerCase().trim();
+// --- Search filter (chỉ publications demo) ---
+qs('#search')?.addEventListener('input', e => {
+    const kw = e.target.value.toLowerCase().trim();
     qsa('#tbody-publication tr').forEach(tr => {
-    const text = tr.textContent.toLowerCase();
-    tr.style.display = text.includes(kw) ? '' : 'none';
-});
+        tr.style.display = tr.textContent.toLowerCase().includes(kw) ? '' : 'none';
+    });
 });
 
-    // --- Modal handling ---
-    const modal = qs('#modal');
-    const modalFields = qs('#modal-fields');
-    const modalTitle = qs('#modal-title');
+// --- Modal ---
+const modal = qs('#modal');
+const modalFields = qs('#modal-fields');
+const modalTitle = qs('#modal-title');
 
-    function openModal(forTab){
+function openModal(tab) {
     modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    // Build fields by tab (client-side demo only)
-    modalFields.innerHTML = buildFields(forTab);
-    modalTitle.textContent = 'Thêm mới ' + labelByTab(forTab);
+    modalFields.innerHTML = buildFields(tab);
+    modalTitle.textContent = "Thêm mới " + labelByTab(tab);
 }
-    function closeModal(){ modal.classList.add('hidden'); document.body.style.overflow='auto'; }
+function closeModal() { modal.classList.add('hidden'); }
 
-    modal.addEventListener('click', (e)=>{ if(e.target.dataset.close) closeModal(); });
-    qs('#btn-add').addEventListener('click', ()=>{
+qs('#btn-add')?.addEventListener('click', () => {
     const active = qs('.tab-btn.active')?.dataset.tab || 'publication';
     openModal(active);
 });
-qs('#modal-form').addEventListener('submit', (e) => {
+modal.addEventListener('click', e => {
+    if (e.target.dataset.close || e.target === modal) closeModal();
+});
+qs('#modal-form')?.addEventListener('submit', e => {
     e.preventDefault();
-    const active = qs('.tab-btn.active')?.dataset.tab || 'publication';
+    const active = qs('.tab-btn.active').dataset.tab;
     const data = Object.fromEntries(new FormData(e.target).entries());
     appendRow(active, data);
     closeModal();
-    e.target.reset();
 });
+
+// --- Label theo tab ---
 function labelByTab(tab) {
-    return ({
-        publication: 'bài báo',
-        project: 'đề tài/dự án',
-        conference: 'hội thảo',
-        book: 'sách',
-        patent: 'bằng sáng chế',
-        supervision: 'hướng dẫn'
-    })[tab] || '';
+    return {
+        publication:"bài báo", project:"đề tài", conference:"hội thảo",
+        book:"sách", patent:"bằng sáng chế", supervision:"hướng dẫn"
+    }[tab];
 }
+
+// --- Form fields theo tab ---
 function buildFields(tab) {
     switch(tab) {
-        case 'publication':
-            return `
-                <div><label class='text-sm'>Tiêu đề</label><input name='title' required class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2'></div>
-                <div><label class='text-sm'>Tác giả</label><input name='authors' class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2'></div>
-                <div><label class='text-sm'>Tạp chí</label><input name='journal' class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2'></div>
-                <div><label class='text-sm'>Năm</label><input name='year' type='number' min='1950' max='2030' class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2'></div>
-                <div class='sm:col-span-2'><label class='text-sm'>URL / PDF</label><input name='url' class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2' placeholder='https://...'></div>
-                <div class='sm:col-span-2'><label class='text-sm'>Abstract</label><textarea name='abstract' rows='3' class='mt-1 w-full border border-slate-200 rounded-xl px-3 py-2'></textarea></div>`;
-        case 'project':
-            return `
-                <div class='sm:col-span-2'><label class='text-sm'>Tên đề tài</label><input name='name' required class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Vai trò</label><input name='role' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200' placeholder='Chủ nhiệm / Thành viên'></div>
-                <div><label class='text-sm'>Bắt đầu</label><input name='start_date' type='date' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Kết thúc</label><input name='end_date' type='date' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div class='sm:col-span-2'><label class='text-sm'>Mô tả</label><textarea name='description' rows='3' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></textarea></div>`;
-        case 'conference':
-            return `
-                <div class='sm:col-span-2'><label class='text-sm'>Tiêu đề</label><input name='title' required class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Địa điểm</label><input name='location' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Ngày</label><input name='date' type='date' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Vai trò</label><input name='role' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>`;
-        case 'book':
-            return `
-                <div class='sm:col-span-2'><label class='text-sm'>Tựa sách</label><input name='title' required class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Nhà xuất bản</label><input name='publisher' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Năm</label><input name='year' type='number' min='1950' max='2030' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>ISBN</label><input name='isbn' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>`;
-        case 'patent':
-            return `
-                <div class='sm:col-span-2'><label class='text-sm'>Tiêu đề</label><input name='title' required class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Số bằng</label><input name='patent_no' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Năm</label><input name='year' type='number' min='1950' max='2030' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Trạng thái</label><input name='status' placeholder='Đã cấp / Đang xét duyệt' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>`;
-        case 'supervision':
-            return `
-                <div><label class='text-sm'>Sinh viên</label><input name='student_name' required class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Bậc</label><input name='level' placeholder='Khóa luận / Thạc sĩ / Tiến sĩ' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div class='sm:col-span-2'><label class='text-sm'>Đề tài</label><input name='thesis_title' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>
-                <div><label class='text-sm'>Năm</label><input name='year' type='number' min='2000' max='2030' class='mt-1 w-full border rounded-xl px-3 py-2 border-slate-200'></div>`;
+        case 'publication': return `
+          <div><label>Tiêu đề</label><input name="title" required></div>
+          <div><label>Tác giả</label><input name="authors"></div>
+          <div><label>Tạp chí</label><input name="journal"></div>
+          <div><label>Năm</label><input type="number" name="year"></div>`;
+        case 'project': return `
+          <div><label>Tên đề tài</label><input name="name" required></div>
+          <div><label>Vai trò</label><input name="role"></div>
+          <div><label>Bắt đầu</label><input type="date" name="start"></div>
+          <div><label>Kết thúc</label><input type="date" name="end"></div>`;
+        case 'conference': return `
+          <div><label>Tiêu đề</label><input name="title" required></div>
+          <div><label>Địa điểm</label><input name="location"></div>
+          <div><label>Ngày</label><input type="date" name="date"></div>
+          <div><label>Vai trò</label><input name="role"></div>`;
+        case 'book': return `
+          <div><label>Tựa sách</label><input name="title" required></div>
+          <div><label>NXB</label><input name="publisher"></div>
+          <div><label>Năm</label><input type="number" name="year"></div>
+          <div><label>ISBN</label><input name="isbn"></div>`;
+        case 'patent': return `
+          <div><label>Tiêu đề</label><input name="title" required></div>
+          <div><label>Số bằng</label><input name="no"></div>
+          <div><label>Năm</label><input type="number" name="year"></div>
+          <div><label>Trạng thái</label><input name="status"></div>`;
+        case 'supervision': return `
+          <div><label>Sinh viên</label><input name="student" required></div>
+          <div><label>Bậc</label><input name="level"></div>
+          <div><label>Đề tài</label><input name="thesis"></div>
+          <div><label>Năm</label><input type="number" name="year"></div>`;
     }
 }
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector('[data-tab="book"]').addEventListener("click", function (e) {
-        e.preventDefault();
 
-        fetch("/api/book")
-            .then(res => res.json())
-            .then(data => {
-                let rows = "";
-                data.forEach((b, idx) => {
-                    rows += `
-            <tr>
-              <td class="px-4 py-3 text-center whitespace-nowrap">${idx + 1}</td>
-              <td class="px-4 py-3 text-center whitespace-nowrap">${b.title}</td>
-              <td class="px-4 py-3 text-center whitespace-nowrap">${b.publisher}</td>
-              <td class="px-4 py-3 text-center whitespace-nowrap">${b.year}</td>
-              <td class="px-4 py-3 text-center whitespace-nowrap">Tác giả</td>
-              <td class="px-4 py-3 text-right whitespace-nowrap">
-                <button class="text-blue-600">✏️ Sửa</button>
-                <button class="text-red-600">🗑 Xóa</button>
-              </td>
-            </tr>
-          `;
-                });
-                document.getElementById("tbody-book").innerHTML = rows;
-
-                // Hiện tab book
-                document.querySelectorAll(".tab-panel").forEach(tab => tab.classList.add("hidden"));
-                document.getElementById("tab-book").classList.remove("hidden");
+// --- Load API cho tab ---
+function loadData(tab) {
+    fetch("/api/" + tab)
+        .then(res => res.json())
+        .then(data => {
+            const tb = qs("#tbody-" + tab);
+            tb.innerHTML = "";
+            data.forEach((d, i) => {
+                appendRow(tab, d, i+1);
             });
-    });
-});
-function appendRow(tab, d) {
-    const map = {
-        publication: ['title','authors','journal','year'],
-        project: ['name','role',null,'start_date','end_date'],
-        conference: ['title','location','date'],
-        book: ['title','publisher','year'],
-        patent: ['title','patent_no','year'],
-        supervision: ['student_name','thesis_title','level','year']
-    };
-    const tb = qs('#tbody-' + tab);
-    const idx = tb.children.length + 1;
-    let html = '';
-    switch(tab) {
-        case 'publication':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.title || ''}</td>
-                      <td class='px-4 py-3'>${d.authors || ''}</td>
-                      <td class='px-4 py-3'>${d.journal || ''}</td>
-                      <td class='px-4 py-3'>${d.year || ''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
-        case 'project':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.name || ''}</td>
-                      <td class='px-4 py-3'>${d.role || ''}</td>
-                      <td class='px-4 py-3'>${(d.start_date||'')}${d.end_date?(' → ' + d.end_date):''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
-        case 'conference':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.title || ''}</td>
-                      <td class='px-4 py-3'>${d.location || ''}</td>
-                      <td class='px-4 py-3'>${d.date || ''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
-        case 'book':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.title || ''}</td>
-                      <td class='px-4 py-3'>${d.publisher || ''}</td>
-                      <td class='px-4 py-3'>${d.year || ''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
-        case 'patent':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.title || ''}</td>
-                      <td class='px-4 py-3'>${d.patent_no || ''}</td>
-                      <td class='px-4 py-3'>${d.year || ''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
-        case 'supervision':
-            html = `<tr>
-                      <td class='px-4 py-3'>${idx}</td>
-                      <td class='px-4 py-3 font-medium'>${d.student_name || ''}</td>
-                      <td class='px-4 py-3'>${d.thesis_title || ''}</td>
-                      <td class='px-4 py-3'>${d.level || ''}</td>
-                      <td class='px-4 py-3'>${d.year || ''}</td>
-                      <td class='px-4 py-3 text-right'><a href='#' class='text-slate-600 hover:underline mr-3'>Sửa</a><a href='#' class='text-rose-600 hover:underline'>Xóa</a></td>
-                    </tr>`;
-            break;
+        })
+        .catch(err => console.error("Lỗi load dữ liệu:", err));
+}
+
+// --- Append row ---
+function appendRow(tab, d, idx) {
+    const tb = qs('#tbody-'+tab);
+    const rowIndex = idx || tb.children.length + 1;
+    let html = "";
+    if (tab==='publication') {
+        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.authors||''}</td><td>${d.journal||''}</td><td>${d.year||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
+    }
+    if (tab==='project') {
+        html = `<tr><td>${rowIndex}</td><td>${d.name||''}</td><td>${d.role||''}</td><td>${d.start||''}</td><td>${d.end||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
+    }
+    if (tab==='conference') {
+        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.location||''}</td><td>${d.date||''}</td><td>${d.role||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
+    }
+    if (tab==='book') {
+        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.publisher||''}</td><td>${d.year||''}</td><td>${d.isbn||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
+    }
+    if (tab==='patent') {
+        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.no||''}</td><td>${d.year||''}</td><td>${d.status||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
+    }
+    if (tab==='supervision') {
+        html = `<tr><td>${rowIndex}</td><td>${d.student||''}</td><td>${d.level||''}</td><td>${d.thesis||''}</td><td>${d.year||''}</td>
+          <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     tb.insertAdjacentHTML('beforeend', html);
 }
 
+// --- Auto load mặc định tab đầu tiên ---
+document.addEventListener("DOMContentLoaded", () => {
+    const firstTab = qs(".tab-btn");
+    if (firstTab) {
+        firstTab.click();
+    }
+});

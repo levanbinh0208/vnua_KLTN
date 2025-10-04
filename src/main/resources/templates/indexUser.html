@@ -4,252 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bảng điều khiển Giảng viên — ScienceCV</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfZl1aqsWnS7NtN9v1+8q6Qw2vVZ6jIW3R7C1Jf1v9Q3h1Y9Q+T1dQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" th:href="@{/css/indexUser.css}" />
-  <style>
-    /* Scrollbar (optional) */
-    ::-webkit-scrollbar { width: 10px; height: 10px; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-
-    /* Table */
-    table thead th { font-weight: 600; }
-
-    /* Simple modal animation */
-    .fade-in { animation: fi .15s ease; }
-    @keyframes fi { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
-  </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-<!-- Top bar -->
-<header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <i class="fa-solid fa-flask text-indigo-600"></i>
-
-      <span class="font-semibold">VNUA</span>
-      <span class="hidden sm:inline text-slate-400">/</span>
-      <span class="hidden sm:inline">Bảng điều khiển Giảng viên</span>
-    </div>
-    <div class="flex items-center gap-3">
-      <p>Xin chào, <b th:text="${fullname}"></b>!</p>
-      <a href="/logout" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        Đăng xuất
-      </a>
-    </div>
+<body>
+<!-- Header -->
+<header class="header">
+  <strong>Hệ thống quản lý</strong>
+  <div>
+    <input id="search" type="text" placeholder="Tìm kiếm...">
+    <button id="btn-add" class="btn btn-primary">+ Thêm mới</button>
   </div>
 </header>
 
-<!-- Page -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-    <!-- Sidebar -->
-    <aside class="lg:col-span-1">
-      <nav class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
-        <div class="text-xs uppercase tracking-wider text-slate-400 mb-2">Danh mục</div>
-        <ul class="space-y-1" id="menu">
-          <li><button data-tab="publication" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100 active bg-slate-900 text-white"><i class="fa-regular fa-newspaper mr-2"></i>Bài báo</button></li>
-          <li><button data-tab="project" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100"><i class="fa-solid fa-diagram-project mr-2"></i>Đề tài / Dự án</button></li>
-          <li><button data-tab="conference" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100"><i class="fa-solid fa-person-chalkboard mr-2"></i>Hội thảo</button></li>
-          <li><a data-tab="book" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100" href="/api/book"><i class="fa-solid fa-book mr-2"></i>Sách / Giáo trình</a></li>
-          <li><button data-tab="patent" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100"><i class="fa-solid fa-lightbulb mr-2"></i>Bằng sáng chế</button></li>
-          <li><button data-tab="supervision" class="tab-btn w-full text-left px-3 py-2 rounded-xl hover:bg-slate-100"><i class="fa-solid fa-user-graduate mr-2"></i>Hướng dẫn</button></li>
-        </ul>
-      </nav>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul>
+      <li><button class="tab-btn active" data-tab="publication">Bài báo</button></li>
+      <li><button class="tab-btn" data-tab="project">Đề tài</button></li>
+      <li><button class="tab-btn" data-tab="conference">Hội thảo</button></li>
+      <li><button class="tab-btn" data-tab="book" href="/api/book">Sách</button></li>
+      <li><button class="tab-btn" data-tab="patent">Bằng sáng chế</button></li>
+      <li><button class="tab-btn" data-tab="supervision">Hướng dẫn</button></li>
+    </ul>
+  </aside>
 
-      <div class="mt-6 grid grid-cols-2 gap-4">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
-          <div class="text-xs text-slate-500">Tổng bài báo</div>
-          <div class="text-2xl font-semibold" id="stat-publications">[[${pubCount}]]</div>
-        </div>
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
-          <div class="text-xs text-slate-500">Đề tài</div>
-          <div class="text-2xl font-semibold" id="stat-projects">[[${projectCount}]]</div>
-        </div>
-      </div>
-    </aside>
+  <!-- Main content -->
+  <main class="main">
 
-    <!-- Content -->
-    <main class="lg:col-span-3 space-y-6">
-      <!-- Toolbar -->
-      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-wrap items-center gap-3">
-        <div class="relative">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input id="search" type="text" placeholder="Tìm kiếm theo tiêu đề, năm, tạp chí..." class="pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-        </div>
-        <button id="btn-add" class="ml-auto inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500"><i class="fa-solid fa-plus"></i> Thêm mới</button>
-        <div class="flex items-center gap-2">
-          <a href="/export/excel" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800"><i class="fa-regular fa-file-excel"></i> Xuất Excel</a>
-          <a href="/export/word" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800"><i class="fa-regular fa-file-word"></i> Xuất Word</a>
-        </div>
-      </div>
+    <!-- Bài báo -->
+    <section id="tab-publication" class="tab-panel">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Tác giả</th><th>Tạp chí</th><th>Năm</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-publication"></tbody>
+      </table>
+    </section>
 
-      <!-- Tabs content wrappers -->
+    <!-- Đề tài -->
+    <section id="tab-project" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tên đề tài</th><th>Vai trò</th><th>Bắt đầu</th><th>Kết thúc</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-project"></tbody>
+      </table>
+    </section>
 
-      <!-- PUBLICATIONS -->
-      <section id="tab-publication" class="tab-panel block">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tiêu đề</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tác giả</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tạp chí</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Năm</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100" id="tbody-publication">
+    <!-- Hội thảo -->
+    <section id="tab-conference" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Địa điểm</th><th>Ngày</th><th>Vai trò</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-conference"></tbody>
+      </table>
+    </section>
 
-              <tr th:each="p, i : ${publications}">
-                <td class="px-4 py-3" th:text="${i.index + 1}"></td>
-                <td class="px-4 py-3 font-medium" th:text="${p.title}"></td>
-                <td class="px-4 py-3" th:text="${p.authors}"></td>
-                <td class="px-4 py-3" th:text="${p.journal}"></td>
-                <td class="px-4 py-3" th:text="${p.year}"></td>
-                <td class="px-4 py-3 text-right">
-                  <a th:href="@{'/publication/' + ${p.pub_id}}" class="text-indigo-600 hover:underline mr-3">Xem</a>
-                  <a th:href="@{'/publication/edit/' + ${p.pub_id}}" class="text-slate-600 hover:underline mr-3">Sửa</a>
-                  <a th:href="@{'/publication/delete/' + ${p.pub_id}}" class="text-rose-600 hover:underline" onclick="return confirm('Xóa bản ghi này?')">Xóa</a>
-                </td>
-              </tr>
+    <!-- Sách -->
+    <section id="tab-book" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tựa sách</th><th>NXB</th><th>Năm</th><th>ISBN</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-book"></tbody>
+      </table>
+    </section>
 
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+    <!-- Bằng sáng chế -->
+    <section id="tab-patent" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Số bằng</th><th>Năm</th><th>Trạng thái</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-patent"></tbody>
+      </table>
+    </section>
 
-      <!-- PROJECTS -->
-      <section id="tab-project" class="tab-panel hidden">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tên đề tài</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Vai trò</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Thời gian</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody id="tbody-project" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- CONFERENCES -->
-      <section id="tab-conference" class="tab-panel hidden">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tiêu đề</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Địa điểm</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Ngày</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody id="tbody-conference" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- BOOKS -->
-      <section id="tab-book" class="tab-panel hidden">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tựa sách</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Nhà XB</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Năm</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tác giả</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody id="tbody-book" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- PATENTS -->
-      <section id="tab-patent" class="tab-panel hidden">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Tiêu đề</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Số bằng</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Năm</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody id="tbody-patent" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- SUPERVISION -->
-      <section id="tab-supervision" class="tab-panel hidden">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-              <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">#</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Sinh viên</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Đề tài</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Bậc</th>
-                <th class="px-4 py-3 text-left text-xs text-slate-500">Năm</th>
-                <th class="px-4 py-3 text-right text-xs text-slate-500">Thao tác</th>
-              </tr>
-              </thead>
-              <tbody id="tbody-supervision" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
+    <!-- Hướng dẫn -->
+    <section id="tab-supervision" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Sinh viên</th><th>Bậc</th><th>Đề tài</th><th>Năm</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-supervision"></tbody>
+      </table>
+    </section>
+  </main>
 </div>
 
-<!-- Modal: Add / Edit item (generic form tailored by tab) -->
-<div id="modal" class="hidden fixed inset-0 z-40 items-center justify-center">
-  <div class="fixed inset-0 bg-black/40" data-close="true"></div>
-  <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-4 p-6 fade-in">
-    <div class="flex items-center justify-between mb-4">
-      <h3 id="modal-title" class="text-lg font-semibold">Thêm mới</h3>
-      <button class="p-2 rounded-lg hover:bg-slate-100" data-close="true"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <form id="modal-form" class="space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="modal-fields">
-      </div>
-      <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" class="px-4 py-2 rounded-xl border border-slate-200" data-close="true">Hủy</button>
-        <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500">Lưu</button>
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 id="modal-title"></h3>
+    <form id="modal-form">
+      <div id="modal-fields" class="grid"></div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <button type="button" data-close class="btn btn-outline">Đóng</button>
       </div>
     </form>
   </div>
 </div>
-</body>
+
 <script th:src="@{/js/indexUser.js}"></script>
+</body>
 </html>

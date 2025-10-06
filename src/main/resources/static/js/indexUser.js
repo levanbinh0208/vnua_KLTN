@@ -123,7 +123,7 @@ function appendRow(tab, d, idx) {
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     if (tab==='project') {
-        html = `<tr><td>${rowIndex}</td><td>${d.name||''}</td><td>${d.role||''}</td><td>${d.start||''}</td><td>${d.end||''}</td>
+        html = `<tr><td>${rowIndex}</td><td>${d.name||''}</td><td>${d.role||''}</td><td>${d.startDate||''}</td><td>${d.endDate||''}</td>
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     if (tab==='conference') {
@@ -135,7 +135,7 @@ function appendRow(tab, d, idx) {
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     if (tab==='patent') {
-        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.no||''}</td><td>${d.year||''}</td><td>${d.status||''}</td>
+        html = `<tr><td>${rowIndex}</td><td>${d.title||''}</td><td>${d.patentNo||''}</td><td>${d.year||''}</td><td>${d.status||''}</td>
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     if (tab==='supervision') {

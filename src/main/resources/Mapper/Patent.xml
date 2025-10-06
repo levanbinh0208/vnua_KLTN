@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.PatentMapper">
+
+    <resultMap id="PatentResultMap" type="com.vnua.model.Patent">
+        <id property="patentId" column="patent_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="patentNo" column="patent_no"/>
+        <result property="year" column="year"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="getPatents" resultMap="PatentResultMap">
+        SELECT * FROM patent
+    </select>
+
+    <insert id="insertPatent" parameterType="com.vnua.model.Patent">
+        INSERT INTO patent (patent_id, user_id, title, patent_no, year, status)
+        VALUES (#{patentId}, #{userId}, #{title}, #{patentNo}, #{year}, #{status})
+    </insert>
+
+    <update id="updatePatent" parameterType="com.vnua.model.Patent">
+        UPDATE patent
+        SET user_id = #{userId},
+            title = #{title},
+            patent_no = #{patentNo},
+            year = #{year},
+            status = #{status}
+        WHERE patent_id = #{patentId}
+    </update>
+
+    <delete id="deletePatent" parameterType="int">
+        DELETE FROM patent WHERE patent_id = #{patentId}
+    </delete>
+
+</mapper>

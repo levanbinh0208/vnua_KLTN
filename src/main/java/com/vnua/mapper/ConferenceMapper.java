@@ -1,0 +1,10 @@
+package com.vnua.mapper;
+
+import com.vnua.model.Conference;
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+
+@Mapper
+public interface ConferenceMapper {
+    List<Conference> getConferences();
+}

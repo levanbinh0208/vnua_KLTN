@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.ConferenceMapper">
+    <resultMap id="ConferenceResultMap" type="com.vnua.model.Conference">
+        <id property="confId" column="conf_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="location" column="location"/>
+        <result property="date" column="date" jdbcType="VARCHAR"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+    <select id="getConferences" resultMap="ConferenceResultMap">
+        SELECT * FROM dbo.conference
+    </select>
+
+    <insert id="insertConference" parameterType="com.vnua.model.Conference">
+        INSERT INTO dbo.conference (conf_id, user_id, title, location, date, role)
+        VALUES (#{confId}, #{userId}, #{title}, #{location}, #{date}, #{role})
+    </insert>
+
+    <update id="updateConference" parameterType="com.vnua.model.Conference">
+        UPDATE dbo.conference
+        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, role=#{role}
+        WHERE conf_id=#{confId}
+    </update>
+
+    <delete id="deleteConference" parameterType="int">
+        DELETE FROM dbo.conference WHERE conf_id=#{confId}
+    </delete>
+</mapper>

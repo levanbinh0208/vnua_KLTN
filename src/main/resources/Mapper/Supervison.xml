@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.SupervisionMapper">
+    <resultMap id="SupervisionResultMap" type="com.vnua.model.Supervision">
+        <id property="supId" column="sup_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="thesisTitle" column="thesis_title"/>
+        <result property="level" column="level"/>
+        <result property="year" column="year"/>
+    </resultMap>
+
+    <select id="getSupervisions" resultMap="SupervisionResultMap">
+        SELECT * FROM dbo.supervision
+    </select>
+
+    <insert id="insertSupervision" parameterType="com.vnua.model.Supervision">
+        INSERT INTO dbo.supervision (sup_id, user_id, student_name, thesis_title, level, year)
+        VALUES (#{supId}, #{userId}, #{studentName}, #{thesisTitle}, #{level}, #{year})
+    </insert>
+
+    <update id="updateSupervision" parameterType="com.vnua.model.Supervision">
+        UPDATE dbo.supervision
+        SET user_id=#{userId}, student_name=#{studentName}, thesis_title=#{thesisTitle},
+            level=#{level}, year=#{year}
+        WHERE sup_id=#{supId}
+    </update>
+
+    <delete id="deleteSupervision" parameterType="int">
+        DELETE FROM dbo.supervision WHERE sup_id=#{supId}
+    </delete>
+</mapper>

@@ -139,7 +139,7 @@ function appendRow(tab, d, idx) {
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     if (tab==='supervision') {
-        html = `<tr><td>${rowIndex}</td><td>${d.student||''}</td><td>${d.level||''}</td><td>${d.thesis||''}</td><td>${d.year||''}</td>
+        html = `<tr><td>${rowIndex}</td><td>${d.studentName||''}</td><td>${d.level||''}</td><td>${d.thesisTitle||''}</td><td>${d.year||''}</td>
           <td><button>✏️</button> <button>🗑</button></td></tr>`;
     }
     tb.insertAdjacentHTML('beforeend', html);

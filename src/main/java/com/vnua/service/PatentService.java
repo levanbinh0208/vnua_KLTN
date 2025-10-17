@@ -8,7 +8,6 @@ import java.util.List;
 
 @Service
 public class PatentService {
-
     private final PatentMapper patentMapper;
 
     public PatentService(PatentMapper patentMapper) {
@@ -18,5 +17,22 @@ public class PatentService {
     public List<Patent> getPatents() {
         return patentMapper.getPatents();
     }
-}
 
+    public void insertPatent(Patent patent) {
+        patentMapper.insertPatent(patent);
+    }
+
+    public void updatePatent(Patent patent) {
+        patentMapper.updatePatent(patent);
+    }
+
+    public void deletePatent(int patentId) {
+        patentMapper.deletePatent(patentId);
+    }
+
+    public Patent getPatentById(int id) {
+        return patentMapper.findById(id);
+    }
+
+
+}

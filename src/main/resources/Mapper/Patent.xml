@@ -19,8 +19,8 @@
     </select>
 
     <insert id="insertPatent" parameterType="com.vnua.model.Patent">
-        INSERT INTO patent (patent_id, user_id, title, patent_no, year, status)
-        VALUES (#{patentId}, #{userId}, #{title}, #{patentNo}, #{year}, #{status})
+        INSERT INTO patent ( user_id, title, patent_no, year, status)
+        VALUES (#{userId}, #{title}, #{patentNo}, #{year}, #{status})
     </insert>
 
     <update id="updatePatent" parameterType="com.vnua.model.Patent">
@@ -36,5 +36,9 @@
     <delete id="deletePatent" parameterType="int">
         DELETE FROM patent WHERE patent_id = #{patentId}
     </delete>
+
+    <select id="findById" resultMap="PatentResultMap">
+        SELECT * FROM patent WHERE patent_id = #{patentId}
+    </select>
 
 </mapper>

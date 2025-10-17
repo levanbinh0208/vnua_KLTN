@@ -21,18 +21,28 @@
     </select>
 
     <insert id="insertPublication" parameterType="com.vnua.model.Publication">
-        INSERT INTO publication (pub_id, user_id, title, authors, journal, year, abstract, url, file_pdf, created_at)
-        VALUES (#{pubId}, #{userId}, #{title}, #{authors}, #{journal}, #{year}, #{abstract}, #{url}, #{filePdf}, #{createdAt})
+        INSERT INTO publication
+        ( title, authors, journal, year, abstract, url, file_pdf, created_at)
+        VALUES (  #{title}, #{authors}, #{journal}, #{year}, #{abstractText}, #{url}, #{filePdf}, #{createdAt})
     </insert>
 
     <update id="updatePublication" parameterType="com.vnua.model.Publication">
         UPDATE publication
-        SET user_id=#{userId}, title=#{title}, authors=#{authors}, journal=#{journal}, year=#{year},
-            abstract=#{abstract}, url=#{url}, file_pdf=#{filePdf}, created_at=#{createdAt}
+        SET title=#{title}, authors=#{authors}, journal=#{journal}, year=#{year},
+            abstract= #{abstractText}, url=#{url}, file_pdf=#{filePdf}, created_at=#{createdAt}
         WHERE pub_id=#{pubId}
     </update>
 
     <delete id="deletePublication" parameterType="int">
         DELETE FROM publication WHERE pub_id=#{pubId}
     </delete>
+
+    <select id="findById" resultMap="PublicationResultMap">
+        SELECT * FROM publication WHERE pub_id=#{pubId}
+    </select>
+
+    <select id="getAuthors" resultType="string">
+        SELECT DISTINCT authors FROM publication
+    </select>
+
 </mapper>

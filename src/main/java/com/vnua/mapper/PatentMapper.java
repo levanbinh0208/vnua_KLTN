@@ -2,11 +2,18 @@ package com.vnua.mapper;
 
 import com.vnua.model.Patent;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-
 import java.util.List;
 
 @Mapper
 public interface PatentMapper {
     List<Patent> getPatents();
+
+    void insertPatent(Patent patent);
+
+    void updatePatent(Patent patent);
+
+    void deletePatent(int patentId);
+
+    Patent findById(int id);
+
 }

@@ -1,28 +1,69 @@
-package com.vnua.controller;
+    package com.vnua.controller;
 
-import com.vnua.model.Publication;
-import com.vnua.service.PublicationService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import java.util.List;
+    import com.vnua.model.Publication;
+    import com.vnua.service.PublicationService;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.web.bind.annotation.*;
 
+    import java.util.List;
 
-@Controller
-public class PublicationController {
+    @Controller
+    public class PublicationController {
 
-    private final PublicationService publicationService;
+        private final PublicationService publicationService;
 
-    public PublicationController(PublicationService publicationService) {this.publicationService = publicationService;}
+        public PublicationController(PublicationService publicationService) {
+            this.publicationService = publicationService;
+        }
 
-    @GetMapping("/publication")
-    public String publicationPage() {
-        return "indexUser";
+        @GetMapping("/publication")
+        public String publicationPage() {
+            return "indexUser";
+        }
+
+        @GetMapping("/api/publication")
+        @ResponseBody
+        public List<Publication> getAllPublications() {
+            return publicationService.getAllPublications();
+        }
+
+        @GetMapping("/api/publication/{id}")
+        @ResponseBody
+        public ResponseEntity<?> getPublicationById(@PathVariable("id") int id) {
+            Publication publication = publicationService.getPublicationById(id);
+            if (publication == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(publication);
+        }
+
+        @PostMapping("/api/publication")
+        @ResponseBody
+        public ResponseEntity<?> insertPublication(@RequestBody Publication publication) {
+            publicationService.insertPublication(publication);
+            return ResponseEntity.ok(publication);
+        }
+
+        @PutMapping("/api/publication/{id}")
+        @ResponseBody
+        public ResponseEntity<?> updatePublication(@PathVariable("id") int id, @RequestBody Publication publication) {
+            publication.setPubId(id);
+            publicationService.updatePublication(publication);
+            return ResponseEntity.ok(publication);
+        }
+
+        @DeleteMapping("/api/publication/{id}")
+        @ResponseBody
+        public ResponseEntity<?> deletePublication(@PathVariable("id") int id) {
+            publicationService.deletePublication(id);
+            return ResponseEntity.ok().build();
+        }
+
+        @GetMapping("/api/authors")
+        @ResponseBody
+        public ResponseEntity<List<String>> getAuthors() {
+            List<String> authors = publicationService.getAuthors();
+            return ResponseEntity.ok(authors);
+        }
     }
-
-    @GetMapping("/api/publication")
-    @ResponseBody
-    public List<Publication> getAllPublications() {
-        return publicationService.getAllPublications();
-    }
-}

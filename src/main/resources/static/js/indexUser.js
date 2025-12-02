@@ -37,7 +37,6 @@ function openModal(tab, data = {}) {
     modalFields.innerHTML = buildFields(tab, data);
     modalTitle.textContent = (data.id || data.pubId ? "Sửa " : "Thêm mới ") + labelByTab(tab);
 
-    // Nếu là tab "publication" thì tải danh sách tác giả
     if (tab === 'publication') loadAuthorsList(data.authors);
 }
 
@@ -95,7 +94,7 @@ function labelByTab(tab) {
     }[tab];
 }
 
-// ===================== 🧱 XÂY FORM CHO MODAL =====================
+
 function buildFields(tab, data = {}) {
     switch (tab) {
         case 'publication':
@@ -145,28 +144,42 @@ function buildFields(tab, data = {}) {
     }
 }
 
-// ===================== 👥 TẢI DANH SÁCH TÁC GIẢ =====================
 async function loadAuthorsList(selected = "") {
     try {
-        const res = await fetch("/api/authors");
+        const res = await fetch("/authors");
         if (!res.ok) throw new Error("Không thể tải danh sách tác giả!");
-        const authors = await res.json();
+
+        const raw = await res.json();
+
+        const authors = raw
+            .flatMap(str => str.split(','))
+            .map(name => name.trim())
+            .filter(name => name.length > 0);
+
+        const uniqueAuthors = [...new Set(authors)];
 
         const select = qs('#authors-select');
         if (!select) return;
 
-        select.innerHTML = authors.map(a =>
-            `<option value="${name}" ${selected.includes(name) ? 'selected' : ''}>${name}</option>`
+        const selectedList = Array.isArray(selected)
+            ? selected
+            : (selected || "").split(",").map(s => s.trim());
+
+        select.innerHTML = uniqueAuthors.map(author =>
+            `<option value="${author}"
+                ${selectedList.includes(author) ? "selected" : ""}
+            >${author}</option>`
         ).join('');
     } catch (err) {
         console.error("Lỗi tải tác giả:", err);
     }
 }
 
-// ===================== 📦 LOAD DỮ LIỆU =====================
+
+
 async function loadData(tab) {
     try {
-        const res = await fetch("/api/" + tab);
+        const res = await fetch( tab);
         if (!res.ok) throw new Error('Không tải được dữ liệu từ server');
         const data = await res.json();
         const tb = qs("#tbody-" + tab);
@@ -179,7 +192,6 @@ async function loadData(tab) {
     }
 }
 
-// ===================== 🧩 THÊM DÒNG VÀO BẢNG =====================
 function appendRow(tab, d, idx) {
     const tb = qs('#tbody-' + tab);
     if (!tb) return;
@@ -198,10 +210,12 @@ function appendRow(tab, d, idx) {
             <td>${idx}</td>
             ${map[tab].map(c => `<td>${d[c] || ''}</td>`).join('')}
             <td>
-                <button data-action="edit" data-row="${idx}">✏️</button>
-                <button data-action="delete" data-row="${idx}">🗑</button>
+                <button data-action="edit" data-row="${idx}">Sửa</button>
+                <button data-action="delete" data-row="${idx}">Xóa</button>
+                <button data-action="export" data-row="${idx}">Xuất</button>
             </td>
         </tr>`;
+
 
     tb.insertAdjacentHTML('beforeend', html);
     const row = tb.lastElementChild;
@@ -214,7 +228,7 @@ function handleEdit(tab, row, rowIndex) {
     const id = row.dataset.id;
     if (!id) return alert("Không tìm thấy ID bản ghi!");
 
-    fetch(`/api/${tab}/${id}`)
+    fetch(`${tab}/${id}`)
         .then(res => res.json())
         .then(data => {
             data.rowIndex = rowIndex;
@@ -240,7 +254,7 @@ async function handleDelete(tab, row) {
     }
 }
 
-// ===================== 🔁 CẬP NHẬT HÀNG =====================
+
 async function updateRow(tab, row, data) {
     const fieldsByTab = {
         publication: ['title', 'authors', 'journal', 'year'],
@@ -260,7 +274,6 @@ async function updateRow(tab, row, data) {
     alert(`Cập nhật ${labelByTab(tab)} thành công!`);
 }
 
-// ===================== 💾 LƯU DỮ LIỆU =====================
 async function saveData(tab, data, method = 'POST', asyncReturn = false) {
     const idField = tab === 'patent' ? 'patentId'
         : tab === 'publication' ? 'pubId'
@@ -268,7 +281,7 @@ async function saveData(tab, data, method = 'POST', asyncReturn = false) {
                 : tab === 'supervision' ? 'supId'
                     : 'id';
     const id = data[idField] || data.id || '';
-    const url = method === 'POST' ? `/api/${tab}` : `/api/${tab}/${id}`;
+    const url = method === 'POST' ? `${tab}` : `${tab}/${id}`;
 
     const res = await fetch(url, {
         method,
@@ -285,15 +298,15 @@ async function saveData(tab, data, method = 'POST', asyncReturn = false) {
     return json;
 }
 
-// ===================== ❌ XÓA DỮ LIỆU =====================
+// =====================  XÓA DỮ LIỆU =====================
 async function deleteData(tab, id) {
-    const res = await fetch(`/api/${tab}/${id}`, { method: 'DELETE' });
+    const res = await fetch(`/${tab}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Lỗi khi xóa dữ liệu!');
     await loadData(tab);
     return true;
 }
 
-// ===================== 🔢 CẬP NHẬT STT =====================
+// ===================== CẬP NHẬT STT =====================
 function updateRowIndices(tab) {
     qsa('#tbody-' + tab + ' tr').forEach((row, i) => {
         const firstTd = row.querySelector('td:first-child');
@@ -302,7 +315,7 @@ function updateRowIndices(tab) {
     });
 }
 
-// ===================== 🚀 KHỞI ĐỘNG =====================
+// =====================  KHỞI ĐỘNG =====================
 document.addEventListener("DOMContentLoaded", () => {
     const firstTab = qs(".tab-btn");
     if (firstTab) firstTab.click();

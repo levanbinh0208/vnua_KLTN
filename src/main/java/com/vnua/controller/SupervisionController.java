@@ -17,11 +17,6 @@ public class SupervisionController {
     }
 
     @GetMapping("/supervision")
-    public String bookPage() {
-        return "indexUser";
-    }
-
-    @GetMapping("/api/supervision")
     @ResponseBody
     public List<Supervision> getSupervisions() {
         return supervisionService.getSupervisions();

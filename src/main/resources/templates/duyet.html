@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Duyệt thông tin - ADMIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/duyet.css}" />
 </head>
 <body>
-$END$
+
+<div class="container">
+  <header class="header">
+    <h1>📋 Duyệt và cập nhật thông tin</h1>
+    <p><b th:text="${fullname}"></b> — Quản trị viên hệ thống</p>
+  </header>
+
+  <!-- Trạng thái phản hồi (1 dòng duy nhất) -->
+  <div class="status-bar" id="status-bar">
+    <span id="status-message">Sẵn sàng duyệt</span>
+  </div>
+
+  <!-- Danh sách chờ duyệt -->
+  <div class="review-list" id="review-list">
+    <!-- Sample item — sẽ thay bằng th:each -->
+    <div class="review-item" data-id="101">
+      <div class="item-header">
+        <span class="type-tag">📄 Bài báo</span>
+        <span class="time">Gửi lúc: 08:45, 02/12/2025</span>
+      </div>
+      <h3>Phát hiện sâu bệnh trên cây lúa bằng học máy</h3>
+      <p class="teacher-info">
+        <strong>Nguyễn Văn A</strong> — Khoa Công nghệ Thông tin
+      </p>
+      <div class="item-meta">
+        <span>Tạp chí Khoa học VNUA, 2025</span>
+      </div>
+      <div class="actions">
+        <button class="btn approve" data-id="101">✅ Duyệt</button>
+        <button class="btn reject" data-id="101">❌ Từ chối</button>
+      </div>
+    </div>
+
+    <div class="review-item" data-id="102">
+      <div class="item-header">
+        <span class="type-tag">🧩 Đề tài</span>
+        <span class="time">Gửi lúc: 14:20, 01/12/2025</span>
+      </div>
+      <h3>Ứng dụng IoT trong quản lý trang trại thông minh</h3>
+      <p class="teacher-info">
+        <strong>Trần Thị B</strong> — Khoa Nông nghiệp
+      </p>
+      <div class="item-meta">
+        <span>Vai trò: Thành viên, 2024–2026</span>
+      </div>
+      <div class="actions">
+        <button class="btn approve" data-id="102">✅ Duyệt</button>
+        <button class="btn reject" data-id="102">❌ Từ chối</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" id="empty-state" style="display: none;">
+    <img src="/images/check.png" alt="Đã duyệt hết" width="60">
+    <p>Không có thông tin chờ duyệt.<br>Tất cả đã được xử lý!</p>
+  </div>
+</div>
+
+<script th:src="@{/js/review.js}"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.vnua.model.Patent;
 import com.vnua.service.PatentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,24 +19,18 @@ public class PatentController {
     }
 
     @GetMapping("/patent")
-    public String patentPage() {
-        return "indexUser";
-    }
-
-    @GetMapping("/api/patent")
     @ResponseBody
     public List<Patent> getPatents() {
         return patentService.getPatents();
     }
 
-    @PostMapping("/api/patent")
+    @PostMapping("/patent")
     @ResponseBody
-    public ResponseEntity<?> insertPatent(@RequestBody Patent patent) {
-        patentService.insertPatent(patent);
-        return ResponseEntity.ok().build();
+    public int insertPatent(@RequestBody Patent patent, Model model) {
+        return patentService.insertPatent(patent);
     }
 
-    @PutMapping("/api/patent/{id}")
+    @PutMapping("/patent/{id}")
     @ResponseBody
     public ResponseEntity<?> updatePatent(@PathVariable("id") int id, @RequestBody Patent patent) {
         patent.setPatentId(id);
@@ -43,14 +38,14 @@ public class PatentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/patent/{id}")
+    @DeleteMapping("/patent/{id}")
     @ResponseBody
     public ResponseEntity<?> deletePatent(@PathVariable("id") int id) {
         patentService.deletePatent(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/api/patent/{id}")
+    @GetMapping("/patent/{id}")
     @ResponseBody
     public ResponseEntity<?> getPatentById(@PathVariable("id") int id) {
         Patent patent = patentService.getPatentById(id);

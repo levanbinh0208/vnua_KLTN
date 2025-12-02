@@ -18,8 +18,8 @@ public class PatentService {
         return patentMapper.getPatents();
     }
 
-    public void insertPatent(Patent patent) {
-        patentMapper.insertPatent(patent);
+    public int insertPatent(Patent patent) {
+        return patentMapper.insertPatent(patent);
     }
 
     public void updatePatent(Patent patent) {

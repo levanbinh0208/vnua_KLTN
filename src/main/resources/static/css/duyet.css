@@ -1,0 +1,145 @@
+/* review.css — Tối giản, kiểm soát, đúng phong cách bạn thích */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+    background-color: #f9fbfd;
+    color: #222;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 16px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    border-bottom: 1px solid #eaecef;
+}
+.header h1 {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 1.6rem;
+}
+.header p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* --- Trạng thái (1 dòng duy nhất) --- */
+.status-bar {
+    background: #e8f4f8;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: #1a5276;
+}
+.status-bar.success { background: #e8f5e9; color: #2e7d32; }
+.status-bar.error   { background: #ffebee; color: #c62828; }
+
+/* --- Danh sách duyệt --- */
+.review-list {
+    display: grid;
+    gap: 16px;
+}
+
+.review-item {
+    background: white;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 4px solid #3498db;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+}
+
+.type-tag {
+    background: #e3f2fd;
+    color: #0d47a1;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.time {
+    color: #7f8c8d;
+}
+
+.review-item h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.teacher-info {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: #27ae60;
+}
+
+.item-meta {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+/* --- Nút hành động --- */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: opacity 0.2s;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+.btn.approve {
+    background: #27ae60;
+    color: white;
+}
+.btn.reject {
+    background: #e74c3c;
+    color: white;
+}
+
+/* --- Empty state --- */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7f8c8d;
+}
+.empty-state img {
+    opacity: 0.7;
+    margin-bottom: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container { margin: 10px; }
+    .item-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+    .actions { flex-direction: column; }
+}

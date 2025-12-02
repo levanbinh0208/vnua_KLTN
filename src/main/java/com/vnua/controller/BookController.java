@@ -19,11 +19,6 @@ public class BookController {
     }
 
     @GetMapping("/book")
-    public String bookPage() {
-        return "indexUser";
-    }
-
-    @GetMapping("/api/book")
     @ResponseBody
     public List<Book> getBooks() {
         return bookService.getBooks();

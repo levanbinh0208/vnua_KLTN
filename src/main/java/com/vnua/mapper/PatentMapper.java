@@ -8,7 +8,7 @@ import java.util.List;
 public interface PatentMapper {
     List<Patent> getPatents();
 
-    void insertPatent(Patent patent);
+    int insertPatent(Patent patent);
 
     void updatePatent(Patent patent);
 

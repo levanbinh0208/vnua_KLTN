@@ -17,18 +17,15 @@
             this.publicationService = publicationService;
         }
 
-        @GetMapping("/publication")
-        public String publicationPage() {
-            return "indexUser";
-        }
 
-        @GetMapping("/api/publication")
+
+        @GetMapping("/publication")
         @ResponseBody
         public List<Publication> getAllPublications() {
             return publicationService.getAllPublications();
         }
 
-        @GetMapping("/api/publication/{id}")
+        @GetMapping("/publication/{id}")
         @ResponseBody
         public ResponseEntity<?> getPublicationById(@PathVariable("id") int id) {
             Publication publication = publicationService.getPublicationById(id);
@@ -38,14 +35,14 @@
             return ResponseEntity.ok(publication);
         }
 
-        @PostMapping("/api/publication")
+        @PostMapping("/publication")
         @ResponseBody
         public ResponseEntity<?> insertPublication(@RequestBody Publication publication) {
             publicationService.insertPublication(publication);
             return ResponseEntity.ok(publication);
         }
 
-        @PutMapping("/api/publication/{id}")
+        @PutMapping("/publication/{id}")
         @ResponseBody
         public ResponseEntity<?> updatePublication(@PathVariable("id") int id, @RequestBody Publication publication) {
             publication.setPubId(id);
@@ -53,14 +50,14 @@
             return ResponseEntity.ok(publication);
         }
 
-        @DeleteMapping("/api/publication/{id}")
+        @DeleteMapping("/publication/{id}")
         @ResponseBody
         public ResponseEntity<?> deletePublication(@PathVariable("id") int id) {
             publicationService.deletePublication(id);
             return ResponseEntity.ok().build();
         }
 
-        @GetMapping("/api/authors")
+        @GetMapping("/authors")
         @ResponseBody
         public ResponseEntity<List<String>> getAuthors() {
             List<String> authors = publicationService.getAuthors();

@@ -17,12 +17,9 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping("/project")
-    public String projectPage() {
-        return "indexUser";
-    }
 
-    @GetMapping("/api/project")
+
+    @GetMapping("/project")
     @ResponseBody
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();

@@ -25,7 +25,7 @@
         WHERE login_name = #{loginname}
     </select>
     <select id="showProfile" resultType="com.vnua.model.SysUser">
-        SELECT user_name as username , email,remark,user_id FROM sys_user
+        SELECT user_name as username , email,role,user_id FROM sys_user
         WHERE user_type != 00 and del_flag = 0
         <if test="name != null and name != ''">
             AND user_name LIKE CONCAT('%', #{name}, '%')
@@ -34,7 +34,7 @@
             AND email LIKE CONCAT('%', #{dept}, '%')
         </if>
         <if test="role != null and role != ''">
-            AND remark LIKE CONCAT('%', #{role}, '%')
+            AND role LIKE CONCAT('%', #{role}, '%')
         </if>
         ORDER BY  RIGHT(user_name, CHARINDEX(' ', REVERSE(user_name)) - 1),user_name
     </select>

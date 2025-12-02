@@ -17,11 +17,6 @@ public class ConferenceController {
     }
 
     @GetMapping("/conference")
-    public String bookPage() {
-        return "indexUser";
-    }
-
-    @GetMapping("/api/conference")
     @ResponseBody
     public List<Conference> getConferences() {
         return conferenceService.getConferences();

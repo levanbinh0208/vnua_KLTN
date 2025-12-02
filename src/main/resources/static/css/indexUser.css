@@ -40,3 +40,38 @@ tr:hover { background:#fff4f4; }
 .grid input, .grid textarea { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; }
 .actions { display:flex; justify-content:flex-end; gap:10px; }
 .hidden { display:none; }
+
+td button {
+    margin: 0 3px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+td button[data-action="edit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+td button[data-action="edit"]:hover {
+    background-color: #45a049;
+}
+
+td button[data-action="delete"] {
+    background-color: #f44336;
+    color: white;
+}
+td button[data-action="delete"]:hover {
+    background-color: #da190b;
+}
+
+
+td button[data-action="export"] {
+    background-color: #2196F3;
+    color: white;
+}
+td button[data-action="export"]:hover {
+    background-color: #0b7dda;
+}

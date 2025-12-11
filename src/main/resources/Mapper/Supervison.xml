@@ -11,6 +11,7 @@
         <result property="thesisTitle" column="thesis_title"/>
         <result property="level" column="level"/>
         <result property="year" column="year"/>
+        <result property="wordFileName" column="word_File_Name"/>
     </resultMap>
 
     <select id="getSupervisions" resultMap="SupervisionResultMap">
@@ -18,18 +19,22 @@
     </select>
 
     <insert id="insertSupervision" parameterType="com.vnua.model.Supervision">
-        INSERT INTO dbo.supervision (sup_id, user_id, student_name, thesis_title, level, year)
-        VALUES (#{supId}, #{userId}, #{studentName}, #{thesisTitle}, #{level}, #{year})
+        INSERT INTO dbo.supervision (sup_id, user_id, student_name, thesis_title, level, year,word_File_Name)
+        VALUES (#{supId}, #{userId}, #{studentName}, #{thesisTitle}, #{level}, #{year},#{wordFileName})
     </insert>
 
     <update id="updateSupervision" parameterType="com.vnua.model.Supervision">
         UPDATE dbo.supervision
         SET user_id=#{userId}, student_name=#{studentName}, thesis_title=#{thesisTitle},
-            level=#{level}, year=#{year}
+            level=#{level}, year=#{year},word_File_Name = #{wordFileName}
         WHERE sup_id=#{supId}
     </update>
 
     <delete id="deleteSupervision" parameterType="int">
         DELETE FROM dbo.supervision WHERE sup_id=#{supId}
     </delete>
+
+    <select id="getSupervisionById" resultMap="SupervisionResultMap">
+        SELECT * FROM supervision WHERE sup_id=#{supId}
+    </select>
 </mapper>

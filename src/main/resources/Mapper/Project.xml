@@ -13,6 +13,7 @@
         <result property="startDate" column="start_date"/>
         <result property="endDate" column="end_date"/>
         <result property="role" column="role"/>
+        <result property="wordFileName" column="word_File_Name"/>
     </resultMap>
 
     <select id="getAllProjects" resultMap="ProjectResultMap">
@@ -20,18 +21,22 @@
     </select>
 
     <insert id="insertProject" parameterType="com.vnua.model.Project">
-        INSERT INTO project (project_id, user_id, name, description, start_date, end_date, role)
-        VALUES (#{projectId}, #{userId}, #{name}, #{description}, #{startDate}, #{endDate}, #{role})
+        INSERT INTO project (project_id, user_id, name, description, start_date, end_date, role,word_File_Name)
+        VALUES (#{projectId}, #{userId}, #{name}, #{description}, #{startDate}, #{endDate}, #{role},#{wordFileName})
     </insert>
 
     <update id="updateProject" parameterType="com.vnua.model.Project">
         UPDATE project
         SET user_id=#{userId}, name=#{name}, description=#{description}, start_date=#{startDate},
-            end_date=#{endDate}, role=#{role}
+            end_date=#{endDate}, role=#{role},word_File_Name = #{wordFileName}
         WHERE project_id=#{projectId}
     </update>
 
     <delete id="deleteProject" parameterType="int">
         DELETE FROM project WHERE project_id=#{projectId}
     </delete>
+
+    <select id="getProjectById" resultMap="ProjectResultMap">
+        SELECT * FROM project WHERE project_id=#{projectId}
+    </select>
 </mapper>

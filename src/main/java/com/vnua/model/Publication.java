@@ -9,9 +9,11 @@ public class Publication {
     private Integer year;
     private String abstractText;
     private String url;
-    private String filePdf;
     private java.util.Date createdAt;
+    private String wordFileName;
 
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
     public Integer getPubId() {
         return pubId;
     }
@@ -74,14 +76,6 @@ public class Publication {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getFilePdf() {
-        return filePdf;
-    }
-
-    public void setFilePdf(String filePdf) {
-        this.filePdf = filePdf;
     }
 
     public java.util.Date getCreatedAt() {

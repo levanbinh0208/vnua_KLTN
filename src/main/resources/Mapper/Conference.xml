@@ -11,6 +11,7 @@
         <result property="location" column="location"/>
         <result property="date" column="date" jdbcType="VARCHAR"/>
         <result property="role" column="role"/>
+        <result property="wordFileName" column="word_File_Name"/>
     </resultMap>
 
     <select id="getConferences" resultMap="ConferenceResultMap">
@@ -18,17 +19,21 @@
     </select>
 
     <insert id="insertConference" parameterType="com.vnua.model.Conference">
-        INSERT INTO dbo.conference (conf_id, user_id, title, location, date, role)
-        VALUES (#{confId}, #{userId}, #{title}, #{location}, #{date}, #{role})
+        INSERT INTO dbo.conference (conf_id, user_id, title, location, date, role,word_File_Name)
+        VALUES (#{confId}, #{userId}, #{title}, #{location}, #{date}, #{role},#{wordFileName})
     </insert>
 
     <update id="updateConference" parameterType="com.vnua.model.Conference">
         UPDATE dbo.conference
-        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, role=#{role}
+        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, role=#{role},word_File_Name=#{wordFileName}
         WHERE conf_id=#{confId}
     </update>
 
     <delete id="deleteConference" parameterType="int">
         DELETE FROM dbo.conference WHERE conf_id=#{confId}
     </delete>
+
+    <select id="findById" resultMap="ConferenceResultMap">
+        SELECT * FROM conference WHERE conf_id = #{confId}
+    </select>
 </mapper>

@@ -13,7 +13,7 @@
         <result property="year" column="year"/>
         <result property="abstractText" column="abstract"/>
         <result property="url" column="url"/>
-        <result property="filePdf" column="file_pdf"/>
+        <result property="wordFileName" column="word_File_Name"/>
         <result property="createdAt" column="created_at"/>
     </resultMap>
     <select id="getAllPublications" resultMap="PublicationResultMap">
@@ -22,14 +22,14 @@
 
     <insert id="insertPublication" parameterType="com.vnua.model.Publication">
         INSERT INTO publication
-        ( title, authors, journal, year, abstract, url, file_pdf, created_at)
-        VALUES (  #{title}, #{authors}, #{journal}, #{year}, #{abstractText}, #{url}, #{filePdf}, #{createdAt})
+        ( title, authors, journal, year, abstract, url, word_File_Name, created_at)
+        VALUES (  #{title}, #{authors}, #{journal}, #{year}, #{abstractText}, #{url}, #{wordFileName}, #{createdAt})
     </insert>
 
     <update id="updatePublication" parameterType="com.vnua.model.Publication">
         UPDATE publication
         SET title=#{title}, authors=#{authors}, journal=#{journal}, year=#{year},
-            abstract= #{abstractText}, url=#{url}, file_pdf=#{filePdf}, created_at=#{createdAt}
+            abstract= #{abstractText}, url=#{url}, word_File_Name=#{wordFileName}, created_at=#{createdAt}
         WHERE pub_id=#{pubId}
     </update>
 

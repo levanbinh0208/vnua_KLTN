@@ -12,24 +12,33 @@
         <result property="publisher" column="publisher"/>
         <result property="year" column="year"/>
         <result property="isbn" column="isbn"/>
+        <result property="wordFileName" column="word_File_Name"/>
     </resultMap>
 
     <select id="getBooks" resultMap="BookResultMap">
         SELECT * FROM book
     </select>
 
-    <insert id="insertBook" parameterType="com.vnua.model.Book">
-        INSERT INTO book (title, author, published_year)
-        VALUES (#{title}, #{author}, #{publishedYear})
+    <insert id="insertBook" parameterType="Book" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO book (title, publisher, year, isbn, word_file_name)
+        VALUES (#{title}, #{publisher}, #{year}, #{isbn}, #{wordFileName})
     </insert>
 
-    <update id="updateBook" parameterType="com.vnua.model.Book">
+    <update id="updateBook" parameterType="Book">
         UPDATE book
-        SET title=#{title}, author=#{author}, published_year=#{publishedYear}
-        WHERE id=#{id}
+        SET title = #{title},
+            publisher = #{publisher},
+            year = #{year},
+            isbn = #{isbn},
+            word_file_name = #{wordFileName}
+        WHERE book_id = #{bookId}
     </update>
 
     <delete id="deleteBook" parameterType="int">
-        DELETE FROM book WHERE id=#{id}
+        DELETE FROM book WHERE book_id=#{bookId}
     </delete>
+
+    <select id="findById" resultMap="BookResultMap">
+        SELECT * FROM book WHERE book_id=#{bookId}
+    </select>
 </mapper>

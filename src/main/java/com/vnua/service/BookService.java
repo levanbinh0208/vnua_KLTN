@@ -17,4 +17,21 @@ public class BookService {
     public List<Book> getBooks() {
         return bookMapper.getBooks();
     }
+
+
+    public Book getBookById(int id) {
+        return bookMapper.findById(id);
+    }
+
+    public void insertBook(Book book) {
+        bookMapper.insertBook(book);
+    }
+
+    public void updateBook(Book book) {
+        bookMapper.updateBook(book);
+    }
+
+    public void deleteBook(int id) {
+        bookMapper.deleteBook(id);
+    }
 }

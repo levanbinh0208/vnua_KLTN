@@ -7,6 +7,10 @@ public class Patent {
     private String patentNo;
     private Integer year;
     private String status;
+    private String wordFileName;
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
     public int getPatentId() {
         return patentId;

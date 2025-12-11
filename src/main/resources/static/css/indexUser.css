@@ -68,10 +68,10 @@ td button[data-action="delete"]:hover {
 }
 
 
-td button[data-action="export"] {
+td button[data-action="download"] {
     background-color: #2196F3;
     color: white;
 }
-td button[data-action="export"]:hover {
+td button[data-action="download"]:hover {
     background-color: #0b7dda;
 }

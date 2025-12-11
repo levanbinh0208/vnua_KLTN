@@ -8,6 +8,10 @@ public class Book {
     private String publisher;
     private Integer year;
     private String isbn;
+    private String wordFileName;
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
     public Integer getBookId() {
         return bookId;

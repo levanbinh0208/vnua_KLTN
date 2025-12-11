@@ -9,9 +9,13 @@ public class Project {
     private Integer userId;
     private String name;
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String role;
+    private String wordFileName;
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
     public Integer getProjectId() {
         return projectId;
@@ -45,19 +49,19 @@ public class Project {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

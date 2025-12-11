@@ -14,7 +14,23 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
 
-    public List<Project> getAllProjects() {
+    public List<Project> getProjects() {
         return projectMapper.getAllProjects();
+    }
+
+    public void insertProject(Project project) {
+        projectMapper.insertProject(project);
+    }
+
+    public Project getProjectById(int id) {
+        return projectMapper.getProjectById(id);
+    }
+
+    public void updateProject(Project project) {
+        projectMapper.updateProject(project);
+    }
+
+    public void deleteProject(int id) {
+        projectMapper.deleteProject(id);
     }
 }

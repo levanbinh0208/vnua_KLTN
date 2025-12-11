@@ -7,8 +7,12 @@ public class Conference {
     private Integer userId;
     private String title;
     private String location;
-    private LocalDate date;
+    private String date;
     private String role;
+    private String wordFileName;
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
     public Integer getConfId() {
         return confId;
@@ -42,11 +46,11 @@ public class Conference {
         this.location = location;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

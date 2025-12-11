@@ -15,15 +15,18 @@
         WHERE login_name = #{loginname}
           AND password = #{password};
     </select>
+
     <update id="updateLoginDate">
         UPDATE sys_user SET login_date = getdate()
         where user_id = #{id}
     </update>
+
     <select id="logFullName" resultType="com.vnua.model.SysUser">
         SELECT user_name AS username
         FROM sys_user
         WHERE login_name = #{loginname}
     </select>
+
     <select id="showProfile" resultType="com.vnua.model.SysUser">
         SELECT user_name as username , email,role,user_id FROM sys_user
         WHERE user_type != 00 and del_flag = 0

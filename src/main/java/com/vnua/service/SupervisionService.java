@@ -17,4 +17,21 @@ public class SupervisionService {
     public List<Supervision> getSupervisions() {
         return supervisionMapper.getSupervisions();
     }
+
+    public void updateSupervision(Supervision sup) {
+        supervisionMapper.updateSupervision(sup);
+    }
+
+    public Supervision getSupervisionById(int id) {
+        return supervisionMapper.getSupervisionById(id);
+    }
+
+    public void deleteSupervision(int id) {
+        supervisionMapper.deleteSupervision(id);
+    }
+
+    public void insertSupervision(Supervision sup) {
+        supervisionMapper.insertSupervision(sup);
+    }
+
 }

@@ -7,6 +7,10 @@ public class Supervision {
     private String thesisTitle;
     private String level;
     private Integer year;
+    private String wordFileName;
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
     public Integer getSupId() {
         return supId;

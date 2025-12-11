@@ -12,6 +12,7 @@
         <result property="patentNo" column="patent_no"/>
         <result property="year" column="year"/>
         <result property="status" column="status"/>
+        <result property="wordFileName" column="word_File_Name"/>
     </resultMap>
 
     <select id="getPatents" resultMap="PatentResultMap">
@@ -19,8 +20,8 @@
     </select>
 
     <insert id="insertPatent" parameterType="com.vnua.model.Patent">
-        INSERT INTO patent ( user_id, title, patent_no, year, status)
-        VALUES (#{userId}, #{title}, #{patentNo}, #{year}, #{status})
+        INSERT INTO patent ( user_id, title, patent_no, year, status,word_File_Name)
+        VALUES (#{userId}, #{title}, #{patentNo}, #{year}, #{status},#{wordFileName})
     </insert>
 
     <update id="updatePatent" parameterType="com.vnua.model.Patent">
@@ -29,7 +30,8 @@
             title = #{title},
             patent_no = #{patentNo},
             year = #{year},
-            status = #{status}
+            status = #{status},
+            word_File_Name = #{wordFileName}
         WHERE patent_id = #{patentId}
     </update>
 

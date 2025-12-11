@@ -190,7 +190,6 @@ public class PublicationController {
                 Path filePath = Paths.get(UPLOAD_DIR).resolve(existing.getWordFileName());
                 Files.deleteIfExists(filePath);
             } catch (IOException e) {
-                // Không fail nếu xóa file không thành — vẫn xóa DB
             }
         }
         publicationService.deletePublication(id);

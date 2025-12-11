@@ -1,8 +1,6 @@
-// ===================== 🔧 TRỢ GIÚP CƠ BẢN =====================
 const qs = (s, el = document) => el.querySelector(s);
 const qsa = (s, el = document) => [...el.querySelectorAll(s)];
 
-// ===================== 🧭 QUẢN LÝ TAB =====================
 qsa('.tab-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
         qsa('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -17,7 +15,6 @@ qsa('.tab-btn').forEach(btn => {
     });
 });
 
-// ===================== 🔍 TÌM KIẾM =====================
 qs('#search')?.addEventListener('input', e => {
     const kw = e.target.value.toLowerCase().trim();
     qsa('.tab-panel:not(.hidden) tbody tr').forEach(tr => {
@@ -25,7 +22,6 @@ qs('#search')?.addEventListener('input', e => {
     });
 });
 
-// ===================== 🪟 QUẢN LÝ MODAL =====================
 const modal = qs('#modal');
 const modalFields = qs('#modal-fields');
 const modalTitle = qs('#modal-title');
@@ -52,7 +48,6 @@ function openModal(tab, data = {}) {
         });
     }
 
-    // Tải danh sách tác giả nếu là publication
     if (tab === 'publication') {
         loadAuthorsList(data.authors);
     }
@@ -62,13 +57,11 @@ function closeModal() {
     modal?.classList.add('hidden');
 }
 
-// Nút + thêm mới
 qs('#btn-add')?.addEventListener('click', () => {
     const active = qs('.tab-btn.active')?.dataset.tab || 'publication';
     openModal(active);
 });
 
-// Đóng modal
 if (modal) {
     modal.addEventListener('click', e => {
         if (e.target.closest('[data-close]') || e.target === modal) {
@@ -77,7 +70,6 @@ if (modal) {
     });
 }
 
-// ===================== 💾 XỬ LÝ SUBMIT FORM (HỖ TRỢ FILE UPLOAD) =====================
 qs('#modal-form')?.addEventListener('submit', async e => {
     e.preventDefault();
     try {
@@ -117,7 +109,6 @@ qs('#modal-form')?.addEventListener('submit', async e => {
     }
 });
 
-// ===================== 🏷️ TÊN TAB HIỂN THỊ =====================
 function labelByTab(tab) {
     return {
         publication: "bài báo",
@@ -129,8 +120,6 @@ function labelByTab(tab) {
     }[tab] || tab;
 }
 
-
-// ===================== 📄 XÂY DỰNG FORM FIELDS (CÓ TẢI FILE) =====================
 function buildFields(tab, data = {}) {
     const hiddenFields = `
         <input type="hidden" name="rowIndex" value="${data.rowIndex || ''}">
@@ -201,7 +190,6 @@ function buildFields(tab, data = {}) {
     }
 }
 
-// ===================== 👥 TẢI DANH SÁCH TÁC GIẢ =====================
 async function loadAuthorsList(selected = "") {
     try {
         const res = await fetch("/authors");
@@ -232,7 +220,6 @@ async function loadAuthorsList(selected = "") {
     }
 }
 
-// =====================  TẢI DỮ LIỆU THEO TAB =====================
 async function loadData(tab) {
     try {
         const res = await fetch(tab);
@@ -248,7 +235,6 @@ async function loadData(tab) {
     }
 }
 
-// =====================  THÊM DÒNG VÀO BẢNG =====================
 function appendRow(tab, d, idx) {
     const tb = qs('#tbody-' + tab);
     if (!tb) return;
@@ -288,7 +274,6 @@ function appendRow(tab, d, idx) {
     });
 }
 
-// ===================== ✏️ SỬA DỮ LIỆU =====================
 function handleEdit(tab, row, rowIndex) {
     const id = row.dataset.id;
     if (!id) return alert("Không tìm thấy ID bản ghi!");
@@ -308,7 +293,6 @@ function handleEdit(tab, row, rowIndex) {
         });
 }
 
-// ===================== 🗑️ XÓA DỮ LIỆU =====================
 async function handleDelete(tab, row) {
     const id = row.dataset.id;
     if (!id || !confirm('Bạn có chắc muốn xóa?')) return;
@@ -322,7 +306,6 @@ async function handleDelete(tab, row) {
     }
 }
 
-// ===================== 💾 LƯU DỮ LIỆU (dành cho PUT/POST không có file) – CHỈ DÙNG NẾU CẦN =====================
 async function saveData(tab, data, method = 'POST', asyncReturn = false) {
     const idField = {
         patent: 'patentId',
@@ -349,14 +332,12 @@ async function saveData(tab, data, method = 'POST', asyncReturn = false) {
     return json;
 }
 
-// ===================== 🗑️ XÓA DỮ LIỆU (API) =====================
 async function deleteData(tab, id) {
     const res = await fetch(`/${tab}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Lỗi khi xóa dữ liệu!');
     return true;
 }
 
-// ===================== 🔢 CẬP NHẬT SỐ THỨ TỰ =====================
 function updateRowIndices(tab) {
     qsa('#tbody-' + tab + ' tr').forEach((row, i) => {
         const firstTd = row.querySelector('td:first-child');
@@ -367,7 +348,6 @@ function updateRowIndices(tab) {
     });
 }
 
-// ===================== 🚀 KHỞI ĐỘNG KHI DOM SẴN SÀNG =====================
 document.addEventListener("DOMContentLoaded", () => {
     qs('#modal')?.addEventListener('change', e => {
         if (e.target.name === 'wordFile') {

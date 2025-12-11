@@ -77,7 +77,6 @@ public class BookController {
         }
     }
 
-    // ==================== ➕ THÊM MỚI SÁCH (HỖ TRỢ FILE) ====================
     @PostMapping("/book")
     @ResponseBody
     public ResponseEntity<?> insertBook(
@@ -97,23 +96,19 @@ public class BookController {
             } catch (NumberFormatException ignored) {}
         }
 
-        // ✅ Xử lý upload file Word — hỗ trợ Unicode
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
             if (originalName == null || originalName.isEmpty()) {
                 originalName = "unknown.docx";
             }
 
-            // Làm sạch tên file: giữ Unicode (Trung, Việt), bỏ ký tự nguy hiểm
             originalName = StringUtils.cleanPath(originalName);
             originalName = originalName.replaceAll("[^\\w.\\-\\u4e00-\\u9fff\\u00C0-\\u017F]", "_");
 
-            // Kiểm tra đuôi
             if (!originalName.toLowerCase().endsWith(".doc") && !originalName.toLowerCase().endsWith(".docx")) {
                 return ResponseEntity.badRequest().body("Chỉ hỗ trợ file .doc hoặc .docx");
             }
 
-            // Tạo tên lưu: timestamp + tên sạch (giữ ngữ nghĩa)
             String baseName = originalName.substring(0, originalName.lastIndexOf('.'));
             String ext = originalName.substring(originalName.lastIndexOf('.'));
             String safeName = System.currentTimeMillis() + "_" + baseName;
@@ -122,7 +117,6 @@ public class BookController {
             }
             safeName += ext;
 
-            // Lưu file
             Path uploadPath = Paths.get(UPLOAD_DIR);
             try {
                 Files.createDirectories(uploadPath);
@@ -139,7 +133,6 @@ public class BookController {
         return ResponseEntity.ok(book);
     }
 
-    // ==================== ✏️ CẬP NHẬT SÁCH (HỖ TRỢ FILE) ====================
     @PutMapping("/book/{id}")
     @ResponseBody
     public ResponseEntity<?> updateBook(
@@ -165,7 +158,6 @@ public class BookController {
             } catch (NumberFormatException ignored) {}
         }
 
-        // ✅ Xử lý file mới
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
             if (originalName == null || originalName.isEmpty()) {
@@ -178,7 +170,6 @@ public class BookController {
                 return ResponseEntity.badRequest().body("Chỉ hỗ trợ file .doc hoặc .docx");
             }
 
-            // Xóa file cũ
             if (existing.getWordFileName() != null) {
                 try {
                     Path oldPath = Paths.get(UPLOAD_DIR).resolve(existing.getWordFileName());
@@ -186,7 +177,6 @@ public class BookController {
                 } catch (IOException ignored) {}
             }
 
-            // Lưu file mới
             String baseName = originalName.substring(0, originalName.lastIndexOf('.'));
             String ext = originalName.substring(originalName.lastIndexOf('.'));
             String safeName = System.currentTimeMillis() + "_" + baseName;
@@ -213,7 +203,6 @@ public class BookController {
         return ResponseEntity.ok(existing);
     }
 
-    // ==================== 🗑️ XÓA SÁCH ====================
     @DeleteMapping("/book/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteBook(@PathVariable("id") int id) {

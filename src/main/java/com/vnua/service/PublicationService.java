@@ -37,4 +37,15 @@ public class PublicationService {
     public List<String> getAuthors() {
         return publicationMapper.getAuthors();
     }
+
+    public void updatePublicationStatus(int pubId, int status) {
+        if (pubId <= 0) {
+            throw new IllegalArgumentException("ID bài báo không hợp lệ: " + pubId);
+        }
+        publicationMapper.updateStatus(pubId, status);
+    }
+
+    public List<Publication> getPublicationsByStatus(int status) {
+        return publicationMapper.findByStatus(status);
+    }
 }

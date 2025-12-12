@@ -1,64 +1,69 @@
-<!DOCTYPE HTML>
-<html lang="vi" >
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <link rel="stylesheet" th:href="@{/css/profile.css}" />
-    <link rel="stylesheet" th:href="@{/css/background.css}" />
-    <link rel="stylesheet" th:href="@{/css/edit.css}" />
-    <link rel="stylesheet" th:href="@{/css/delete.css}" />
-    <link rel="stylesheet" th:href="@{/css/message.css}" />
+    <meta charset="UTF-8">
+    <title>Quản lý giảng viên</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <div class="user-container">
-        <form action="/index/profile" method="GET" class="search-container">
-            <input type="text" name="name" th:value="${param.name}" placeholder="👤 Tìm theo họ tên">
-            <input type="text" name="dept" th:value="${param.dept}" placeholder="🏢 Tìm theo bộ phận">
-            <input type="text" name="role" th:value="${param.role}" placeholder="🎓 Tìm theo chức vụ">
-            <button type="submit">🔍 Tìm kiếm</button>
-        </form>
-        <div class="user-list">
-            <div class="user-card" th:each="user : ${users}">
-                <img class="avatar" src="/images/avatar.png" alt="avatar">
-                <div class="info">
-                    <p><strong>👤 Họ tên:</strong> <span th:text="${user.username}">Tên</span></p>
-                    <p><strong>🎓 Chức vụ:</strong> <span th:text="${user.remark}">Chức vụ</span></p>
-                    <p><strong>🏢 Bộ phận:</strong> <span th:text="${user.email}">Email</span></p>
-                </div>
-                <div class="actions">
-                    <a th:href="@{'/index/profile/info' + ${user.username}}" class="btn btn-info">Thông tin</a>
-                    <a href="javascript:void(0);" class="btn btn-edit" onclick="showEditForm(this)">Sửa</a>
-                    <a href="javascript:void(0);" class="btn btn-delete" th:attr="data-id=${user.user_id}" onclick="showDeleteConfirm(this)">Xóa</a>
-                </div>
-                <form th:action="@{/index/profile/update}" method="post" th:id="'form-' + ${user.username}" style="display: none;">
-                    <input type="hidden" name="username" th:value="${user.username}" />
-                    <p><strong>👤 Họ tên:</strong> <input type="text" name="fullname" th:value="${user.username}" /></p>
-                    <p><strong>🎓 Chức vụ:</strong> <input type="text" name="position" th:value="${user.remark}" /></p>
-                    <p><strong>🏢 Bộ phận:</strong> <input type="text" name="department" th:value="${user.remark}" /></p>
-                    <p><strong>📝 Ghi chú:</strong> <input type="text" name="remark" th:value="${user.remark}" /></p>
-                    <button type="submit" class="btn btn-save">💾 Lưu</button>
-                    <button type="button" class="btn btn-cancel" onclick="cancelEdit(this)">❌ Hủy</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div id="deleteConfirmBox" class="confirm-box" style="display: none;">
-        <div class="confirm-content">
-            <p>❗ Bạn có chắc chắn muốn xóa người dùng này?</p>
-            <button onclick="confirmDeleteYes()">✅ Có</button>
-            <button onclick="confirmDeleteNo()">❌ Không</button>
-        </div>
-    </div>
-    <div class="message-box">
-        <div class="alert alert-success" th:if="${success}" th:text="${success}"></div>
-        <div class="alert alert-error" th:if="${error}" th:text="${error}"></div>
+<div class="container">
+    <div class="header">
+        <h1>👨‍🏫 Quản lý lý lịch giảng viên</h1>
+        <a href="/index/profile/add" class="btn">➕ Thêm giảng viên</a>
     </div>
 
-    <script th:src="@{/js/profile.js}"></script>
-    <script th:src="@{/js/edit.js}"></script>
-    <script th:src="@{/js/delete.js}"></script>
-    <script th:src="@{/js/message.js}"></script>
+    <!-- Hiển thị thông báo -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- Form tìm kiếm -->
+    <form class="search-form" method="get">
+        <input type="text" name="name" placeholder="Họ tên..." th:value="${searchName}">
+        <input type="text" name="role" placeholder="Phòng ban..." th:value="${searchRole}">
+        <input type="text" name="delFlag" placeholder="Trạng thái..." th:value="${searchdelFlag}">
+        <button type="submit" class="btn">🔍 Tìm kiếm</button>
+    </form>
+
+    <!-- Bảng dữ liệu -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên đăng nhập</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Phòng ban</th>
+            <th>Loại</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.user_id}"></td>
+            <td th:text="${user.login_name}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <span th:if="${user.delFlag == 0}" >Hoạt động </span>
+                <span th:unless="${user.delFlag == 0} " style="color: red;">Bị khóa</span>
+            </td>
+            <td th:text="${user.delFlag}"></td>
+            <td>
+                <span th:if="${user.userType == 99}" style="color: red;">Admin</span>
+                <span th:unless="${user.userType == 99}">User</span>
+            </td>
+            <td>
+                <a th:href="@{/index/profile/edit(login_name=${user.login_name})}" class="btn">Sửa</a>
+                <a th:href="@{/index/profile/del/{id}(id=${user.user_id})}"
+                   class="btn btn-red"
+                   onclick="return confirm('Xác nhận xóa?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

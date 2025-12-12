@@ -18,4 +18,8 @@ public interface PublicationMapper {
     Publication findById(int id);
 
     List<String> getAuthors();
+
+    void updateStatus(int pubId, int status);
+
+    List<Publication> findByStatus(int status);
 }

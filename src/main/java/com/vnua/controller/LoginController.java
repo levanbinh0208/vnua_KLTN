@@ -28,9 +28,9 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(SysUser user, RedirectAttributes redirectAttributes,
                                Model model ,HttpSession session) {
-        String loginname = user.getLoginname();
+        String login_name = user.getLogin_name();
         String password = user.getPassword();
-        user = loginMapper.findByUsernameAndPassword(loginname, password);
+        user = loginMapper.findByUsernameAndPassword(login_name, password);
         if (user == null) {
             redirectAttributes.addFlashAttribute("error", "Sai tài khoản hoặc mật khẩu");
             return "redirect:/login";
@@ -48,7 +48,7 @@ public class LoginController {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
 
         if (user != null) {
-            loginMapper.logFullName(user.getLoginname());
+            loginMapper.logFullName(user.getLogin_name());
             model.addAttribute("fullname", user.getUsername());
         } else {
             return "redirect:/login";
@@ -62,7 +62,7 @@ public class LoginController {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
 
         if (user != null) {
-            loginMapper.logFullName(user.getLoginname());
+            loginMapper.logFullName(user.getLogin_name());
             model.addAttribute("fullname", user.getUsername());
         } else {
             return "redirect:/login";
@@ -73,17 +73,36 @@ public class LoginController {
 
     @GetMapping("index/profile")
     public String showProfile(@RequestParam(required = false) String name,
-                              @RequestParam(required = false) String dept,
                               @RequestParam(required = false) String role,
+                              @RequestParam(required = false) String delFlag,
                               Model model,HttpSession session) {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
         if (user != null) {
-            List<SysUser> users = loginService.showProfile(name, dept, role);
+            List<SysUser> users = loginService.showProfile(name, role, delFlag);
             model.addAttribute("users", users);
         } else {
             return "redirect:/login";
         }
         return "profile";
+    }
+
+    @PostMapping("index/profile/edit")
+    public String updateProfile(
+            @ModelAttribute SysUser user,
+            RedirectAttributes redirectAttributes,
+            HttpSession session
+    ) {
+        SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
+        if (currentUser == null || currentUser.getUserType() != 99) {
+            return "redirect:/login";
+        }
+        try {
+            loginService.updateProfile(user);
+            redirectAttributes.addFlashAttribute("success", "✅ Cập nhật thông tin thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "❌ Lỗi khi cập nhật: " + e.getMessage());
+        }
+        return "redirect:/index/profile";
     }
 
     @GetMapping("/index/profile/del/{user_id}")
@@ -105,29 +124,34 @@ public class LoginController {
         return "redirect:/index/profile";
     }
 
+    @GetMapping("/index/profile/add")
+    public String showAddForm(Model model, HttpSession session) {
+        SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
+        if (currentUser == null || currentUser.getUserType() != 99) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", new SysUser());
+        return "addUser"; // → addUser.html
+    }
 
-//    @GetMapping("index/profile/edit")
-//    public String showEditProfile(@RequestParam String loginname, Model model,HttpSession session) {
-//        SysUser user = (SysUser) session.getAttribute("loggedInUser");
-//        if (user != null) {
-//            SysUser user1 = loginService.findUserByLoginname(loginname);
-//            model.addAttribute("user", user1);
-//        } else {
-//            return "redirect:/login";
-//        }
-//        return "editProfile";
-//    }
-//
-//    @PostMapping("index/profile/edit")
-//    public String updateProfile(@ModelAttribute SysUser user, Model model,HttpSession session) {
-//        SysUser user1 = (SysUser) session.getAttribute("loggedInUser");
-//        if (user1 != null) {
-//            loginService.updateProfile(user);
-//        } else {
-//            return "redirect:/login";
-//        }
-//        return "redirect:/index/profile";
-//    }
+    @PostMapping("/index/profile/add")
+    public String addUser(
+            @ModelAttribute SysUser user,
+            RedirectAttributes redirectAttributes,
+            HttpSession session
+    ) {
+        SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
+        if (currentUser == null || currentUser.getUserType() != 99) {
+            return "redirect:/login";
+        }
+        try {
+            loginService.insertUser(user);
+            redirectAttributes.addFlashAttribute("success", "✅ Thêm giảng viên thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "❌ Lỗi khi thêm: " + e.getMessage());
+        }
+        return "redirect:/index/profile";
+    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

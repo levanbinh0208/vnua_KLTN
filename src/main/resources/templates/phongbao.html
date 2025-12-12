@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý phòng ban</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🏢 Quản lý phòng ban</h1>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- Form thêm phòng ban -->
+    <form th:action="@{/phongban/add}" method="post" class="form-group" style="max-width: 400px;">
+        <label>Tên phòng ban mới</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" name="deptName" placeholder="VD: Khoa CNTT" required>
+            <button type="submit" class="btn">➕ Thêm</button>
+        </div>
+    </form>
+
+    <!-- Danh sách phòng ban -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên phòng ban</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="dept : ${depts}">
+            <td th:text="${dept.deptId}">1</td>
+            <td>
+                <form th:action="@{/phongban/update}" method="post" style="display: inline;">
+                    <input type="hidden" name="deptId" th:value="${dept.deptId}">
+                    <input type="text" name="deptName" th:value="${dept.deptName}" style="width: 200px;">
+                    <button type="submit" class="btn" style="padding: 4px 8px;">Lưu</button>
+                </form>
+            </td>
+            <td>
+                <a th:href="@{/phongban/delete/{id}(id=${dept.deptId})}"
+                   class="btn btn-red"
+                   onclick="return confirm('Xóa phòng ban này? (Sẽ xóa tất cả giảng viên trong phòng ban!)')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -45,4 +45,16 @@
         SELECT DISTINCT authors FROM publication
     </select>
 
+    <update id="updateStatus">
+        UPDATE publication
+        SET status = #{status}
+        WHERE pub_id = #{pubId}
+    </update>
+
+    <select id="findByStatus" resultType="com.vnua.model.Publication">
+        SELECT *
+        FROM publication
+        WHERE status = #{status}
+        ORDER BY pub_id DESC
+    </select>
 </mapper>

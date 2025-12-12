@@ -13,28 +13,41 @@ public class LoginService {
     @Autowired
     private LoginMapper loginMapper;
 
-    public SysUser findByUsernameAndPassword(String loginname, String password) {
-        return loginMapper.findByUsernameAndPassword(loginname, password);
+    public SysUser findByUsernameAndPassword(String login_name, String password) {
+        return loginMapper.findByUsernameAndPassword(login_name, password);
     }
-    public SysUser logFullName(String loginname) {
-        return loginMapper.logFullName(loginname);
+
+    public SysUser logFullName(String login_name) {
+        return loginMapper.logFullName(login_name);
     }
 
     public void updateLoginDate(int user_id) {
-         loginMapper.updateLoginDate(user_id);
+        loginMapper.updateLoginDate(user_id);
     }
 
-    public List<SysUser> showProfile(String name, String dept, String role) {
-        return loginMapper.showProfile(name, dept, role);
+    public List<SysUser> showProfile(String name, String role, String delFlag) {
+        return loginMapper.showProfile(name, role, delFlag);
     }
 
-    public int del(int user_id){
+    public int del(int user_id) {
         return loginMapper.del(user_id);
     }
 
-//    public SysUser updateProfile(String name, String dept, String role) {
-//        return loginMapper.updateProfile(name, dept, role);
-//    }
+    public SysUser findUserByLoginName(String loginName) {
+        return loginMapper.findByLoginname(loginName);
+    }
 
+    public void updateProfile(SysUser user) {
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            SysUser existing = loginMapper.findByLoginname(user.getLogin_name());
+            if (existing != null) {
+                user.setPassword(existing.getPassword());
+            }
+        }
+        loginMapper.updateProfile(user);
+    }
 
+    public void insertUser(SysUser user) {
+        loginMapper.insertUser(user);
+    }
 }

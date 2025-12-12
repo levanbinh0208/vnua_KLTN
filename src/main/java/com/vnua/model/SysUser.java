@@ -2,12 +2,30 @@ package com.vnua.model;
 
 public class SysUser {
     private int user_id;
-    private String loginname;
+    private String login_name;
     private String password;
     private String username;
     private String remark;
     private  String email;
     private int userType;
+    private String role;
+    private String delFlag;
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public int getUserType() {
         return userType;
@@ -41,12 +59,12 @@ public class SysUser {
         this.user_id = id;
     }
 
-    public String getLoginname() {
-        return loginname;
+    public String getLogin_name() {
+        return login_name;
     }
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname;
+    public void setLogin_name(String login_name) {
+        this.login_name = login_name;
     }
 
     public String getPassword() {

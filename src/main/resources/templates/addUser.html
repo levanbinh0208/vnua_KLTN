@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm giảng viên</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>➕ Thêm giảng viên mới</h1>
+        <a href="/index/profile" class="btn">⬅️ Quay lại</a>
+    </div>
+
+    <form th:action="@{/index/profile/add}" method="post">
+        <div class="form-group">
+            <label>Tên đăng nhập *</label>
+            <input type="text" name="login_name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Họ tên *</label>
+            <input type="text" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label>Mật khẩu *</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phòng ban</label>
+            <input type="text" name="dept">
+        </div>
+
+        <div class="form-group">
+            <label>Vai trò</label>
+            <input type="text" name="role">
+        </div>
+
+        <div class="form-group">
+            <label>Loại tài khoản</label>
+            <select name="userType">
+                <option value="1">Giảng viên</option>
+                <option value="2">Trưởng bộ môn</option>
+                <option value="99">Admin</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">✅ Thêm</button>
+    </form>
+</div>
+</body>
+</html>

@@ -38,14 +38,14 @@ public class PublicationService {
         return publicationMapper.getAuthors();
     }
 
-    public void updatePublicationStatus(int pubId, int status) {
+    public void updateStatus(int pubId, int status) {
         if (pubId <= 0) {
             throw new IllegalArgumentException("ID bài báo không hợp lệ: " + pubId);
         }
         publicationMapper.updateStatus(pubId, status);
     }
 
-    public List<Publication> getPublicationsByStatus(int status) {
-        return publicationMapper.findByStatus(status);
+    public List<Publication> getByStatus(int status) {
+        return publicationMapper.getByStatus(status);
     }
 }

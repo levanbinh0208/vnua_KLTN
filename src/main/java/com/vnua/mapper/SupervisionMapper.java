@@ -14,4 +14,6 @@ public interface SupervisionMapper {
     void updateSupervision(Supervision sup);
 
     void deleteSupervision(int id);
+
+    void updateStatus(int id, int status);
 }

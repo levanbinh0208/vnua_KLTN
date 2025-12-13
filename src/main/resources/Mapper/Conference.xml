@@ -36,4 +36,17 @@
     <select id="findById" resultMap="ConferenceResultMap">
         SELECT * FROM conference WHERE conf_id = #{confId}
     </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Conference">
+        SELECT * FROM conference WHERE status = #{status}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE conference SET status = #{status} WHERE conf_id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM conference WHERE status = #{status}
+    </select>
+
 </mapper>

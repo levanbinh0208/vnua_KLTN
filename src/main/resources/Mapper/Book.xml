@@ -41,4 +41,17 @@
     <select id="findById" resultMap="BookResultMap">
         SELECT * FROM book WHERE book_id=#{bookId}
     </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Book">
+        SELECT * FROM book WHERE status = #{status}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE book SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM book WHERE status = #{status}
+    </select>
+
 </mapper>

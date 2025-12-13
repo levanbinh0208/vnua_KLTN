@@ -22,4 +22,6 @@ public interface PublicationMapper {
     void updateStatus(int pubId, int status);
 
     List<Publication> findByStatus(int status);
+
+    List<Publication> getByStatus(int status);
 }

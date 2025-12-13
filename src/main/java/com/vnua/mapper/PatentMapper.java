@@ -16,4 +16,7 @@ public interface PatentMapper {
 
     Patent findById(int id);
 
+    List<Patent> getByStatus(int status);
+
+    void updateStatus(int id, int status);
 }

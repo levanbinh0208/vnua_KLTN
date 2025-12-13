@@ -36,4 +36,14 @@ public class ConferenceService {
         conferenceMapper.deleteConference(id);
     }
 
+    public List<Conference> getByStatus(int status) {
+        return conferenceMapper.getByStatus(status);
+    }
+
+    public void updateStatus(int id, int status) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID không hợp lệ: " + id);
+        }
+        conferenceMapper.updateStatus(id, status);
+    }
 }

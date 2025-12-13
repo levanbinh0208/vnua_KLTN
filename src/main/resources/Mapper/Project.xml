@@ -39,4 +39,17 @@
     <select id="getProjectById" resultMap="ProjectResultMap">
         SELECT * FROM project WHERE project_id=#{projectId}
     </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Project">
+        SELECT * FROM project WHERE status = #{status}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE project SET status = #{status} WHERE project_id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM project WHERE status = #{status}
+    </select>
+
 </mapper>

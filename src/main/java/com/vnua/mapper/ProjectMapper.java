@@ -14,4 +14,8 @@ public interface ProjectMapper {
     void updateProject(Project project);
 
     void deleteProject(int id);
+
+    List<Project> getByStatus(int status);
+
+    void updateStatus(int id, int status);
 }

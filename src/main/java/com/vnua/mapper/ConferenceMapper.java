@@ -15,4 +15,8 @@ public interface ConferenceMapper {
     void updateConference(Conference conf);
 
     void deleteConference(int id);
+
+    List<Conference> getByStatus(int status);
+
+    void updateStatus(int id, int status);
 }

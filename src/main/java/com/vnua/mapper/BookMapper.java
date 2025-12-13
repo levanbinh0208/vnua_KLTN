@@ -14,4 +14,8 @@ public interface BookMapper {
     void updateBook(Book book);
 
     void deleteBook(int id);
+
+    List<Book> getByStatus(int status);
+
+    void updateStatus(int id, int status);
 }

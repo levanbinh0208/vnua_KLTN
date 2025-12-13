@@ -37,4 +37,17 @@
     <select id="getSupervisionById" resultMap="SupervisionResultMap">
         SELECT * FROM supervision WHERE sup_id=#{supId}
     </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Supervision">
+        SELECT * FROM supervision WHERE status = #{status}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE supervision SET status = #{status} WHERE sup_id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM supervision WHERE status = #{status}
+    </select>
+
 </mapper>

@@ -34,4 +34,14 @@ public class SupervisionService {
         supervisionMapper.insertSupervision(sup);
     }
 
+    public Object getByStatus(int i) {
+        return null;
+    }
+
+    public void updateStatus(int id, int status) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID không hợp lệ: " + id);
+        }
+        supervisionMapper.updateStatus(id, status);
+    }
 }

@@ -51,6 +51,10 @@
         WHERE pub_id = #{pubId}
     </update>
 
+    <select id="getByStatus" resultMap="PublicationResultMap">
+        SELECT * FROM publication WHERE status = #{status}
+    </select>
+
     <select id="findByStatus" resultType="com.vnua.model.Publication">
         SELECT *
         FROM publication

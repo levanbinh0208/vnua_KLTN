@@ -17,35 +17,115 @@
         <result property="createdAt" column="created_at"/>
     </resultMap>
 
-    <select id="countUsers" resultType="int">
-        SELECT COUNT(*) FROM sys_user
-        WHERE del_flag = 0 AND user_type != 99
-    </select>
-
+    <!-- ✅ Bài báo -->
     <select id="countPublications" resultType="int">
         SELECT COUNT(*) FROM publication
     </select>
-
     <select id="countPendingPublications" resultType="int">
-        SELECT COUNT(*) FROM publication
-        WHERE status = 0
+        SELECT COUNT(*) FROM publication WHERE ISNULL(status, 0) = 0
     </select>
 
+    <!-- ✅ Đề tài -->
+    <select id="countProjects" resultType="int">
+        SELECT COUNT(*) FROM project
+    </select>
+    <select id="countPendingProjects" resultType="int">
+        SELECT COUNT(*) FROM project WHERE ISNULL(status, 0) = 0
+    </select>
+
+    <!-- ✅ Hội thảo -->
+    <select id="countConferences" resultType="int">
+        SELECT COUNT(*) FROM conference
+    </select>
+    <select id="countPendingConferences" resultType="int">
+        SELECT COUNT(*) FROM conference WHERE ISNULL(status, 0) = 0
+    </select>
+
+    <!-- ✅ Sách -->
+    <select id="countBooks" resultType="int">
+        SELECT COUNT(*) FROM book
+    </select>
+    <select id="countPendingBooks" resultType="int">
+        SELECT COUNT(*) FROM book WHERE ISNULL(status, 0) = 0
+    </select>
+
+    <!-- ✅ Bằng sáng chế -->
+    <select id="countPatents" resultType="int">
+        SELECT COUNT(*) FROM patent
+    </select>
+    <select id="countPendingPatents" resultType="int">
+        SELECT COUNT(*) FROM patent WHERE ISNULL(status, 0) = 0
+    </select>
+
+    <!-- ✅ Hướng dẫn -->
+    <select id="countSupervisions" resultType="int">
+        SELECT COUNT(*) FROM supervision
+    </select>
+    <select id="countPendingSupervisions" resultType="int">
+        SELECT COUNT(*) FROM supervision WHERE ISNULL(status, 0) = 0
+    </select>
+
+    <!-- ✅ Thống kê theo phòng ban (tất cả loại) -->
     <select id="getPublicationsByDept" resultType="map">
         SELECT
-        u.email AS dept,
-        COUNT(*) AS cnt
+            u.email AS dept,
+            COUNT(*) AS cnt
         FROM publication p
-        JOIN sys_user u ON p.user_id = u.user_id
+                 JOIN sys_user u ON p.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
         GROUP BY u.email
     </select>
 
+    <select id="getProjectsByDept" resultType="map">
+        SELECT
+            u.email AS dept,
+            COUNT(*) AS cnt
+        FROM project p
+                 JOIN sys_user u ON p.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
+        GROUP BY u.email
+    </select>
+
+    <!-- ✅ Thống kê theo năm (chỉ publication & project) -->
     <select id="getPublicationsByYear" resultType="map">
         SELECT
-            CAST(p.year AS VARCHAR) AS year,
+            CAST(year AS VARCHAR) AS year,
             COUNT(*) AS cnt
-        FROM publication p
-        GROUP BY p.year
-        ORDER BY p.year DESC
+        FROM publication
+        WHERE year IS NOT NULL
+        GROUP BY year
+        ORDER BY year DESC
+    </select>
+
+    <select id="getConferencesByDept" resultType="map">
+        SELECT u.email AS dept, COUNT(*) AS cnt
+        FROM conference c
+                 JOIN sys_user u ON c.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
+        GROUP BY u.email
+    </select>
+
+    <select id="getBooksByDept" resultType="map">
+        SELECT u.email AS dept, COUNT(*) AS cnt
+        FROM book b
+                 JOIN sys_user u ON b.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
+        GROUP BY u.email
+    </select>
+
+    <select id="getPatentsByDept" resultType="map">
+        SELECT u.email AS dept, COUNT(*) AS cnt
+        FROM patent p
+                 JOIN sys_user u ON p.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
+        GROUP BY u.email
+    </select>
+
+    <select id="getSupervisionsByDept" resultType="map">
+        SELECT u.email AS dept, COUNT(*) AS cnt
+        FROM supervision s
+                 JOIN sys_user u ON s.user_id = u.user_id
+        WHERE ISNULL(u.del_flag, 0) = 0
+        GROUP BY u.email
     </select>
 </mapper>

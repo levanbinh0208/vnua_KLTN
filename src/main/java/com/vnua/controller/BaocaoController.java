@@ -21,11 +21,26 @@ public class BaocaoController {
             return "redirect:/login";
         }
 
-        model.addAttribute("totalUsers", statisticService.countUsers());
         model.addAttribute("totalPublications", statisticService.countPublications());
+        model.addAttribute("totalProjects", statisticService.countProjects());
+        model.addAttribute("totalConferences", statisticService.countConferences());
+        model.addAttribute("totalBooks", statisticService.countBooks());
+        model.addAttribute("totalPatents", statisticService.countPatents());
+        model.addAttribute("totalSupervisions", statisticService.countSupervisions());
+
         model.addAttribute("pendingPublications", statisticService.countPendingPublications());
+        model.addAttribute("pendingProjects", statisticService.countPendingProjects());
+        model.addAttribute("pendingConferences", statisticService.countPendingConferences());
+        model.addAttribute("pendingBooks", statisticService.countPendingBooks());
+        model.addAttribute("pendingPatents", statisticService.countPendingPatents());
+        model.addAttribute("pendingSupervisions", statisticService.countPendingSupervisions());
+
         model.addAttribute("publicationsByDept", statisticService.getPublicationsByDept());
-        model.addAttribute("publicationsByYear", statisticService.getPublicationsByYear());
+        model.addAttribute("projectsByDept", statisticService.getProjectsByDept());
+        model.addAttribute("conferencesByDept", statisticService.getConferencesByDept());
+        model.addAttribute("booksByDept", statisticService.getBooksByDept());
+        model.addAttribute("patentsByDept", statisticService.getPatentsByDept());
+        model.addAttribute("supervisionsByDept", statisticService.getSupervisionsByDept());
 
         return "baocao";
     }

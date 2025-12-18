@@ -8,6 +8,14 @@ public class Supervision {
     private String level;
     private Integer year;
     private String wordFileName;
+    private Integer deptId;
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }

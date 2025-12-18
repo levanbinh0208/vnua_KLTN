@@ -1,26 +1,204 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Trang chủ - ADMIN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        /* Notification bell button */
+        .notification-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .btn-notification {
+            position: relative;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+            padding: 12px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .btn-notification:hover {
+            background: #f8f9fa;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 7px;
+            border-radius: 12px;
+            min-width: 20px;
+            text-align: center;
+            display: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 400px;
+            max-height: 500px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 1001;
+            overflow: hidden;
+        }
+        .notification-dropdown.show {
+            display: block;
+        }
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        .notification-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .btn-text {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-text:hover {
+            text-decoration: underline;
+        }
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification-empty {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+        }
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+        .notification-item.unread {
+            background: #e7f3ff;
+        }
+        .notification-item.unread:hover {
+            background: #d4eaff;
+        }
+        .notification-icon {
+            font-size: 24px;
+            margin-right: 12px;
+            padding: 8px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            flex-shrink: 0;
+        }
+        .notification-icon.approved {
+            background: #d4edda;
+        }
+        .notification-icon.rejected {
+            background: #f8d7da;
+        }
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .notification-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #333;
+        }
+        .notification-message {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+        .notification-time {
+            font-size: 12px;
+            color: #999;
+        }
+        .notification-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .notification-item:hover .notification-delete {
+            opacity: 1;
+        }
+        .notification-delete:hover {
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
+
+<!-- Notification Bell (góc trên phải) -->
+<div class="notification-container">
+    <button id="notification-button" class="btn-notification" onclick="toggleNotificationDropdown()">
+        <i class="fas fa-bell"></i>
+        <span id="notification-badge" class="notification-badge">0</span>
+    </button>
+
+    <div id="notification-dropdown" class="notification-dropdown">
+        <div class="notification-header">
+            <h4>Thông báo</h4>
+            <button onclick="markAllAsRead()" class="btn-text">Đánh dấu tất cả đã đọc</button>
+        </div>
+        <div id="notification-list" class="notification-list">
+            <div class="notification-empty">Đang tải thông báo...</div>
+        </div>
+    </div>
+</div>
 
 <div class="main-container">
     <div class="left-panel">
         <p>Xin chào, <b th:text="${fullname}"></b>!</p>
-            <ul>
-                <li><a href="index/profile">✔️ Quản lý lý lịch giảng viên</a></li>
-                <li><a href="/duyet">✔️ Duyệt và cập nhật thông tin</a></li>
-                <li><a href="/baocao">✔️ Xem báo cáo thống kê</a></li>
-                <li><a href="/phongban">✔️ Quản lý phòng ban</a></li>
-                <li><a href="/taikhoan">✔️ Quản lý tài khoản</a></li>
-            </ul>
-            <form action="/logout" method="get">
-                <button class="logout-btn" type="submit">🚪 Đăng xuất</button>
-            </form>
+        <ul>
+            <li><a href="index/profile">✔️ Quản lý lý lịch giảng viên</a></li>
+            <li><a href="/duyet">✔️ Duyệt và cập nhật thông tin</a></li>
+            <li><a href="/baocao">✔️ Xem báo cáo thống kê</a></li>
+            <li><a href="/phongban">✔️ Quản lý phòng ban</a></li>
+            <li><a href="/taikhoan">✔️ Quản lý tài khoản</a></li>
+        </ul>
+        <form action="/logout" method="get">
+            <button class="logout-btn" type="submit">🚪 Đăng xuất</button>
+        </form>
     </div>
     <div class="right-panel">
         <h1>HỌC VIỆN<br>NÔNG NGHIỆP VIỆT NAM</h1>
@@ -28,8 +206,10 @@
         <img src="/images/logo.png" alt="logo" style="width: 120px; margin-top: 20px;">
     </div>
 </div>
+
 <link rel="stylesheet" th:href="@{/css/teacher.css}" />
 <link rel="stylesheet" th:href="@{/css/background.css}" />
 <script th:src="@{/js/login.js}"></script>
+<script th:src="@{/js/notification.js}"></script>
 </body>
 </html>

@@ -81,14 +81,14 @@ public class ConferenceController {
             @RequestPart("title") String title,
             @RequestPart(value = "location", required = false) String location,
             @RequestPart(value = "date", required = false) String date,
-            @RequestPart(value = "role", required = false) String role,
+            @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
     ) {
         Conference conf = new Conference();
         conf.setTitle(title);
         conf.setLocation(location);
         conf.setDate(date);
-        conf.setRole(role);
+        conf.setDeptId(deptId);
 
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
@@ -133,7 +133,7 @@ public class ConferenceController {
             @RequestPart("title") String title,
             @RequestPart(value = "location", required = false) String location,
             @RequestPart(value = "date", required = false) String date,
-            @RequestPart(value = "role", required = false) String role,
+            @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile,
             @RequestPart(value = "wordFileName", required = false) String currentFileName
     ) {
@@ -145,7 +145,7 @@ public class ConferenceController {
         existing.setTitle(title);
         existing.setLocation(location);
         existing.setDate(date);
-        existing.setRole(role);
+        existing.setDeptId(deptId);
 
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();

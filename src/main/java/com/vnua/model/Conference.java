@@ -1,15 +1,21 @@
 package com.vnua.model;
 
-import java.time.LocalDate;
-
 public class Conference {
     private Integer confId;
     private Integer userId;
+    private Integer deptId;
     private String title;
     private String location;
     private String date;
-    private String role;
     private String wordFileName;
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
@@ -54,11 +60,4 @@ public class Conference {
         this.date = date;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.NotificationMapper">
+
+    <resultMap id="NotificationResultMap" type="com.vnua.model.Notification">
+        <id property="notificationId" column="notification_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="refId" column="ref_id"/>
+        <result property="title" column="title"/>
+        <result property="message" column="message"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- Lấy tất cả thông báo của user -->
+    <select id="getNotificationsByUserId" parameterType="int" resultMap="NotificationResultMap">
+        SELECT
+            notification_id,
+            user_id,
+            type,
+            ref_id,
+            title,
+            message,
+            status,
+            created_at
+        FROM notification
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Lấy thông báo chưa đọc của user -->
+    <select id="getUnreadNotifications" parameterType="int" resultMap="NotificationResultMap">
+        SELECT
+            notification_id,
+            user_id,
+            type,
+            ref_id,
+            title,
+            message,
+            status,
+            created_at
+        FROM notification
+        WHERE user_id = #{userId} AND status = 0
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Đếm số thông báo chưa đọc -->
+    <select id="countUnreadNotifications" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM notification
+        WHERE user_id = #{userId} AND status = 0
+    </select>
+
+    <!-- Thêm thông báo mới -->
+    <insert id="insertNotification" parameterType="com.vnua.model.Notification"
+            useGeneratedKeys="true" keyProperty="notificationId">
+        INSERT INTO notification (
+            user_id,
+            type,
+            ref_id,
+            title,
+            message,
+            status,
+            created_at
+        ) VALUES (
+                     #{userId},
+                     #{type},
+                     #{refId},
+                     #{title},
+                     #{message},
+                     #{status},
+                     GETDATE()
+                 )
+    </insert>
+
+    <!-- Đánh dấu thông báo đã đọc -->
+    <update id="markAsRead" parameterType="int">
+        UPDATE notification
+        SET status = 1
+        WHERE notification_id = #{notificationId}
+    </update>
+
+    <update id="markAllAsRead" parameterType="int">
+        UPDATE notification
+        SET status = 1
+        WHERE user_id = #{userId} AND status = 0
+    </update>
+
+    <!-- Xóa thông báo -->
+    <delete id="deleteNotification" parameterType="int">
+        DELETE FROM notification
+        WHERE notification_id = #{notificationId}
+    </delete>
+
+</mapper>

@@ -79,14 +79,14 @@ public class ProjectController {
     @ResponseBody
     public ResponseEntity<?> insertProject(
             @RequestPart("name") String name,
-            @RequestPart(value = "role", required = false) String role,
+            @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "startDate", required = false) String startDate,
             @RequestPart(value = "endDate", required = false) String endDate,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
     ) {
         Project project = new Project();
         project.setName(name);
-        project.setRole(role);
+        project.setDeptId(deptId);
         project.setStartDate(startDate);
         project.setEndDate(endDate);
 
@@ -131,7 +131,7 @@ public class ProjectController {
     public ResponseEntity<?> updateProject(
             @PathVariable("id") int id,
             @RequestPart("name") String name,
-            @RequestPart(value = "role", required = false) String role,
+            @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "startDate", required = false) String startDate,
             @RequestPart(value = "endDate", required = false) String endDate,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile,
@@ -143,7 +143,7 @@ public class ProjectController {
         }
 
         existing.setName(name);
-        existing.setRole(role);
+        existing.setDeptId(deptId);
         existing.setStartDate(startDate);
         existing.setEndDate(endDate);
 

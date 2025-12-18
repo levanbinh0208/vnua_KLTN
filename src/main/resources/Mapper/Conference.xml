@@ -10,22 +10,41 @@
         <result property="title" column="title"/>
         <result property="location" column="location"/>
         <result property="date" column="date" jdbcType="VARCHAR"/>
-        <result property="role" column="role"/>
+        <result property="deptId" column="dept_id"/>
         <result property="wordFileName" column="word_File_Name"/>
+        <result property="userName" column="user_name"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="deptName" column="dept_name"/>
     </resultMap>
 
     <select id="getConferences" resultMap="ConferenceResultMap">
-        SELECT * FROM dbo.conference
+        SELECT
+            c.conf_id,
+            c.user_id,
+            c.dept_id,
+            c.title,
+            c.location,
+            c.date,
+            c.word_file_name,
+            c.status,
+            c.reject_reason,
+            u.user_name as userName,
+            u.email as userEmail,
+            d.dept_name
+        FROM conference c
+                 LEFT JOIN sys_user u ON c.user_id = u.user_id
+                 LEFT JOIN dept d ON c.dept_id = d.dept_id
+        ORDER BY c.conf_id DESC
     </select>
 
     <insert id="insertConference" parameterType="com.vnua.model.Conference">
-        INSERT INTO dbo.conference (conf_id, user_id, title, location, date, role,word_File_Name)
-        VALUES (#{confId}, #{userId}, #{title}, #{location}, #{date}, #{role},#{wordFileName})
+        INSERT INTO dbo.conference (user_id,dept_id,title,location,date,word_file_name,status)
+        VALUES ( #{userId},#{deptId}, #{title},#{location},#{date}, #{wordFileName},#{status})
     </insert>
 
     <update id="updateConference" parameterType="com.vnua.model.Conference">
         UPDATE dbo.conference
-        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, role=#{role},word_File_Name=#{wordFileName}
+        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, dept_Id=#{deptId},word_File_Name=#{wordFileName}
         WHERE conf_id=#{confId}
     </update>
 
@@ -38,7 +57,24 @@
     </select>
 
     <select id="getByStatus" resultType="com.vnua.model.Conference">
-        SELECT * FROM conference WHERE status = #{status}
+        SELECT
+            c.conf_id,
+            c.user_id,
+            c.dept_id,
+            c.title,
+            c.location,
+            c.date,
+            c.word_file_name,
+            c.status,
+            c.reject_reason,
+            u.user_name as userName,
+            u.email as userEmail,
+            d.dept_name
+        FROM conference c
+                 LEFT JOIN sys_user u ON c.user_id = u.user_id
+                 LEFT JOIN dept d ON c.dept_id = d.dept_id
+        WHERE c.status = #{status}
+        ORDER BY c.conf_id DESC
     </select>
 
     <update id="updateStatus">

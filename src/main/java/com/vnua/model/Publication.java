@@ -11,6 +11,14 @@ public class Publication {
     private String url;
     private java.util.Date createdAt;
     private String wordFileName;
+    private Integer deptId;
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }

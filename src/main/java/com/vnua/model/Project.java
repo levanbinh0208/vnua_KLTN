@@ -11,8 +11,15 @@ public class Project {
     private String description;
     private String startDate;
     private String endDate;
-    private String role;
     private String wordFileName;
+    private Integer deptId;
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
@@ -65,11 +72,4 @@ public class Project {
         this.endDate = endDate;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

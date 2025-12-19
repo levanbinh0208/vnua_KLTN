@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.ConferenceMapper">
+    <resultMap id="ConferenceResultMap" type="com.vnua.model.Conference">
+        <id property="confId" column="conf_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="location" column="location"/>
+        <result property="date" column="date" jdbcType="VARCHAR"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="wordFileName" column="word_File_Name"/>
+        <result property="userName" column="user_name"/>
+        <result property="role" column="role"/>
+        <result property="userEmail" column="user_email"/>
+    </resultMap>
+
+    <select id="getConferences" resultMap="ConferenceResultMap">
+        SELECT
+            c.conf_id,
+            c.user_id,
+            c.dept_id,
+            c.title,
+            c.location,
+            c.date,
+            c.word_file_name,
+            c.status,
+            c.role,
+            c.reject_reason,
+            u.user_name as userName,
+            u.email as userEmail,
+            d.dept_name
+        FROM conference c
+                 LEFT JOIN sys_user u ON c.user_id = u.user_id
+                 LEFT JOIN dept d ON c.dept_id = d.dept_id
+        ORDER BY c.conf_id DESC
+    </select>
+
+    <insert id="insertConference" parameterType="com.vnua.model.Conference">
+        INSERT INTO dbo.conference (user_id,dept_id,title,location,date,word_file_name,status,role)
+        VALUES ( #{userId},#{deptId}, #{title},#{location},#{date}, #{wordFileName},#{status},#{role})
+    </insert>
+
+    <update id="updateConference" parameterType="com.vnua.model.Conference">
+        UPDATE dbo.conference
+        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, dept_Id=#{deptId},word_File_Name=#{wordFileName},role=#{role}
+        WHERE conf_id=#{confId}
+    </update>
+
+    <delete id="deleteConference" parameterType="int">
+        DELETE FROM dbo.conference WHERE conf_id=#{confId}
+    </delete>
+
+    <select id="findById" resultMap="ConferenceResultMap">
+        SELECT * FROM conference WHERE conf_id = #{confId}
+    </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Conference">
+        SELECT
+            c.conf_id,
+            c.user_id,
+            c.dept_id,
+            c.title,
+            c.location,
+            c.date,
+            c.word_file_name,
+            c.status,
+            c.reject_reason,
+            u.user_name as userName,
+            u.email as userEmail,
+            d.dept_name
+        FROM conference c
+                 LEFT JOIN sys_user u ON c.user_id = u.user_id
+                 LEFT JOIN dept d ON c.dept_id = d.dept_id
+        WHERE c.status = #{status}
+        ORDER BY c.conf_id DESC
+    </select>
+
+    <update id="updateStatus">
+        UPDATE conference SET status = #{status} WHERE conf_id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM conference WHERE status = #{status}
+    </select>
+
+</mapper>

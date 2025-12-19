@@ -1,0 +1,77 @@
+* { margin:0; padding:0; box-sizing:border-box; font-family:Segoe UI, sans-serif; }
+body { background:#fafafa; color:#333; }
+
+.header {
+    background:#fff; padding:12px 20px; display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid #eee;
+}
+.header input { padding:6px 10px; border:1px solid #ddd; border-radius:6px; }
+
+.container { display:flex; padding:20px; gap:20px; }
+.sidebar { min-width:200px; }
+.sidebar ul { list-style:none; }
+.sidebar button {
+    display:block; width:100%; text-align:left; padding:10px 12px; margin-bottom:6px;
+    border:none; border-radius:8px; background:#fff; cursor:pointer;
+}
+.sidebar button:hover { background:#ffe5e5; }
+.sidebar button.active { background:#e63946; color:#fff; }
+
+.main { flex:1; }
+
+.tab-panel table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; }
+th, td { padding:10px; border:1px solid #eee; font-size:14px; }
+th { background:#fafafa; color:#e63946; font-weight:600; text-align:left; }
+tr:hover { background:#fff4f4; }
+
+.btn { padding:6px 12px; border-radius:8px; cursor:pointer; font-size:14px; }
+.btn-primary { background:#e63946; color:#fff; border:none; }
+.btn-primary:hover { background:#c62828; }
+.btn-export { background:#2ec4b6; border:1px solid #fff; }
+.btn-export:hover { background:#219a8b; }
+.btn-import {background: #8e24aa;color: #fff;}
+.btn-import:hover {background: #6a1b9a;}
+
+.modal.hidden { display:none; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; }
+.modal-box { background:#fff; padding:20px; border-radius:12px; width:400px; max-width:95%; }
+.modal-box h3 { margin-bottom:10px; color:#e63946; }
+.grid { display:grid; gap:10px; margin-bottom:15px; }
+.grid input, .grid textarea { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; }
+.actions { display:flex; justify-content:flex-end; gap:10px; }
+.hidden { display:none; }
+
+td button {
+    margin: 0 3px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+td button[data-action="edit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+td button[data-action="edit"]:hover {
+    background-color: #45a049;
+}
+
+td button[data-action="delete"] {
+    background-color: #f44336;
+    color: white;
+}
+td button[data-action="delete"]:hover {
+    background-color: #da190b;
+}
+
+
+td button[data-action="download"] {
+    background-color: #2196F3;
+    color: white;
+}
+td button[data-action="download"]:hover {
+    background-color: #0b7dda;
+}

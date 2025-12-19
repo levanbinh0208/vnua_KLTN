@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bảng điều khiển Giảng viên — ScienceCV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" th:href="@{/css/indexUser.css}" />
+  <style>
+    /* Notification Styles */
+    .btn-notification {
+      position: relative;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+      padding: 8px 12px;
+      margin-right: 10px;
+    }
+    .btn-notification:hover {
+      background: #f0f0f0;
+      border-radius: 50%;
+    }
+    .notification-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #dc3545;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+      display: none;
+    }
+    .notification-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      width: 400px;
+      max-height: 500px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+    }
+    .notification-dropdown.show {
+      display: block;
+    }
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      background: #f8f9fa;
+    }
+    .notification-header h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .btn-text {
+      background: none;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-text:hover {
+      text-decoration: underline;
+    }
+    .notification-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .notification-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #999;
+    }
+    .notification-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 15px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .notification-item:hover {
+      background: #f8f9fa;
+    }
+    .notification-item.unread {
+      background: #e7f3ff;
+    }
+    .notification-item.unread:hover {
+      background: #d4eaff;
+    }
+    .notification-icon {
+      font-size: 24px;
+      margin-right: 12px;
+      padding: 8px;
+      border-radius: 50%;
+      background: #f0f0f0;
+      flex-shrink: 0;
+    }
+    .notification-icon.approved {
+      background: #d4edda;
+    }
+    .notification-icon.rejected {
+      background: #f8d7da;
+    }
+    .notification-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .notification-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #333;
+    }
+    .notification-message {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.4;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .notification-time {
+      font-size: 12px;
+      color: #999;
+    }
+    .notification-delete {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .notification-item:hover .notification-delete {
+      opacity: 1;
+    }
+    .notification-delete:hover {
+      color: #dc3545;
+    }
+    .notification-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .notification-list::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .notification-list::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+    .notification-list::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+  </style>
+</head>
+<body>
+<!-- Header -->
+<header class="header">
+  <strong>Hệ thống quản lý</strong>
+  <div>
+    <!-- Nút thông báo -->
+    <button id="notification-button" class="btn-notification" onclick="toggleNotificationDropdown()">
+      <i class="fas fa-bell"></i>
+      <span id="notification-badge" class="notification-badge">0</span>
+    </button>
+
+    <!-- Dropdown thông báo -->
+    <div id="notification-dropdown" class="notification-dropdown">
+      <div class="notification-header">
+        <h4>Thông báo</h4>
+        <button onclick="markAllAsRead()" class="btn-text">Đánh dấu tất cả đã đọc</button>
+      </div>
+      <div id="notification-list" class="notification-list">
+        <div class="notification-empty">Đang tải thông báo...</div>
+      </div>
+    </div>
+
+    <input id="search" type="text" placeholder="Tìm kiếm...">
+    <button id="btn-add" class="btn btn-primary">+ Thêm mới</button>
+    <button onclick="window.location.href='/logout'" class="btn btn-primary">
+      Đăng xuất
+    </button>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul>
+      <li><button class="tab-btn active" data-tab="publication">Bài báo</button></li>
+      <li><button class="tab-btn" data-tab="project">Đề tài</button></li>
+      <li><button class="tab-btn" data-tab="conference">Hội thảo</button></li>
+      <li><button class="tab-btn" data-tab="book">Sách</button></li>
+      <li><button class="tab-btn" data-tab="patent">Bằng sáng chế</button></li>
+      <li><button class="tab-btn" data-tab="supervision">Hướng dẫn</button></li>
+    </ul>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Bài báo -->
+    <section id="tab-publication" class="tab-panel">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Tác giả</th><th>Tạp chí</th><th>Năm</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-publication"></tbody>
+      </table>
+    </section>
+
+    <!-- Đề tài -->
+    <section id="tab-project" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tên đề tài</th><th>Vai trò</th><th>Bắt đầu</th><th>Kết thúc</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-project"></tbody>
+      </table>
+    </section>
+
+    <!-- Hội thảo -->
+    <section id="tab-conference" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Địa điểm</th><th>Ngày</th><th>Vai trò</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-conference"></tbody>
+      </table>
+    </section>
+
+    <!-- Sách -->
+    <section id="tab-book" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tựa sách</th><th>NXB</th><th>Năm</th><th>ISBN</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-book"></tbody>
+      </table>
+    </section>
+
+    <!-- Bằng sáng chế -->
+    <section id="tab-patent" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Tiêu đề</th><th>Số bằng</th><th>Năm</th><th>Trạng thái</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-patent"></tbody>
+      </table>
+    </section>
+
+    <!-- Hướng dẫn -->
+    <section id="tab-supervision" class="tab-panel hidden">
+      <table>
+        <thead>
+        <tr>
+          <th>#</th><th>Sinh viên</th><th>Bậc</th><th>Đề tài</th><th>Năm</th><th>Thao tác</th>
+        </tr>
+        </thead>
+        <tbody id="tbody-supervision"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <h3 id="modal-title"></h3>
+    <form id="modal-form">
+      <div id="modal-fields" class="grid"></div>
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <button type="button" data-close class="btn btn-outline">Đóng</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script th:src="@{/js/indexUser.js}"></script>
+<script th:src="@{/js/notification.js}"></script>
+</body>
+</html>

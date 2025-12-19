@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.DeptMapper">
+
+    <select id="getAllDepts" resultType="com.vnua.model.Dept">
+        SELECT dept_id AS deptId, dept_name AS deptName
+        FROM dept
+        ORDER BY dept_name
+    </select>
+
+    <insert id="insertDept" parameterType="string">
+        INSERT INTO dept (dept_name)
+        VALUES (#{deptName})
+    </insert>
+
+    <update id="updateDept" parameterType="com.vnua.model.Dept">
+        UPDATE dept
+        SET dept_name = #{deptName}
+        WHERE dept_id = #{deptId}
+    </update>
+
+    <delete id="deleteDept" parameterType="int">
+        DELETE FROM dept
+        WHERE dept_id = #{deptId}
+    </delete>
+
+</mapper>

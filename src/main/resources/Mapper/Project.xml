@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.ProjectMapper">
+
+    <resultMap id="ProjectResultMap" type="com.vnua.model.Project">
+        <id property="projectId" column="project_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="role" column="role"/>
+        <result property="wordFileName" column="word_File_Name"/>
+    </resultMap>
+
+    <select id="getAllProjects" resultMap="ProjectResultMap">
+        SELECT * FROM project
+    </select>
+
+    <insert id="insertProject" parameterType="com.vnua.model.Project">
+        INSERT INTO project ( user_id, name, description, start_date, end_date, role,word_File_Name)
+        VALUES ( #{userId}, #{name}, #{description},   #{startDate, jdbcType=DATE},
+         #{endDate, jdbcType=DATE}, #{role},#{wordFileName})
+    </insert>
+
+    <update id="updateProject" parameterType="com.vnua.model.Project">
+        UPDATE project
+        SET user_id=#{userId}, name=#{name}, description=#{description}, start_date = #{startDate, jdbcType=DATE},
+        end_date   = #{endDate, jdbcType=DATE}, role=#{role},word_File_Name = #{wordFileName}
+        WHERE project_id=#{projectId}
+    </update>
+
+    <delete id="deleteProject" parameterType="int">
+        DELETE FROM project WHERE project_id=#{projectId}
+    </delete>
+
+    <select id="getProjectById" resultMap="ProjectResultMap">
+        SELECT * FROM project WHERE project_id=#{projectId}
+    </select>
+
+    <select id="getByStatus" parameterType="int"  resultMap="ProjectResultMap">
+        SELECT b.project_id
+        ,b.user_id
+        ,name
+        ,description
+        ,start_date
+        ,end_date
+        ,word_file_name
+        ,status
+        ,reject_reason
+        ,b.dept_id,b.role
+        ,u.user_name, u.email as user_email, d.dept_name FROM project b LEFT JOIN
+        sys_user u ON b.user_id = u.user_id LEFT JOIN dept d ON b.dept_id = d.dept_id WHERE b.status = #{status}
+        ORDER BY b.[project_id] DESC
+    </select>
+
+    <update id="updateStatus">
+        UPDATE project SET status = #{status} WHERE project_id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM project WHERE status = #{status}
+    </select>
+
+</mapper>

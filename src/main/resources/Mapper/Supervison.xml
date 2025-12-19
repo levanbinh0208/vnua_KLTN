@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.SupervisionMapper">
+
+    <resultMap id="SupervisionResultMap" type="com.vnua.model.Supervision">
+        <id property="supId" column="sup_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="studentName" column="student_name"/>
+        <result property="thesisTitle" column="thesis_title"/>
+        <result property="level" column="level"/>
+        <result property="year" column="year"/>
+        <result property="wordFileName" column="word_file_name"/>
+        <result property="status" column="status"/>
+        <result property="rejectReason" column="reject_reason"/>
+        <result property="userName" column="user_name"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
+    <select id="getSupervisions" resultMap="SupervisionResultMap">
+        SELECT
+        s.sup_id,
+        s.user_id,
+        s.dept_id,
+        s.student_name,
+        s.thesis_title,
+        s.level,
+        s.year,
+        s.word_file_name,
+        s.status,
+        s.reject_reason,
+        u.user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM supervision s
+        LEFT JOIN sys_user u ON s.user_id = u.user_id
+        LEFT JOIN dept d ON s.dept_id = d.dept_id
+        ORDER BY s.sup_id DESC
+    </select>
+
+    <select id="getSupervisionById" parameterType="int" resultMap="SupervisionResultMap">
+        SELECT
+        s.sup_id,
+        s.user_id,
+        s.dept_id,
+        s.student_name,
+        s.thesis_title,
+        s.level,
+        s.year,
+        s.word_file_name,
+        s.status,
+        s.reject_reason,
+        u.user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM supervision s
+        LEFT JOIN sys_user u ON s.user_id = u.user_id
+        LEFT JOIN dept d ON s.dept_id = d.dept_id
+        WHERE s.sup_id = #{id}
+    </select>
+
+    <select id="getByStatus" parameterType="int" resultMap="SupervisionResultMap">
+        SELECT
+        s.sup_id,
+        s.user_id,
+        s.dept_id,
+        s.student_name,
+        s.thesis_title,
+        s.level,
+        s.year,
+        s.status,
+        s.reject_reason,
+        u.user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM supervision s
+        LEFT JOIN sys_user u ON s.user_id = u.user_id
+        LEFT JOIN dept d ON s.dept_id = d.dept_id
+        WHERE s.status = #{status}
+        ORDER BY s.sup_id DESC
+    </select>
+
+    <insert id="insertSupervision" parameterType="com.vnua.model.Supervision"
+            useGeneratedKeys="true" keyProperty="supId">
+        INSERT INTO supervision (
+        user_id,
+        dept_id,
+        student_name,
+        thesis_title,
+        level,
+        year,
+        word_file_name,
+        status
+        ) VALUES (
+        #{userId},
+        #{deptId},
+        #{studentName},
+        #{thesisTitle},
+        #{level},
+        #{year},
+        #{wordFileName},
+        #{status}
+        )
+    </insert>
+
+    <update id="updateSupervision" parameterType="com.vnua.model.Supervision">
+        UPDATE supervision
+        SET
+        user_id = #{userId},
+        dept_id = #{deptId},
+        student_name = #{studentName},
+        thesis_title = #{thesisTitle},
+        level = #{level},
+        year = #{year},
+        word_file_name = #{wordFileName},
+        status = #{status},
+        reject_reason = #{rejectReason}
+        WHERE sup_id = #{supId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE supervision
+        SET status = #{status}
+        WHERE sup_id = #{id}
+    </update>
+
+    <delete id="deleteSupervision" parameterType="int">
+        DELETE FROM supervision
+        WHERE sup_id = #{id}
+    </delete>
+
+</mapper>

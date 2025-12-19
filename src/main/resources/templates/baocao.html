@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Báo cáo thống kê toàn diện</title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .stat-card { background: white; padding: 16px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-align: center; }
+    .stat-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; color: #2c3e50; }
+    .stat-value { font-size: 2.2rem; font-weight: 700; color: #3498db; margin: 5px 0; }
+    .stat-pending { font-size: 0.9rem; color: #e74c3c; }
+
+    /* Tab */
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .tab-btn {
+      padding: 10px 16px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { background: #d0d0d0; }
+    .tab-btn.active { background: #3498db; color: white; }
+
+    /* Chart */
+    .chart-section { margin-top: 30px; }
+    .chart-container { display: none; }
+    .chart-container.active { display: block; }
+    .chart-title { margin: 15px 0 10px; color: #2c3e50; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📊 Báo cáo thống kê toàn diện</h1>
+    <p>Cập nhật lúc: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"></span></p>
+  </div>
+
+  <!-- 📊 Tổng quan -->
+  <div class="section">
+    <h2 class="section-title">📈 Tổng quan theo loại</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px;">
+      <div class="stat-card">
+        <div class="stat-title">📑 Bài báo</div>
+        <div class="stat-value" th:text="${totalPublications} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingPublications} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">🎯 Đề tài</div>
+        <div class="stat-value" th:text="${totalProjects} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingProjects} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">🎤 Hội thảo</div>
+        <div class="stat-value" th:text="${totalConferences} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingConferences} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">📚 Sách</div>
+        <div class="stat-value" th:text="${totalBooks} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingBooks} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">🔬 Bằng SC</div>
+        <div class="stat-value" th:text="${totalPatents} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingPatents} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">🎓 Hướng dẫn</div>
+        <div class="stat-value" th:text="${totalSupervisions} ?: 0">0</div>
+        <div class="stat-pending" th:text="'⏳ ' + (${pendingSupervisions} ?: 0) + ' chờ duyệt'">⏳ 0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔁 Tab biểu đồ -->
+  <div class="chart-section">
+    <h2 class="section-title">📊 Biểu đồ theo phòng ban</h2>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="publication">📑 Bài báo</button>
+      <button class="tab-btn" data-tab="project">🎯 Đề tài</button>
+      <button class="tab-btn" data-tab="conference">🎤 Hội thảo</button>
+      <button class="tab-btn" data-tab="book">📚 Sách</button>
+      <button class="tab-btn" data-tab="patent">🔬 Bằng SC</button>
+      <button class="tab-btn" data-tab="supervision">🎓 Hướng dẫn</button>
+    </div>
+
+    <!-- 6 biểu đồ -->
+    <div class="chart-container active" id="tab-publication">
+      <h3 class="chart-title">📈 Bài báo theo phòng ban</h3>
+      <canvas id="chart-publication" height="100"></canvas>
+    </div>
+    <div class="chart-container" id="tab-project">
+      <h3 class="chart-title">📈 Đề tài theo phòng ban</h3>
+      <canvas id="chart-project" height="100"></canvas>
+    </div>
+    <div class="chart-container" id="tab-conference">
+      <h3 class="chart-title">📈 Hội thảo theo phòng ban</h3>
+      <canvas id="chart-conference" height="100"></canvas>
+    </div>
+    <div class="chart-container" id="tab-book">
+      <h3 class="chart-title">📈 Sách theo phòng ban</h3>
+      <canvas id="chart-book" height="100"></canvas>
+    </div>
+    <div class="chart-container" id="tab-patent">
+      <h3 class="chart-title">📈 Bằng sáng chế theo phòng ban</h3>
+      <canvas id="chart-patent" height="100"></canvas>
+    </div>
+    <div class="chart-container" id="tab-supervision">
+      <h3 class="chart-title">📈 Hướng dẫn theo phòng ban</h3>
+      <canvas id="chart-supervision" height="100"></canvas>
+    </div>
+  </div>
+</div>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  const deptData = {
+    publication: [[${publicationsByDept}]],
+    project: [[${projectsByDept}]],
+    conference: [[${conferencesByDept}]],
+    book: [[${booksByDept}]],
+    patent: [[${patentsByDept}]],
+    supervision: [[${supervisionsByDept}]]
+  };
+  /*]]>*/
+
+  const renderedCharts = {};
+
+  function renderChart(tab) {
+    if (renderedCharts[tab]) return;
+
+    const canvasId = 'chart-' + tab;
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    const data = deptData[tab] || [];
+    const labels = data.map(i => i.dept ?? 'Khác');
+    const values = data.map(i => Number(i.cnt) || 0);
+
+    renderedCharts[tab] = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: 'rgba(52,152,219,0.7)',
+          borderColor: '#2980b9',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // render tab đầu tiên
+    renderChart('publication');
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // active tab
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.chart-container').forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.getElementById('tab-' + tab).classList.add('active');
+
+        // vẽ chart khi click
+        setTimeout(() => renderChart(tab), 50);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

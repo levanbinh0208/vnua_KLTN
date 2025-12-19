@@ -1,0 +1,110 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+.user-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 75%;
+    height: 75%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.user-card {
+    width: calc(33% - 10px);
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fafafa;
+    transition: transform 0.2s;
+    box-sizing: border-box;
+}
+
+
+/*.user-card:hover {*/
+/*    transform: scale(1.01);*/
+/*}*/
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 2px solid #ccc;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+.search-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 ô input + 1 nút */
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-container input,
+.search-container button {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.search-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.actions .btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    width: 90px;
+}
+
+.btn-info { background-color: #17a2b8; color: white; }
+.btn-edit { background-color: #ffc107; color: black; }
+.btn-delete { background-color: #dc3545; color: white; }
+/*.btn:hover { opacity: 0.9; }*/
+
+

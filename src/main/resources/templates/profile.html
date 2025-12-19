@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý giảng viên</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>👨‍🏫 Quản lý lý lịch giảng viên</h1>
+        <a href="/index/profile/add" class="btn">➕ Thêm giảng viên</a>
+    </div>
+
+    <!-- Hiển thị thông báo -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- Form tìm kiếm -->
+    <form class="search-form" method="get">
+        <input type="text" name="name" placeholder="Họ tên..." th:value="${searchName}">
+        <input type="text" name="role" placeholder="Phòng ban..." th:value="${searchRole}">
+        <input type="text" name="delFlag" placeholder="Trạng thái..." th:value="${searchdelFlag}">
+        <button type="submit" class="btn">🔍 Tìm kiếm</button>
+    </form>
+
+    <!-- Bảng dữ liệu -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên đăng nhập</th>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Phòng ban</th>
+            <th>Loại</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.user_id}"></td>
+            <td th:text="${user.login_name}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <span th:if="${user.delFlag == 0}" >Hoạt động </span>
+                <span th:unless="${user.delFlag == 0} " style="color: red;">Bị khóa</span>
+            </td>
+            <td th:text="${user.delFlag}"></td>
+            <td>
+                <span th:if="${user.userType == 99}" style="color: red;">Admin</span>
+                <span th:unless="${user.userType == 99}">User</span>
+            </td>
+            <td>
+                <a th:href="@{/index/profile/edit(login_name=${user.login_name})}" class="btn">Sửa</a>
+                <a th:href="@{/index/profile/del/{id}(id=${user.user_id})}"
+                   class="btn btn-red"
+                   onclick="return confirm('Xác nhận xóa?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

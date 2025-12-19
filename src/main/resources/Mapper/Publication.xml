@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.PublicationMapper">
+
+    <resultMap id="PublicationResultMap" type="com.vnua.model.Publication">
+        <id property="pubId" column="pub_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="title" column="title"/>
+        <result property="authors" column="authors"/>
+        <result property="journal" column="journal"/>
+        <result property="year" column="year"/>
+        <result property="abstract_" column="abstract"/>
+        <result property="url" column="url"/>
+        <result property="wordFileName" column="word_file_name"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="status" column="status"/>
+        <result property="rejectReason" column="reject_reason"/>
+        <result property="userName" column="user_name"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
+    <select id="getAllPublications" resultMap="PublicationResultMap">
+        SELECT
+        p.pub_id,
+        p.user_id,
+        p.dept_id,
+        p.title,
+        p.authors,
+        p.journal,
+        p.year,
+        p.abstract,
+        p.url,
+        p.word_file_name,
+        p.created_at,
+        p.status,
+        p.reject_reason,
+        u.user_name as user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM publication p
+        LEFT JOIN sys_user u ON p.user_id = u.user_id
+        LEFT JOIN dept d ON p.dept_id = d.dept_id
+        ORDER BY p.pub_id DESC
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="PublicationResultMap">
+        SELECT
+        p.pub_id,
+        p.user_id,
+        p.dept_id,
+        p.title,
+        p.authors,
+        p.journal,
+        p.year,
+        p.abstract,
+        p.url,
+        p.word_file_name,
+        p.created_at,
+        p.status,
+        p.reject_reason,
+        u.user_name as user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM publication p
+        LEFT JOIN sys_user u ON p.user_id = u.user_id
+        LEFT JOIN dept d ON p.dept_id = d.dept_id
+        WHERE p.pub_id = #{id}
+    </select>
+
+    <select id="getByStatus" parameterType="int" resultMap="PublicationResultMap">
+        SELECT
+        p.pub_id,
+        p.user_id,
+        p.dept_id,
+        p.title,
+        p.authors,
+        p.journal,
+        p.year,
+        p.status,
+        p.reject_reason,
+        u.user_name as user_name,
+        u.email as user_email,
+        d.dept_name
+        FROM publication p
+        LEFT JOIN sys_user u ON p.user_id = u.user_id
+        LEFT JOIN dept d ON p.dept_id = d.dept_id
+        WHERE p.status = #{status}
+        ORDER BY p.pub_id DESC
+    </select>
+
+    <insert id="insertPublication" parameterType="com.vnua.model.Publication"
+            useGeneratedKeys="true" keyProperty="pubId">
+        INSERT INTO publication ( user_id,
+        dept_id,
+        title,
+        authors,
+        journal,
+        year,
+        abstract,
+        url,
+        word_file_name,
+        status,
+        created_at
+        ) VALUES (
+        #{userId},
+        #{deptId},
+        #{title},
+        #{authors},
+        #{journal},
+        #{year},
+        #{abstract_},
+        #{url},
+        #{wordFileName},
+        #{status},
+        GETDATE()
+        )
+    </insert>
+
+    <update id="updatePublication" parameterType="com.vnua.model.Publication">
+        UPDATE publication
+        SET
+        user_id = #{userId},
+        dept_id = #{deptId},
+        title = #{title},
+        authors = #{authors},
+        journal = #{journal},
+        year = #{year},
+        abstract = #{abstract_},
+        url = #{url},
+        word_file_name = #{wordFileName},
+        status = #{status},
+        reject_reason = #{rejectReason}
+        WHERE pub_id = #{pubId}
+    </update>
+
+    <update id="updateStatus">
+        UPDATE publication
+        SET status = #{status}
+        WHERE pub_id = #{id}
+    </update>
+
+    <delete id="deletePublication" parameterType="int">
+        DELETE FROM publication
+        WHERE pub_id = #{id}
+    </delete>
+
+    <select id="getAuthors" resultType="String">
+        SELECT DISTINCT authors
+        FROM publication
+        WHERE authors IS NOT NULL
+        ORDER BY authors
+    </select>
+
+</mapper>

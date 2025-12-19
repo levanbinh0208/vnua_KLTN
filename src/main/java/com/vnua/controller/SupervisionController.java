@@ -1,9 +1,13 @@
 package com.vnua.controller;
 
 import com.vnua.model.Supervision;
+<<<<<<< HEAD
 import com.vnua.model.SysUser;
 import com.vnua.service.SupervisionService;
 import jakarta.servlet.http.HttpSession;
+=======
+import com.vnua.service.SupervisionService;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -86,6 +90,7 @@ public class SupervisionController {
             @RequestPart(value = "thesisTitle", required = false) String thesisTitle,
             @RequestPart(value = "year", required = false) String yearStr,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
+<<<<<<< HEAD
             , HttpSession session
     ) {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
@@ -95,6 +100,10 @@ public class SupervisionController {
         Supervision sup = new Supervision();
         sup.setUserId(user.getUser_id());
         sup.setDeptId(user.getDeptId());
+=======
+    ) {
+        Supervision sup = new Supervision();
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         sup.setStudentName(studentName);
         sup.setLevel(level);
         sup.setThesisTitle(thesisTitle);

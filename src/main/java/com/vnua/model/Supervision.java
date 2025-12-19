@@ -3,12 +3,16 @@ package com.vnua.model;
 public class Supervision {
     private Integer supId;
     private Integer userId;
+<<<<<<< HEAD
     private Integer deptId;
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     private String studentName;
     private String thesisTitle;
     private String level;
     private Integer year;
     private String wordFileName;
+<<<<<<< HEAD
     private Integer status;
     private String rejectReason;
 
@@ -40,10 +44,21 @@ public class Supervision {
 
     public Integer getYear() { return year; }
     public void setYear(Integer year) { this.year = year; }
+=======
+    private Integer deptId;
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
+<<<<<<< HEAD
     public Integer getStatus() { return status; }
     public void setStatus(Integer status) { this.status = status; }
 
@@ -67,5 +82,53 @@ public class Supervision {
             case 2: return "Từ chối";
             default: return "Chưa xác định";
         }
+=======
+    public Integer getSupId() {
+        return supId;
+    }
+
+    public void setSupId(Integer supId) {
+        this.supId = supId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getThesisTitle() {
+        return thesisTitle;
+    }
+
+    public void setThesisTitle(String thesisTitle) {
+        this.thesisTitle = thesisTitle;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     }
 }

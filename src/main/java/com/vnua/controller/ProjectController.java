@@ -1,9 +1,13 @@
 package com.vnua.controller;
 
 import com.vnua.model.Project;
+<<<<<<< HEAD
 import com.vnua.model.SysUser;
 import com.vnua.service.ProjectService;
 import jakarta.servlet.http.HttpSession;
+=======
+import com.vnua.service.ProjectService;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -84,6 +88,7 @@ public class ProjectController {
             @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "startDate", required = false) String startDate,
             @RequestPart(value = "endDate", required = false) String endDate,
+<<<<<<< HEAD
             @RequestPart(value = "role", required = false) String role,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
             , HttpSession session
@@ -99,6 +104,15 @@ public class ProjectController {
         project.setRole(role);
         project.setUserId(user.getUser_id());
         project.setDeptId(user.getDeptId());
+=======
+            @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
+    ) {
+        Project project = new Project();
+        project.setName(name);
+        project.setDeptId(deptId);
+        project.setStartDate(startDate);
+        project.setEndDate(endDate);
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
@@ -141,7 +155,10 @@ public class ProjectController {
     public ResponseEntity<?> updateProject(
             @PathVariable("id") int id,
             @RequestPart("name") String name,
+<<<<<<< HEAD
             @RequestPart(value = "role", required = false) String role,
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
             @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "startDate", required = false) String startDate,
             @RequestPart(value = "endDate", required = false) String endDate,
@@ -157,7 +174,11 @@ public class ProjectController {
         existing.setDeptId(deptId);
         existing.setStartDate(startDate);
         existing.setEndDate(endDate);
+<<<<<<< HEAD
         existing.setRole(role);
+=======
+
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
             if (originalName == null || originalName.isEmpty()) {

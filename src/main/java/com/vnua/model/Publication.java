@@ -1,15 +1,22 @@
 package com.vnua.model;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 public class Publication {
     private Integer pubId;
     private Integer userId;
     private Integer deptId;
+=======
+public class Publication {
+    private Integer pubId;
+    private Integer userId;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     private String title;
     private String authors;
     private String journal;
     private Integer year;
+<<<<<<< HEAD
     private String abstract_;
     private String url;
     private String wordFileName;
@@ -26,6 +33,23 @@ public class Publication {
     }
 
     // Getters and Setters
+=======
+    private String abstractText;
+    private String url;
+    private java.util.Date createdAt;
+    private String wordFileName;
+    private Integer deptId;
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getWordFileName() { return wordFileName; }
+    public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     public Integer getPubId() {
         return pubId;
     }
@@ -42,6 +66,7 @@ public class Publication {
         this.userId = userId;
     }
 
+<<<<<<< HEAD
     public Integer getDeptId() {
         return deptId;
     }
@@ -50,6 +75,8 @@ public class Publication {
         this.deptId = deptId;
     }
 
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     public String getTitle() {
         return title;
     }
@@ -82,12 +109,21 @@ public class Publication {
         this.year = year;
     }
 
+<<<<<<< HEAD
     public String getAbstract_() {
         return abstract_;
     }
 
     public void setAbstract_(String abstract_) {
         this.abstract_ = abstract_;
+=======
+    public String getAbstractText() {
+        return abstractText;
+    }
+
+    public void setAbstractText(String abstractText) {
+        this.abstractText = abstractText;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     }
 
     public String getUrl() {
@@ -98,6 +134,7 @@ public class Publication {
         this.url = url;
     }
 
+<<<<<<< HEAD
     public String getWordFileName() {
         return wordFileName;
     }
@@ -168,3 +205,13 @@ public class Publication {
         }
     }
 }
+=======
+    public java.util.Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+    }
+}
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9

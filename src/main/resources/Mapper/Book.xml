@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+=======
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vnua.mapper.BookMapper">
@@ -7,11 +12,15 @@
     <resultMap id="BookResultMap" type="com.vnua.model.Book">
         <id property="bookId" column="book_id"/>
         <result property="userId" column="user_id"/>
+<<<<<<< HEAD
         <result property="deptId" column="dept_id"/>
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         <result property="title" column="title"/>
         <result property="publisher" column="publisher"/>
         <result property="year" column="year"/>
         <result property="isbn" column="isbn"/>
+<<<<<<< HEAD
         <result property="wordFileName" column="word_file_name"/>
         <result property="status" column="status"/>
         <result property="rejectReason" column="reject_reason"/>
@@ -134,3 +143,48 @@
     </delete>
 
 </mapper>
+=======
+        <result property="wordFileName" column="word_File_Name"/>
+    </resultMap>
+
+    <select id="getBooks" resultMap="BookResultMap">
+        SELECT * FROM book
+    </select>
+
+    <insert id="insertBook" parameterType="Book" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO book (title, publisher, year, isbn, word_file_name)
+        VALUES (#{title}, #{publisher}, #{year}, #{isbn}, #{wordFileName})
+    </insert>
+
+    <update id="updateBook" parameterType="Book">
+        UPDATE book
+        SET title = #{title},
+            publisher = #{publisher},
+            year = #{year},
+            isbn = #{isbn},
+            word_file_name = #{wordFileName}
+        WHERE book_id = #{bookId}
+    </update>
+
+    <delete id="deleteBook" parameterType="int">
+        DELETE FROM book WHERE book_id=#{bookId}
+    </delete>
+
+    <select id="findById" resultMap="BookResultMap">
+        SELECT * FROM book WHERE book_id=#{bookId}
+    </select>
+
+    <select id="getByStatus" resultType="com.vnua.model.Book">
+        SELECT * FROM book WHERE status = #{status}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE book SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM book WHERE status = #{status}
+    </select>
+
+</mapper>
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9

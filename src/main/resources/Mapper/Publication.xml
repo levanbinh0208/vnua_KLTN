@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
@@ -8,10 +9,21 @@
         <id property="pubId" column="pub_id"/>
         <result property="userId" column="user_id"/>
         <result property="deptId" column="dept_id"/>
+=======
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vnua.mapper.PublicationMapper">
+    <resultMap id="PublicationResultMap" type="com.vnua.model.Publication">
+        <id property="pubId" column="pub_id"/>
+        <result property="userId" column="user_id"/>
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         <result property="title" column="title"/>
         <result property="authors" column="authors"/>
         <result property="journal" column="journal"/>
         <result property="year" column="year"/>
+<<<<<<< HEAD
         <result property="abstract_" column="abstract"/>
         <result property="url" column="url"/>
         <result property="wordFileName" column="word_file_name"/>
@@ -118,10 +130,26 @@
         #{status},
         GETDATE()
         )
+=======
+        <result property="abstractText" column="abstract"/>
+        <result property="url" column="url"/>
+        <result property="wordFileName" column="word_File_Name"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+    <select id="getAllPublications" resultMap="PublicationResultMap">
+        SELECT * FROM publication
+    </select>
+
+    <insert id="insertPublication" parameterType="com.vnua.model.Publication">
+        INSERT INTO publication
+        ( title, authors, journal, year, abstract, url, word_File_Name, created_at)
+        VALUES (  #{title}, #{authors}, #{journal}, #{year}, #{abstractText}, #{url}, #{wordFileName}, #{createdAt})
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </insert>
 
     <update id="updatePublication" parameterType="com.vnua.model.Publication">
         UPDATE publication
+<<<<<<< HEAD
         SET
         user_id = #{userId},
         dept_id = #{deptId},
@@ -156,3 +184,39 @@
     </select>
 
 </mapper>
+=======
+        SET title=#{title}, authors=#{authors}, journal=#{journal}, year=#{year},
+            abstract= #{abstractText}, url=#{url}, word_File_Name=#{wordFileName}, created_at=#{createdAt}
+        WHERE pub_id=#{pubId}
+    </update>
+
+    <delete id="deletePublication" parameterType="int">
+        DELETE FROM publication WHERE pub_id=#{pubId}
+    </delete>
+
+    <select id="findById" resultMap="PublicationResultMap">
+        SELECT * FROM publication WHERE pub_id=#{pubId}
+    </select>
+
+    <select id="getAuthors" resultType="string">
+        SELECT DISTINCT authors FROM publication
+    </select>
+
+    <update id="updateStatus">
+        UPDATE publication
+        SET status = #{status}
+        WHERE pub_id = #{pubId}
+    </update>
+
+    <select id="getByStatus" resultMap="PublicationResultMap">
+        SELECT * FROM publication WHERE status = #{status}
+    </select>
+
+    <select id="findByStatus" resultType="com.vnua.model.Publication">
+        SELECT *
+        FROM publication
+        WHERE status = #{status}
+        ORDER BY pub_id DESC
+    </select>
+</mapper>
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9

@@ -1,5 +1,6 @@
 const qs = (s, el = document) => el.querySelector(s);
 const qsa = (s, el = document) => [...el.querySelectorAll(s)];
+<<<<<<< HEAD
 async function authFetch(url, options) {
     if (!options) options = {};
 
@@ -7,6 +8,8 @@ async function authFetch(url, options) {
 
     return fetch(url, options);
 }
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
 qsa('.tab-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
@@ -96,9 +99,15 @@ qs('#modal-form')?.addEventListener('submit', async e => {
             method = 'PUT';
         }
 
+<<<<<<< HEAD
         const res = await authFetch(url, {
             method,
             body: formData,
+=======
+        const res = await fetch(url, {
+            method,
+            body: formData
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         });
 
         if (!res.ok) {
@@ -199,7 +208,11 @@ function buildFields(tab, data = {}) {
 
 async function loadAuthorsList(selected = "") {
     try {
+<<<<<<< HEAD
         const res = await authFetch("/authors");
+=======
+        const res = await fetch("/authors");
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         if (!res.ok) throw new Error("Không thể tải danh sách tác giả!");
 
         const raw = await res.json();
@@ -229,7 +242,11 @@ async function loadAuthorsList(selected = "") {
 
 async function loadData(tab) {
     try {
+<<<<<<< HEAD
         const res = await authFetch(tab);
+=======
+        const res = await fetch(tab);
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         if (!res.ok) throw new Error('Không tải được dữ liệu từ server');
         const data = await res.json();
         const tb = qs("#tbody-" + tab);
@@ -280,11 +297,19 @@ function appendRow(tab, d, idx) {
         }
     });
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 function handleEdit(tab, row, rowIndex) {
     const id = row.dataset.id;
     if (!id) return alert("Không tìm thấy ID bản ghi!");
 
+<<<<<<< HEAD
     authFetch(`/${tab}/${id}`)
+=======
+    fetch(`/${tab}/${id}`)
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         .then(res => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             return res.json();
@@ -323,7 +348,11 @@ async function saveData(tab, data, method = 'POST', asyncReturn = false) {
     const id = data[idField] || data.id || '';
     const url = method === 'POST' ? `/${tab}` : `/${tab}/${id}`;
 
+<<<<<<< HEAD
     const res = await authFetch(url, {
+=======
+    const res = await fetch(url, {
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -339,7 +368,11 @@ async function saveData(tab, data, method = 'POST', asyncReturn = false) {
 }
 
 async function deleteData(tab, id) {
+<<<<<<< HEAD
     const res = await authFetch(`/${tab}/${id}`, { method: 'DELETE' });
+=======
+    const res = await fetch(`/${tab}/${id}`, { method: 'DELETE' });
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     if (!res.ok) throw new Error('Lỗi khi xóa dữ liệu!');
     return true;
 }

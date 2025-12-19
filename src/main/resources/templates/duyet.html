@@ -137,16 +137,27 @@
       <thead><tr><th>ID</th><th>Tựa sách</th><th>NXB</th><th>Năm</th><th>ISBN</th><th>Hành động</th></tr></thead>
       <tbody>
       <tr th:each="item : ${pendingBooks}">
+<<<<<<< HEAD
         <td th:text="${item.bookId}"></td>
+=======
+        <td th:text="${item.id}"></td>
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         <td th:text="${item.title}"></td>
         <td th:text="${item.publisher}"></td>
         <td th:text="${item.year}"></td>
         <td th:text="${item.isbn}"></td>
         <td>
+<<<<<<< HEAD
           <form th:action="@{/duyet/approve/book/{id}(id=${item.bookId})}" method="post" style="display:inline;">
             <button type="submit" class="btn btn-success" onclick="return confirm('Duyệt?')">✔️ Duyệt</button>
           </form>
           <form th:action="@{/duyet/reject/book/{id}(id=${item.bookId})}" method="post" style="display:inline;">
+=======
+          <form th:action="@{/duyet/approve/book/{id}(id=${item.id})}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-success" onclick="return confirm('Duyệt?')">✔️ Duyệt</button>
+          </form>
+          <form th:action="@{/duyet/reject/book/{id}(id=${item.id})}" method="post" style="display:inline;">
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
             <button type="submit" class="btn btn-red" onclick="return confirm('Từ chối?')">❌ Từ chối</button>
           </form>
         </td>

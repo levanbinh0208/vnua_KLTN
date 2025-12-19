@@ -1,10 +1,14 @@
 package com.vnua.controller;
 
 import com.vnua.model.Conference;
+<<<<<<< HEAD
 import com.vnua.model.Publication;
 import com.vnua.model.SysUser;
 import com.vnua.service.ConferenceService;
 import jakarta.servlet.http.HttpSession;
+=======
+import com.vnua.service.ConferenceService;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -85,6 +89,7 @@ public class ConferenceController {
             @RequestPart(value = "location", required = false) String location,
             @RequestPart(value = "date", required = false) String date,
             @RequestPart(value = "deptId", required = false) Integer deptId,
+<<<<<<< HEAD
             @RequestPart(value = "role", required = false) String role,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
             , HttpSession session
@@ -93,13 +98,21 @@ public class ConferenceController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+=======
+            @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
+    ) {
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         Conference conf = new Conference();
         conf.setTitle(title);
         conf.setLocation(location);
         conf.setDate(date);
+<<<<<<< HEAD
         conf.setRole(role);
         conf.setUserId(user.getUser_id());
         conf.setDeptId(user.getDeptId());
+=======
+        conf.setDeptId(deptId);
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();
@@ -144,7 +157,10 @@ public class ConferenceController {
             @RequestPart("title") String title,
             @RequestPart(value = "location", required = false) String location,
             @RequestPart(value = "date", required = false) String date,
+<<<<<<< HEAD
             @RequestPart(value = "role", required = false) String role,
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
             @RequestPart(value = "deptId", required = false) Integer deptId,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile,
             @RequestPart(value = "wordFileName", required = false) String currentFileName
@@ -158,7 +174,10 @@ public class ConferenceController {
         existing.setLocation(location);
         existing.setDate(date);
         existing.setDeptId(deptId);
+<<<<<<< HEAD
         existing.setRole(role);
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
         if (wordFile != null && !wordFile.isEmpty()) {
             String originalName = wordFile.getOriginalFilename();

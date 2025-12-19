@@ -10,6 +10,7 @@ public class SysUser {
     private int userType;
     private String role;
     private String delFlag;
+<<<<<<< HEAD
     private Integer deptId;
 
     public Integer getDeptId() {
@@ -19,6 +20,8 @@ public class SysUser {
     public void setDeptId(Integer deptId) {
         this.deptId = deptId;
     }
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
     public String getDelFlag() {
         return delFlag;

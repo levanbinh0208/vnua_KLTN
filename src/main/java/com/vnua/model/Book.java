@@ -1,14 +1,22 @@
 package com.vnua.model;
 
+<<<<<<< HEAD
 public class Book {
     private Integer bookId;
     private Integer userId;
     private Integer deptId;
+=======
+
+public class Book {
+    private Integer bookId;
+    private Integer userId;
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     private String title;
     private String publisher;
     private Integer year;
     private String isbn;
     private String wordFileName;
+<<<<<<< HEAD
     private Integer status;
     private String rejectReason;
 
@@ -39,10 +47,13 @@ public class Book {
 
     public String getIsbn() { return isbn; }
     public void setIsbn(String isbn) { this.isbn = isbn; }
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
     public String getWordFileName() { return wordFileName; }
     public void setWordFileName(String wordFileName) { this.wordFileName = wordFileName; }
 
+<<<<<<< HEAD
     public Integer getStatus() { return status; }
     public void setStatus(Integer status) { this.status = status; }
 
@@ -68,3 +79,54 @@ public class Book {
         }
     }
 }
+=======
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+}
+
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9

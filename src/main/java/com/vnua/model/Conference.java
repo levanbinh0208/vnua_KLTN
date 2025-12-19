@@ -8,6 +8,7 @@ public class Conference {
     private String location;
     private String date;
     private String wordFileName;
+<<<<<<< HEAD
     private String role;
 
     private String userName;
@@ -32,6 +33,8 @@ public class Conference {
     public void setRole(String role) {
         this.role = role;
     }
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 
     public Integer getDeptId() {
         return deptId;
@@ -84,6 +87,7 @@ public class Conference {
         this.date = date;
     }
 
+<<<<<<< HEAD
     public String getRejectReason() { return rejectReason; }
     public void setRejectReason(String rejectReason) { this.rejectReason = rejectReason; }
 
@@ -106,4 +110,6 @@ public class Conference {
         }
     }
 
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 }

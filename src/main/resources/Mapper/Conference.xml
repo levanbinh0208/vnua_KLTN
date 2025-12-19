@@ -13,8 +13,13 @@
         <result property="deptId" column="dept_id"/>
         <result property="wordFileName" column="word_File_Name"/>
         <result property="userName" column="user_name"/>
+<<<<<<< HEAD
         <result property="role" column="role"/>
         <result property="userEmail" column="user_email"/>
+=======
+        <result property="userEmail" column="user_email"/>
+        <result property="deptName" column="dept_name"/>
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </resultMap>
 
     <select id="getConferences" resultMap="ConferenceResultMap">
@@ -27,7 +32,10 @@
             c.date,
             c.word_file_name,
             c.status,
+<<<<<<< HEAD
             c.role,
+=======
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
             c.reject_reason,
             u.user_name as userName,
             u.email as userEmail,
@@ -39,13 +47,22 @@
     </select>
 
     <insert id="insertConference" parameterType="com.vnua.model.Conference">
+<<<<<<< HEAD
         INSERT INTO dbo.conference (user_id,dept_id,title,location,date,word_file_name,status,role)
         VALUES ( #{userId},#{deptId}, #{title},#{location},#{date}, #{wordFileName},#{status},#{role})
+=======
+        INSERT INTO dbo.conference (user_id,dept_id,title,location,date,word_file_name,status)
+        VALUES ( #{userId},#{deptId}, #{title},#{location},#{date}, #{wordFileName},#{status})
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </insert>
 
     <update id="updateConference" parameterType="com.vnua.model.Conference">
         UPDATE dbo.conference
+<<<<<<< HEAD
         SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, dept_Id=#{deptId},word_File_Name=#{wordFileName},role=#{role}
+=======
+        SET user_id=#{userId}, title=#{title}, location=#{location}, date=#{date}, dept_Id=#{deptId},word_File_Name=#{wordFileName}
+>>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         WHERE conf_id=#{confId}
     </update>
 

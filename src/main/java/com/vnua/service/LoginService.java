@@ -39,16 +39,14 @@ public class LoginService {
     }
 
     public void updateProfile(SysUser user) {
-        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            SysUser existing = loginMapper.findByLoginname(user.getLogin_name());
-            if (existing != null) {
-                user.setPassword(existing.getPassword());
-            }
-        }
         loginMapper.updateProfile(user);
     }
 
     public void insertUser(SysUser user) {
         loginMapper.insertUser(user);
+    }
+
+    public SysUser findById(int id) {
+         return loginMapper.findById(id);
     }
 }

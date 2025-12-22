@@ -36,4 +36,6 @@ public interface LoginMapper {
     void insertUser(SysUser user);
 
     void updateProfile(SysUser user);
+
+    SysUser findById(@Param("user_id") int user_id);
 }

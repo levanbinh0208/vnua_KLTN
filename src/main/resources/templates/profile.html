@@ -33,9 +33,9 @@
             <th>Tên đăng nhập</th>
             <th>Họ tên</th>
             <th>Email</th>
-            <th>Phòng ban</th>
-            <th>Loại</th>
+            <th>Chức vụ</th>
             <th>Trạng thái</th>
+            <th>Loại</th>
             <th>Hành động</th>
         </tr>
         </thead>
@@ -47,16 +47,15 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <span th:if="${user.delFlag == 0}" >Hoạt động </span>
-                <span th:unless="${user.delFlag == 0} " style="color: red;">Bị khóa</span>
+                <span th:if="${user.delFlag == '0'}" >Hoạt động </span>
+                <span th:unless="${user.delFlag == '0'}" style="color: red;">Bị khóa</span>
             </td>
-            <td th:text="${user.delFlag}"></td>
             <td>
                 <span th:if="${user.userType == 99}" style="color: red;">Admin</span>
                 <span th:unless="${user.userType == 99}">User</span>
             </td>
             <td>
-                <a th:href="@{/index/profile/edit(login_name=${user.login_name})}" class="btn">Sửa</a>
+                <a th:href="@{/index/profile/edit/{id}(id=${user.user_id})}" class="btn">Sửa</a>
                 <a th:href="@{/index/profile/del/{id}(id=${user.user_id})}"
                    class="btn btn-red"
                    onclick="return confirm('Xác nhận xóa?')">Xóa</a>

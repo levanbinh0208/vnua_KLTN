@@ -92,23 +92,29 @@ public class LoginController {
         return "profile";
     }
 
+    @GetMapping("/index/profile/edit/{id}")
+    public String showEditForm(@PathVariable int id,
+                               Model model,
+                               HttpSession session) {
 
-    @PostMapping("index/profile/edit")
-    public String updateProfile(
-            @ModelAttribute SysUser user,
-            RedirectAttributes redirectAttributes,
-            HttpSession session
-    ) {
         SysUser currentUser = (SysUser) session.getAttribute("loggedInUser");
         if (currentUser == null || currentUser.getUserType() != 99) {
             return "redirect:/login";
         }
-        try {
-            loginService.updateProfile(user);
-            redirectAttributes.addFlashAttribute("success", "✅ Cập nhật thông tin thành công!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "❌ Lỗi khi cập nhật: " + e.getMessage());
-        }
+
+        SysUser user = loginService.findById(id);
+        model.addAttribute("user", user);
+
+        return "addUser";
+    }
+
+    @PostMapping("/index/profile/edit/{id}")
+    public String updateProfile(@PathVariable int id,
+                             @ModelAttribute SysUser user,
+                             RedirectAttributes redirectAttributes) {
+        user.setUser_id(id);
+        loginService.updateProfile(user);
+        redirectAttributes.addFlashAttribute("success", "Cập nhật thành công");
         return "redirect:/index/profile";
     }
 
@@ -138,7 +144,7 @@ public class LoginController {
             return "redirect:/login";
         }
         model.addAttribute("user", new SysUser());
-        return "addUser"; // → addUser.html
+        return "addUser";
     }
 
     @PostMapping("/index/profile/add")

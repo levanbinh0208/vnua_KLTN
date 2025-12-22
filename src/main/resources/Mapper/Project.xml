@@ -21,25 +21,15 @@
     </select>
 
     <insert id="insertProject" parameterType="com.vnua.model.Project">
-<<<<<<< HEAD
         INSERT INTO project ( user_id, name, description, start_date, end_date, role,word_File_Name)
         VALUES ( #{userId}, #{name}, #{description},   #{startDate, jdbcType=DATE},
          #{endDate, jdbcType=DATE}, #{role},#{wordFileName})
-=======
-        INSERT INTO project (project_id, user_id, name, description, start_date, end_date, role,word_File_Name)
-        VALUES (#{projectId}, #{userId}, #{name}, #{description}, #{startDate}, #{endDate}, #{role},#{wordFileName})
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </insert>
 
     <update id="updateProject" parameterType="com.vnua.model.Project">
         UPDATE project
-<<<<<<< HEAD
         SET user_id=#{userId}, name=#{name}, description=#{description}, start_date = #{startDate, jdbcType=DATE},
         end_date   = #{endDate, jdbcType=DATE}, role=#{role},word_File_Name = #{wordFileName}
-=======
-        SET user_id=#{userId}, name=#{name}, description=#{description}, start_date=#{startDate},
-            end_date=#{endDate}, role=#{role},word_File_Name = #{wordFileName}
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         WHERE project_id=#{projectId}
     </update>
 
@@ -51,7 +41,6 @@
         SELECT * FROM project WHERE project_id=#{projectId}
     </select>
 
-<<<<<<< HEAD
     <select id="getByStatus" parameterType="int"  resultMap="ProjectResultMap">
         SELECT b.project_id
         ,b.user_id
@@ -66,10 +55,6 @@
         ,u.user_name, u.email as user_email, d.dept_name FROM project b LEFT JOIN
         sys_user u ON b.user_id = u.user_id LEFT JOIN dept d ON b.dept_id = d.dept_id WHERE b.status = #{status}
         ORDER BY b.[project_id] DESC
-=======
-    <select id="getByStatus" resultType="com.vnua.model.Project">
-        SELECT * FROM project WHERE status = #{status}
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </select>
 
     <update id="updateStatus">

@@ -15,12 +15,9 @@ public interface LoginMapper {
     void updateLoginDate( int id);
     List<SysUser> showProfile(@Param("name") String name,
                               @Param("role") String role,
-<<<<<<< HEAD
                               @Param("delFlag") String delFlag,
                               @Param("email") String email);
-=======
-                              @Param("delFlag") String delFlag);
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
+
     int del(@Param("user_id") int user_id);
     SysUser editProfile(@Param("id") String id);
     int updateProfile(@Param("id") String id,

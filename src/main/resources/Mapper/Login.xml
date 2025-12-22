@@ -8,20 +8,13 @@
     <select id="findByUsernameAndPassword" resultType="com.vnua.model.SysUser">
         SELECT
         user_id,
-<<<<<<< HEAD
         login_name,
-=======
-        login_name AS login_name,
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         password,
         user_name AS username,
         email,
         role,
         user_type AS userType,
-<<<<<<< HEAD
         dept_id AS deptId,
-=======
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         del_flag
         FROM sys_user
         WHERE login_name = #{login_name}
@@ -29,10 +22,6 @@
         AND ISNULL(del_flag, 0) = 0
     </select>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     <update id="updateLoginDate">
         UPDATE sys_user
         SET login_date = GETDATE()
@@ -55,8 +44,6 @@
         FROM sys_user
         WHERE user_type != 99
         AND ISNULL(del_flag, 0) = 0
-<<<<<<< HEAD
-=======
         <if test="name != null and name != ''">
             AND user_name LIKE '%' + #{name} + '%'
         </if>
@@ -66,7 +53,6 @@
         <if test="role != null and role != ''">
             AND role LIKE '%' + #{role} + '%'
         </if>
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         ORDER BY
         RIGHT(user_name, CHARINDEX(' ', REVERSE(user_name) + ' ') - 1),
         user_name

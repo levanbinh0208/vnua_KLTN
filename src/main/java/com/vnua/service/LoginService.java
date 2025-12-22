@@ -25,13 +25,9 @@ public class LoginService {
         loginMapper.updateLoginDate(user_id);
     }
 
-<<<<<<< HEAD
+
     public List<SysUser> showProfile(String name, String role, String delFlag,String email) {
         return loginMapper.showProfile(name, role, delFlag,email);
-=======
-    public List<SysUser> showProfile(String name, String role, String delFlag) {
-        return loginMapper.showProfile(name, role, delFlag);
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     }
 
     public int del(int user_id) {

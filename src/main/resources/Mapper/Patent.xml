@@ -43,7 +43,6 @@
         SELECT * FROM patent WHERE patent_id = #{patentId}
     </select>
 
-<<<<<<< HEAD
     <select id="getByStatus" parameterType="int"  resultMap="PatentResultMap">
         SELECT  patent_id
         ,b.user_id
@@ -65,18 +64,6 @@
 
     <select id="countByStatus" resultType="int">
         SELECT COUNT(*) FROM patent WHERE approval_status = #{status}
-=======
-    <select id="getByStatus" resultType="com.vnua.model.Patent">
-        SELECT * FROM patent WHERE status = #{status}
-    </select>
-
-    <update id="updateStatus">
-        UPDATE patent SET status = #{status} WHERE patent_id = #{id}
-    </update>
-
-    <select id="countByStatus" resultType="int">
-        SELECT COUNT(*) FROM patent WHERE status = #{status}
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     </select>
 
 </mapper>

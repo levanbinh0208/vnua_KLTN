@@ -71,7 +71,6 @@ public class LoginController {
         return "indexUser";
     }
 
-<<<<<<< HEAD
     @GetMapping("/index/profile")
     public String showProfile(
             @RequestParam(required = false) String name,
@@ -94,23 +93,6 @@ public class LoginController {
     }
 
 
-=======
-    @GetMapping("index/profile")
-    public String showProfile(@RequestParam(required = false) String name,
-                              @RequestParam(required = false) String role,
-                              @RequestParam(required = false) String delFlag,
-                              Model model,HttpSession session) {
-        SysUser user = (SysUser) session.getAttribute("loggedInUser");
-        if (user != null) {
-            List<SysUser> users = loginService.showProfile(name, role, delFlag);
-            model.addAttribute("users", users);
-        } else {
-            return "redirect:/login";
-        }
-        return "profile";
-    }
-
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
     @PostMapping("index/profile/edit")
     public String updateProfile(
             @ModelAttribute SysUser user,

@@ -1,14 +1,10 @@
 package com.vnua.controller;
 
 import com.vnua.model.Publication;
-<<<<<<< HEAD
+
 import com.vnua.model.SysUser;
 import com.vnua.service.PublicationService;
 import jakarta.servlet.http.HttpSession;
-import org.apache.catalina.User;
-=======
-import com.vnua.service.PublicationService;
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -91,7 +87,6 @@ public class PublicationController {
             @RequestPart(value = "journal", required = false) String journal,
             @RequestPart(value = "year", required = false) String yearStr,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
-<<<<<<< HEAD
             , HttpSession session
     ) {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
@@ -101,10 +96,6 @@ public class PublicationController {
         Publication pub = new Publication();
         pub.setUserId(user.getUser_id());
         pub.setDeptId(user.getDeptId());
-=======
-    ) {
-        Publication pub = new Publication();
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         pub.setTitle(title);
         pub.setAuthors(authors);
         pub.setJournal(journal);

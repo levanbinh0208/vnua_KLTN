@@ -1,13 +1,9 @@
 package com.vnua.controller;
 
 import com.vnua.model.Patent;
-<<<<<<< HEAD
 import com.vnua.model.SysUser;
 import com.vnua.service.PatentService;
 import jakarta.servlet.http.HttpSession;
-=======
-import com.vnua.service.PatentService;
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -90,25 +86,18 @@ public class PatentController {
             @RequestPart(value = "year", required = false) String yearStr,
             @RequestPart(value = "status", required = false) String status,
             @RequestPart(value = "wordFile", required = false) MultipartFile wordFile
-<<<<<<< HEAD
             , HttpSession session
     ) {
         SysUser user = (SysUser) session.getAttribute("loggedInUser");
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-=======
-    ) {
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         Patent patent = new Patent();
         patent.setTitle(title);
         patent.setPatentNo(patentNo);
         patent.setStatus(status);
-<<<<<<< HEAD
         patent.setUserId(user.getUser_id());
         patent.setDeptId(user.getDeptId());
-=======
->>>>>>> 459e049d54c61ab01b731c30e82a712e98f6abf9
         if (yearStr != null && !yearStr.isEmpty()) {
             try {
                 patent.setYear(Integer.parseInt(yearStr));
